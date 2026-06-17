@@ -1579,9 +1579,9 @@
   {
     "id": "er-084",
     "nom": "Profana",
-    "localitzacio": "Carrer de Sors, 29, 08012 Barcelona",
-    "lat": 41.409335,
-    "lng": 2.1582022,
+    "localitzacio": "Carrer Jules Verne, 12, 08402 Granollers, Barcelona",
+    "lat": 41.607,
+    "lng": 2.287,
     "data": "",
     "dificultat": "★★★★",
     "decoracio": 5,
@@ -1593,7 +1593,7 @@
     "tematica1": "Terror",
     "tematica2": "Misteri",
     "preu": "des de 18€/p",
-    "web": "https://psicopatasanonimos.com"
+    "web": "https://escaperoos.es/escape-room/profana_e71724"
   },
   {
     "id": "er-085",
