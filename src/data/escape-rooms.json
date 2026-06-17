@@ -35,7 +35,7 @@
     "tematica1": "SciFi",
     "tematica2": "Apocalipsis",
     "preu": "des de 30€/p",
-    "web": "https://www.elementsescaperoom.com"
+    "web": "https://www.elementsescaperoom.com/exodus/"
   },
   {
     "id": "er-003",
@@ -73,7 +73,7 @@
     "tematica1": "Aventures",
     "tematica2": "Terror",
     "preu": "des de 25€/p",
-    "web": "https://www.elementsescaperoom.com"
+    "web": "https://www.elementsescaperoom.com/bajo-zero/"
   },
   {
     "id": "er-005",
@@ -415,7 +415,7 @@
     "tematica1": "Terror",
     "tematica2": "Misteri",
     "preu": "des de 35€/p",
-    "web": "https://www.elementsescaperoom.com"
+    "web": "https://www.elementsescaperoom.com/katrina/"
   },
   {
     "id": "er-023",
@@ -586,7 +586,7 @@
     "tematica1": "Aventures",
     "tematica2": "Mitologia",
     "preu": "des de 15€/p",
-    "web": "https://www.elementsescaperoom.com"
+    "web": "https://www.elementsescaperoom.com/la-reina-roja/"
   },
   {
     "id": "er-032",
