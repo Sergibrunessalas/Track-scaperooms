@@ -117,7 +117,11 @@ export default function App() {
   return (
     <div className="h-full flex flex-col font-inter bg-gray-50 overflow-hidden">
       <Header onAddRoom={() => setFormState('new')} onExport={handleExport} onImport={handleImport} />
-      <StatsBar total={rooms.length} />
+      <StatsBar
+          total={rooms.length}
+          valorats={rooms.filter((r) => r.puntuacio !== null).length}
+          pendents={rooms.filter((r) => r.puntuacio === null).length}
+        />
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         <MapView

@@ -14,7 +14,7 @@ interface MapViewProps {
 }
 
 function createMarkerIcon(rated: boolean, selected: boolean) {
-  const color = rated ? '#e8490a' : '#dc2626';
+  const color = rated ? '#eab308' : '#dc2626';
   const border = selected ? '#1a1a2e' : 'white';
   const size = selected ? 22 : 18;
   return L.divIcon({

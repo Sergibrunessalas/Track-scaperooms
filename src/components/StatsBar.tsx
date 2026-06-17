@@ -1,8 +1,10 @@
 interface StatsBarProps {
   total: number;
+  valorats: number;
+  pendents: number;
 }
 
-export default function StatsBar({ total }: StatsBarProps) {
+export default function StatsBar({ total, valorats, pendents }: StatsBarProps) {
   return (
     <div className="flex-shrink-0 bg-white border-b border-gray-200 px-5 py-2 flex items-center gap-5 shadow-sm">
       <div className="flex items-center gap-2">
@@ -18,18 +20,19 @@ export default function StatsBar({ total }: StatsBarProps) {
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <div className="flex items-center gap-1.5">
           <div
-            className="w-3 h-3 border-2 border-white shadow-sm"
+            className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
             style={{
-              background: '#e8490a',
+              background: '#eab308',
               borderRadius: '50% 50% 50% 0',
               transform: 'rotate(-45deg)',
             }}
           />
           <span>Valorat</span>
+          <span className="font-bold text-gray-700">{valorats}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div
-            className="w-3 h-3 border-2 border-white shadow-sm"
+            className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
             style={{
               background: '#dc2626',
               borderRadius: '50% 50% 50% 0',
@@ -37,6 +40,7 @@ export default function StatsBar({ total }: StatsBarProps) {
             }}
           />
           <span>Pendent</span>
+          <span className="font-bold text-gray-700">{pendents}</span>
         </div>
       </div>
     </div>
