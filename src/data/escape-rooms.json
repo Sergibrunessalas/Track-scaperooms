@@ -15,7 +15,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": "consultar web"
+    "preu": "consultar web",
+    "web": "https://www.odiseaescape.com"
   },
   {
     "id": "er-002",
@@ -33,7 +34,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "SciFi",
     "tematica2": "Apocalipsis",
-    "preu": "des de 30€/p"
+    "preu": "des de 30€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-003",
@@ -51,7 +53,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Misteri",
     "tematica2": "Aventures",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://lainiciativa.es"
   },
   {
     "id": "er-004",
@@ -69,7 +72,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Terror",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-005",
@@ -87,7 +91,8 @@
     "participants": "Josep Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Mitologia",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://neverlandescape.com"
   },
   {
     "id": "er-006",
@@ -105,7 +110,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Crim",
     "tematica2": "Misteri",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://quimeraescape.com"
   },
   {
     "id": "er-007",
@@ -123,7 +129,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "SciFi",
     "tematica2": "Acció",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://mataro.cubickroomescape.es"
   },
   {
     "id": "er-008",
@@ -141,7 +148,8 @@
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Misteri",
     "tematica2": "Aventures",
-    "preu": "des de 14€/p"
+    "preu": "des de 14€/p",
+    "web": "https://www.odiseaescape.com"
   },
   {
     "id": "er-009",
@@ -159,7 +167,8 @@
     "participants": "Cristina Josep Xamo Sergi",
     "tematica1": "SciFi",
     "tematica2": "Aventures",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://playescaperoom.es"
   },
   {
     "id": "er-010",
@@ -177,7 +186,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Misteri",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://mataro.cubickroomescape.es"
   },
   {
     "id": "er-011",
@@ -195,7 +205,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Tensió",
     "tematica2": "Misteri",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://mataro.cubickroomescape.es"
   },
   {
     "id": "er-012",
@@ -213,7 +224,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 30€/p"
+    "preu": "des de 30€/p",
+    "web": "https://www.reddopamine.com"
   },
   {
     "id": "er-013",
@@ -231,7 +243,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 14€/p"
+    "preu": "des de 14€/p",
+    "web": "https://bajosegunda.com"
   },
   {
     "id": "er-014",
@@ -249,7 +262,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Tensió",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://thecityescaperoom.com"
   },
   {
     "id": "er-015",
@@ -267,7 +281,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "25€/p"
+    "preu": "25€/p",
+    "web": "https://cindyescapebox.com"
   },
   {
     "id": "er-016",
@@ -285,7 +300,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://www.xcaperoombcn.com"
   },
   {
     "id": "er-017",
@@ -303,7 +319,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Misteri",
-    "preu": "des de 13€/p"
+    "preu": "des de 13€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-018",
@@ -321,7 +338,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": ""
+    "preu": "",
+    "web": "https://terrorstories.com/barcelona"
   },
   {
     "id": "er-019",
@@ -339,7 +357,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://residentriddle.com"
   },
   {
     "id": "er-020",
@@ -357,7 +376,8 @@
     "participants": "",
     "tematica1": "SciFi",
     "tematica2": "Aventures",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://www.odiseaescape.com"
   },
   {
     "id": "er-021",
@@ -375,7 +395,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Aventures",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://fugitivosroomescape.com"
   },
   {
     "id": "er-022",
@@ -393,7 +414,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 35€/p"
+    "preu": "des de 35€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-023",
@@ -411,7 +433,8 @@
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Fantasia",
-    "preu": "des de 17€/p"
+    "preu": "des de 17€/p",
+    "web": ""
   },
   {
     "id": "er-024",
@@ -429,7 +452,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "25€/p"
+    "preu": "25€/p",
+    "web": "https://cindyescapebox.com"
   },
   {
     "id": "er-025",
@@ -447,7 +471,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-026",
@@ -465,7 +490,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Fantasia",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://www.keyplay.es"
   },
   {
     "id": "er-027",
@@ -483,7 +509,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Aventures",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://malumescaperoom.com"
   },
   {
     "id": "er-028",
@@ -501,7 +528,8 @@
     "participants": "Cristina Ari Xamo",
     "tematica1": "Tensió",
     "tematica2": "Crim",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://rowkaescaperoom.com"
   },
   {
     "id": "er-029",
@@ -519,7 +547,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 30€/p"
+    "preu": "des de 30€/p",
+    "web": "https://outlineescaperoom.es"
   },
   {
     "id": "er-030",
@@ -537,7 +566,8 @@
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Comèdia",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://residentriddle.com"
   },
   {
     "id": "er-031",
@@ -555,7 +585,8 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Mitologia",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://www.elementsescaperoom.com"
   },
   {
     "id": "er-032",
@@ -573,7 +604,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 17€/p"
+    "preu": "des de 17€/p",
+    "web": "https://www.reddopamine.com"
   },
   {
     "id": "er-033",
@@ -591,7 +623,8 @@
     "participants": "",
     "tematica1": "Comèdia",
     "tematica2": "Aventures",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://lock-clock.com"
   },
   {
     "id": "er-034",
@@ -609,7 +642,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://playescaperoom.es"
   },
   {
     "id": "er-035",
@@ -627,7 +661,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Història",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://playescaperoom.es"
   },
   {
     "id": "er-036",
@@ -645,7 +680,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Apocalipsis",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://horrorbox.es"
   },
   {
     "id": "er-037",
@@ -663,7 +699,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://therombocode.es/barcelona/"
   },
   {
     "id": "er-038",
@@ -681,7 +718,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "20€/p"
+    "preu": "20€/p",
+    "web": "https://horrorbox.es"
   },
   {
     "id": "er-039",
@@ -699,7 +737,8 @@
     "participants": "",
     "tematica1": "Apocalipsis",
     "tematica2": "Ciència",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://thehive.barcelona"
   },
   {
     "id": "er-040",
@@ -717,7 +756,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Misteri",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://quimeraescape.com"
   },
   {
     "id": "er-041",
@@ -735,7 +775,8 @@
     "participants": "",
     "tematica1": "SciFi",
     "tematica2": "Tensió",
-    "preu": "des de 17€/p"
+    "preu": "des de 17€/p",
+    "web": "https://www.escapebarcelona.com"
   },
   {
     "id": "er-042",
@@ -753,7 +794,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Comèdia",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-043",
@@ -771,7 +813,8 @@
     "participants": "",
     "tematica1": "Tensió",
     "tematica2": "Acció",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://openmindroomescape.es"
   },
   {
     "id": "er-044",
@@ -789,7 +832,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Misteri",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://therombocode.es/barcelona/"
   },
   {
     "id": "er-045",
@@ -807,7 +851,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://unrealroomescape.es"
   },
   {
     "id": "er-046",
@@ -825,7 +870,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://www.xcaperoombcn.com"
   },
   {
     "id": "er-047",
@@ -843,7 +889,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 13€/p"
+    "preu": "des de 13€/p",
+    "web": "https://prison-experience.com"
   },
   {
     "id": "er-048",
@@ -861,7 +908,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": "des de 19€/p"
+    "preu": "des de 19€/p",
+    "web": "https://lock-clock.com"
   },
   {
     "id": "er-049",
@@ -879,7 +927,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Història",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://escapehunt.com/es/location/barcelona/"
   },
   {
     "id": "er-050",
@@ -897,7 +946,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Aventures",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://mysteryescape.es"
   },
   {
     "id": "er-051",
@@ -915,7 +965,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Aventures",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://mysteryescape.es"
   },
   {
     "id": "er-052",
@@ -933,7 +984,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://www.picaderomotel.com"
   },
   {
     "id": "er-053",
@@ -951,7 +1003,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": ""
+    "preu": "",
+    "web": "https://www.lostesorosdelahistoria.com"
   },
   {
     "id": "er-054",
@@ -969,7 +1022,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Apocalipsis",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://enigmalegacy.es/barcelona/"
   },
   {
     "id": "er-055",
@@ -987,7 +1041,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Tensió",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://www.enigmik.com"
   },
   {
     "id": "er-056",
@@ -1005,7 +1060,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://fugitivosroomescape.com"
   },
   {
     "id": "er-057",
@@ -1023,7 +1079,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://escapehunt.com/es/location/barcelona/"
   },
   {
     "id": "er-058",
@@ -1041,7 +1098,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Aventures",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://bcn.aventurico.com"
   },
   {
     "id": "er-059",
@@ -1059,7 +1117,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Terror",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://www.xcaperoombcn.com"
   },
   {
     "id": "er-060",
@@ -1077,7 +1136,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-061",
@@ -1095,7 +1155,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://horrorbox.es"
   },
   {
     "id": "er-062",
@@ -1113,7 +1174,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Fantasia",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://bcn.aventurico.com"
   },
   {
     "id": "er-063",
@@ -1131,7 +1193,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "SciFi",
-    "preu": "40€/p"
+    "preu": "40€/p",
+    "web": "https://goldenpop.es"
   },
   {
     "id": "er-064",
@@ -1149,7 +1212,8 @@
     "participants": "",
     "tematica1": "SciFi",
     "tematica2": "Acció",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://www.escapebarcelona.com"
   },
   {
     "id": "er-065",
@@ -1167,7 +1231,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://mysteryescape.es"
   },
   {
     "id": "er-066",
@@ -1185,7 +1250,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://thehive.barcelona"
   },
   {
     "id": "er-067",
@@ -1203,7 +1269,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 13€/p"
+    "preu": "des de 13€/p",
+    "web": "https://prison-experience.com"
   },
   {
     "id": "er-068",
@@ -1221,7 +1288,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Tensió",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://fugitivosroomescape.com"
   },
   {
     "id": "er-069",
@@ -1239,7 +1307,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "SciFi",
-    "preu": "des de 22€/p"
+    "preu": "des de 22€/p",
+    "web": "https://fugitivosroomescape.com"
   },
   {
     "id": "er-070",
@@ -1257,7 +1326,8 @@
     "participants": "",
     "tematica1": "Infantil",
     "tematica2": "Acció",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://fugitivosroomescape.com"
   },
   {
     "id": "er-071",
@@ -1275,7 +1345,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 13€/p"
+    "preu": "des de 13€/p",
+    "web": "https://roomwhitechapel.com"
   },
   {
     "id": "er-072",
@@ -1293,7 +1364,8 @@
     "participants": "",
     "tematica1": "Infantil",
     "tematica2": "Misteri",
-    "preu": "des de 8€/p"
+    "preu": "des de 8€/p",
+    "web": "https://www.emotionescape.com"
   },
   {
     "id": "er-073",
@@ -1311,7 +1383,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 13€/p"
+    "preu": "des de 13€/p",
+    "web": "https://prison-experience.com"
   },
   {
     "id": "er-074",
@@ -1329,7 +1402,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Història",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://therombocode.es/barcelona/"
   },
   {
     "id": "er-075",
@@ -1347,7 +1421,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Història",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://therombocode.es/barcelona/"
   },
   {
     "id": "er-076",
@@ -1365,7 +1440,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Història",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://escapehunt.com/es/location/barcelona/"
   },
   {
     "id": "er-077",
@@ -1383,7 +1459,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Història",
-    "preu": "des de 23€/p"
+    "preu": "des de 23€/p",
+    "web": "https://escapehunt.com/es/location/barcelona/"
   },
   {
     "id": "er-078",
@@ -1401,7 +1478,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://lock-clock.com"
   },
   {
     "id": "er-079",
@@ -1419,7 +1497,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Tensió",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://openmindroomescape.es"
   },
   {
     "id": "er-080",
@@ -1437,7 +1516,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 20€/p"
+    "preu": "des de 20€/p",
+    "web": "https://horrorbox.es"
   },
   {
     "id": "er-081",
@@ -1455,7 +1535,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://www.picaderomotel.com"
   },
   {
     "id": "er-082",
@@ -1473,7 +1554,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 14€/p"
+    "preu": "des de 14€/p",
+    "web": "https://www.kadabraescape.com"
   },
   {
     "id": "er-083",
@@ -1491,7 +1573,8 @@
     "participants": "",
     "tematica1": "Aventures",
     "tematica2": "Fantasia",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-084",
@@ -1509,7 +1592,8 @@
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Misteri",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://psicopatasanonimos.com"
   },
   {
     "id": "er-085",
@@ -1527,7 +1611,8 @@
     "participants": "",
     "tematica1": "Acció",
     "tematica2": "Misteri",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://lock-clock.com"
   },
   {
     "id": "er-086",
@@ -1545,7 +1630,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Tensió",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-087",
@@ -1563,7 +1649,8 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Comèdia",
-    "preu": "des de 25€/p"
+    "preu": "des de 25€/p",
+    "web": "https://quimeraescape.com"
   },
   {
     "id": "er-088",
@@ -1581,7 +1668,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Història",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-089",
@@ -1599,7 +1687,8 @@
     "participants": "",
     "tematica1": "Crim",
     "tematica2": "Acció",
-    "preu": "des de 21€/p"
+    "preu": "des de 21€/p",
+    "web": "https://unrealroomescape.es"
   },
   {
     "id": "er-090",
@@ -1617,7 +1706,8 @@
     "participants": "",
     "tematica1": "Apocalipsis",
     "tematica2": "Terror",
-    "preu": "des de 18€/p"
+    "preu": "des de 18€/p",
+    "web": "https://thehive.barcelona"
   },
   {
     "id": "er-091",
@@ -1635,7 +1725,8 @@
     "participants": "",
     "tematica1": "Misteri",
     "tematica2": "Tensió",
-    "preu": "des de 15€/p"
+    "preu": "des de 15€/p",
+    "web": "https://therombocode.es/barcelona/"
   },
   {
     "id": "er-092",
@@ -1653,7 +1744,8 @@
     "participants": "",
     "tematica1": "SciFi",
     "tematica2": "Acció",
-    "preu": "des de 27€/p"
+    "preu": "des de 27€/p",
+    "web": "https://maximumescape.com"
   },
   {
     "id": "er-093",
@@ -1671,6 +1763,7 @@
     "participants": "",
     "tematica1": "Apocalipsis",
     "tematica2": "Tensió",
-    "preu": "des de 30€/p"
+    "preu": "des de 30€/p",
+    "web": "https://maximumescape.com"
   }
 ]

@@ -14,6 +14,7 @@ export interface EscapeRoom {
   participants: string;
   imatgeUrl: string;
   preu: string;
+  web: string;
   tematica1: string;
   tematica2: string;
 }

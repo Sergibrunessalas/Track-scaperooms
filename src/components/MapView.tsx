@@ -84,6 +84,9 @@ function buildPopupHtml(room: EscapeRoom): string {
       ${room.comentaris
         ? `<p style="margin:6px 0 0;font-size:11px;font-style:italic;color:#9ca3af;border-top:1px solid #f3f4f6;padding-top:5px">"${esc(room.comentaris)}"</p>`
         : ''}
+      ${room.web
+        ? `<a href="${esc(room.web)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:#e8490a;color:white;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none">🌐 Visitar web</a>`
+        : ''}
     </div>
   `;
 }

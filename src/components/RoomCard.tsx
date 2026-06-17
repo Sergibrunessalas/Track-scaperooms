@@ -1,4 +1,4 @@
-import { Pencil } from 'lucide-react';
+import { Pencil, ExternalLink } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
 
 interface RoomCardProps {
@@ -36,7 +36,21 @@ export default function RoomCard({ room, rank, selected, onClick, onEdit }: Room
 
       {/* Main content */}
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-sm text-gray-900 truncate leading-tight">{room.nom}</p>
+        <div className="flex items-center gap-1.5">
+          <p className="font-semibold text-sm text-gray-900 truncate leading-tight">{room.nom}</p>
+          {room.web && (
+            <a
+              href={room.web}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex-shrink-0 text-gray-400 hover:text-accent transition-colors"
+              title="Visitar web del local"
+            >
+              <ExternalLink size={11} />
+            </a>
+          )}
+        </div>
         <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
           {room.data && (
             <span className="text-xs text-gray-400">{room.data}</span>
@@ -72,7 +86,7 @@ export default function RoomCard({ room, rank, selected, onClick, onEdit }: Room
         )}
       </div>
 
-      {/* Edit button (appears on hover/selected) */}
+      {/* Edit button */}
       <button
         onClick={(e) => { e.stopPropagation(); onEdit(); }}
         className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${

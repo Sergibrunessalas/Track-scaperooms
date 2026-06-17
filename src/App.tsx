@@ -22,6 +22,7 @@ function loadRooms(): EscapeRoom[] {
           ...room,
           preu: room.preu || source?.preu || '',
           imatgeUrl: room.imatgeUrl || source?.imatgeUrl || '',
+          web: room.web || source?.web || '',
         };
       });
     }
