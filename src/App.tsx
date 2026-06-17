@@ -23,6 +23,9 @@ function loadRooms(): EscapeRoom[] {
           preu: room.preu || source?.preu || '',
           imatgeUrl: room.imatgeUrl || source?.imatgeUrl || '',
           web: source?.web || room.web || '',
+          lat: source?.lat ?? room.lat,
+          lng: source?.lng ?? room.lng,
+          localitzacio: source?.localitzacio || room.localitzacio || '',
         };
       });
     }
