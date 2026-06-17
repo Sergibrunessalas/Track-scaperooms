@@ -1,7 +1,32 @@
 import { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import confetti from 'canvas-confetti';
 import { EscapeRoom, starsFromScore } from '../types';
+
+function launchFireworks() {
+  const duration = 2200;
+  const end = Date.now() + duration;
+  const colors = ['#eab308', '#e8490a', '#ffffff', '#ff6535', '#fbbf24'];
+
+  (function frame() {
+    confetti({
+      particleCount: 6,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors,
+    });
+    confetti({
+      particleCount: 6,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors,
+    });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
 
 export interface MapViewHandle {
   flyToRoom: (room: EscapeRoom) => void;
@@ -81,7 +106,10 @@ function RoomMarker({
 
   useEffect(() => {
     if (selected && markerRef.current) {
-      const t = setTimeout(() => markerRef.current?.openPopup(), 1100);
+      const t = setTimeout(() => {
+        markerRef.current?.openPopup();
+        if (room.puntuacio !== null && room.puntuacio >= 4.5) launchFireworks();
+      }, 1100);
       return () => clearTimeout(t);
     }
   }, [selected]);
