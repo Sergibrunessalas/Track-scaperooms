@@ -65,8 +65,10 @@ function esc(s: string): string {
 function dificultatLabel(d: string): string {
   const n = (d.match(/★/g) || []).length;
   if (n === 1) return 'Fàcil';
-  if (n <= 3) return 'Mitjà';
-  return 'Alta';
+  if (n === 2) return 'Fàcil-Mitjà';
+  if (n === 3) return 'Mitjà';
+  if (n === 4) return 'Mitjà-Alt';
+  return 'Alt';
 }
 
 function buildPopupHtml(room: EscapeRoom): string {
