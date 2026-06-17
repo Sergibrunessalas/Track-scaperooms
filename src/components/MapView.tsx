@@ -62,6 +62,13 @@ function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function dificultatLabel(d: string): string {
+  const n = (d.match(/★/g) || []).length;
+  if (n === 1) return 'Fàcil';
+  if (n <= 3) return 'Mitjà';
+  return 'Alta';
+}
+
 function buildPopupHtml(room: EscapeRoom): string {
   const stars = starsFromScore(room.puntuacio);
   const scoreStr = room.puntuacio !== null ? `${room.puntuacio.toFixed(1)}/5` : null;
@@ -78,7 +85,7 @@ function buildPopupHtml(room: EscapeRoom): string {
             <span style="color:#6b7280;font-weight:400;font-size:12px;margin-left:4px">${scoreStr}</span></p>`
         : `<p style="margin:3px 0;font-size:12px;color:#9ca3af;font-style:italic">Pendent de valorar</p>`}
       ${room.preu ? `<p style="margin:3px 0;font-size:12px;color:#374151"><span style="display:inline-block;background:#22c55e;color:white;font-weight:700;border-radius:4px;padding:0 4px;margin-right:4px;font-size:11px;line-height:1.4">€</span>${esc(room.preu)}</p>` : ''}
-      ${room.dificultat ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">⚔️ ${esc(room.dificultat)}</p>` : ''}
+      ${room.dificultat ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">⚔️ ${dificultatLabel(room.dificultat)}</p>` : ''}
       ${room.data ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">📅 ${esc(room.data)}</p>` : ''}
       ${tems.length ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">🏷️ ${tems.map(esc).join(' · ')}</p>` : ''}
       ${room.comentaris
