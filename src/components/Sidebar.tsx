@@ -27,7 +27,7 @@ export default function Sidebar({
   }, [rooms]);
 
   return (
-    <aside className="w-full md:w-80 lg:w-96 flex-shrink-0 flex flex-col bg-gray-50 border-l border-gray-200 overflow-hidden">
+    <aside className="flex-1 flex flex-col bg-gray-50 border-l border-gray-200 overflow-hidden">
       {/* Capçalera llista */}
       <div className="flex-shrink-0 px-4 py-2 bg-white border-b border-gray-100">
         <h2 className="font-montserrat font-bold text-sm text-gray-900">

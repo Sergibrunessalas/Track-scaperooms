@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { Map, List } from 'lucide-react';
 import Header from './components/Header';
 import StatsBar from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
@@ -15,7 +16,6 @@ function loadRooms(): EscapeRoom[] {
     if (saved) {
       const rooms = JSON.parse(saved) as EscapeRoom[];
       const initial = initialData as EscapeRoom[];
-      // Migrate: fill in preu/imatgeUrl from JSON for rooms that don't have them
       return rooms.map((room) => {
         const source = initial.find((r) => r.id === room.id);
         return {
@@ -40,6 +40,7 @@ export default function App() {
   const [filterPuntuacio, setFilterPuntuacio] = useState('');
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [formState, setFormState] = useState<FormState>('closed');
+  const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
 
   const mapRef = useRef<MapViewHandle>(null);
 
@@ -64,6 +65,7 @@ export default function App() {
 
   const handleRoomCardClick = useCallback((room: EscapeRoom) => {
     setSelectedRoomId(room.id);
+    setMobileView('map'); // en mòbil, salta al mapa en seleccionar un room
     if (room.lat && room.lng) {
       mapRef.current?.flyToRoom(room);
     }
@@ -130,33 +132,66 @@ export default function App() {
     <div className="h-full flex flex-col font-inter bg-gray-50 overflow-hidden">
       <Header onAddRoom={() => setFormState('new')} onExport={handleExport} onImport={handleImport} />
       <StatsBar
-          total={rooms.length}
-          valorats={rooms.filter((r) => r.puntuacio !== null).length}
-          pendents={rooms.filter((r) => r.puntuacio === null).length}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          filterTematica={filterTematica}
-          onFilterTematicaChange={setFilterTematica}
-          filterPuntuacio={filterPuntuacio}
-          onFilterPuntuacioChange={setFilterPuntuacio}
-          hasFilters={hasFilters}
-          onClearFilters={clearFilters}
-        />
+        total={rooms.length}
+        valorats={rooms.filter((r) => r.puntuacio !== null).length}
+        pendents={rooms.filter((r) => r.puntuacio === null).length}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        filterTematica={filterTematica}
+        onFilterTematicaChange={setFilterTematica}
+        filterPuntuacio={filterPuntuacio}
+        onFilterPuntuacioChange={setFilterPuntuacio}
+        hasFilters={hasFilters}
+        onClearFilters={clearFilters}
+      />
+
+      {/* Tabs mòbil: Mapa / Llista */}
+      <div className="flex md:hidden flex-shrink-0 bg-white border-b border-gray-200">
+        <button
+          onClick={() => setMobileView('map')}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
+            mobileView === 'map'
+              ? 'text-accent border-b-2 border-accent'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Map size={15} />
+          Mapa
+        </button>
+        <button
+          onClick={() => setMobileView('list')}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
+            mobileView === 'list'
+              ? 'text-accent border-b-2 border-accent'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <List size={15} />
+          Llista
+        </button>
+      </div>
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        <MapView
-          ref={mapRef}
-          rooms={filteredRooms}
-          selectedRoomId={selectedRoomId}
-          onSelectRoom={(room) => setSelectedRoomId(room.id)}
-        />
-        <Sidebar
-          rooms={filteredRooms}
-          filteredCount={filteredRooms.length}
-          selectedRoomId={selectedRoomId}
-          onRoomClick={handleRoomCardClick}
-          onEditRoom={(room) => setFormState(room)}
-        />
+        {/* Mapa: visible sempre en desktop, en mòbil només quan mobileView==='map' */}
+        <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
+          <MapView
+            ref={mapRef}
+            rooms={filteredRooms}
+            selectedRoomId={selectedRoomId}
+            onSelectRoom={(room) => setSelectedRoomId(room.id)}
+          />
+        </div>
+
+        {/* Sidebar: visible sempre en desktop, en mòbil només quan mobileView==='list' */}
+        <div className={`${mobileView === 'map' ? 'hidden md:flex' : 'flex'} flex-col w-full md:w-80 lg:w-96 flex-shrink-0`}>
+          <Sidebar
+            rooms={filteredRooms}
+            filteredCount={filteredRooms.length}
+            selectedRoomId={selectedRoomId}
+            onRoomClick={handleRoomCardClick}
+            onEditRoom={(room) => setFormState(room)}
+          />
+        </div>
       </div>
 
       {formState !== 'closed' && (
