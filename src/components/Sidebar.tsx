@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Search, X, Tag, Star, Users } from 'lucide-react';
+import { Search, X, Tag, Star } from 'lucide-react';
 import { EscapeRoom, TEMATIQUES } from '../types';
 import RoomCard from './RoomCard';
 
@@ -12,8 +12,6 @@ interface SidebarProps {
   onFilterTematicaChange: (v: string) => void;
   filterPuntuacio: string;
   onFilterPuntuacioChange: (v: string) => void;
-  filterParticipant: string;
-  onFilterParticipantChange: (v: string) => void;
   selectedRoomId: string | null;
   onRoomClick: (room: EscapeRoom) => void;
   onEditRoom: (room: EscapeRoom) => void;
@@ -31,15 +29,13 @@ const SCORE_OPTIONS = [
 
 export default function Sidebar({
   rooms,
-  allRooms,
+  allRooms: _allRooms,
   searchQuery,
   onSearchChange,
   filterTematica,
   onFilterTematicaChange,
   filterPuntuacio,
   onFilterPuntuacioChange,
-  filterParticipant,
-  onFilterParticipantChange,
   selectedRoomId,
   onRoomClick,
   onEditRoom,
@@ -54,17 +50,6 @@ export default function Sidebar({
       return a.nom.localeCompare(b.nom, 'ca');
     });
   }, [rooms]);
-
-  const allParticipants = useMemo(() => {
-    const set = new Set<string>();
-    allRooms.forEach((r) =>
-      r.participants
-        .split(' ')
-        .filter(Boolean)
-        .forEach((p) => set.add(p))
-    );
-    return Array.from(set).sort((a, b) => a.localeCompare(b, 'ca'));
-  }, [allRooms]);
 
   return (
     <aside className="w-full md:w-80 lg:w-96 flex-shrink-0 flex flex-col bg-gray-50 border-l border-gray-200 overflow-hidden">
@@ -109,18 +94,18 @@ export default function Sidebar({
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           {/* Temàtica */}
-          <div className="relative">
+          <div className="relative flex-1">
             <Tag size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             <select
               value={filterTematica}
               onChange={(e) => onFilterTematicaChange(e.target.value)}
-              className={`w-full pl-8 pr-3 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
+              className={`w-full pl-8 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
                 filterTematica ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
               }`}
             >
-              <option value="">🏷️ Totes les temàtiques</option>
+              <option value="">Temàtica</option>
               {TEMATIQUES.map((t) => (
                 <option key={t} value={t}>{t}</option>
               ))}
@@ -128,35 +113,18 @@ export default function Sidebar({
           </div>
 
           {/* Puntuació */}
-          <div className="relative">
+          <div className="relative flex-1">
             <Star size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             <select
               value={filterPuntuacio}
               onChange={(e) => onFilterPuntuacioChange(e.target.value)}
-              className={`w-full pl-8 pr-3 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
+              className={`w-full pl-8 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
                 filterPuntuacio ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
               }`}
             >
-              <option value="">⭐ Qualsevol puntuació</option>
+              <option value="">Puntuació</option>
               {SCORE_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Participants */}
-          <div className="relative">
-            <Users size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            <select
-              value={filterParticipant}
-              onChange={(e) => onFilterParticipantChange(e.target.value)}
-              className={`w-full pl-8 pr-3 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
-                filterParticipant ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
-              }`}
-            >
-              <option value="">👥 Tots els participants</option>
-              {allParticipants.map((p) => (
-                <option key={p} value={p}>{p}</option>
               ))}
             </select>
           </div>

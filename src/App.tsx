@@ -26,7 +26,6 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
   const [filterPuntuacio, setFilterPuntuacio] = useState('');
-  const [filterParticipant, setFilterParticipant] = useState('');
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [formState, setFormState] = useState<FormState>('closed');
 
@@ -39,10 +38,6 @@ export default function App() {
   const filteredRooms = rooms.filter((room) => {
     if (searchQuery && !room.nom.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     if (filterTematica && room.tematica1 !== filterTematica && room.tematica2 !== filterTematica) return false;
-    if (filterParticipant) {
-      const parts = room.participants.split(' ').filter(Boolean);
-      if (!parts.some((p) => p.toLowerCase() === filterParticipant.toLowerCase())) return false;
-    }
     if (filterPuntuacio) {
       switch (filterPuntuacio) {
         case '5':    if (room.puntuacio === null || room.puntuacio < 4.5) return false; break;
@@ -111,13 +106,12 @@ export default function App() {
     e.target.value = '';
   };
 
-  const hasFilters = !!(searchQuery || filterTematica || filterPuntuacio || filterParticipant);
+  const hasFilters = !!(searchQuery || filterTematica || filterPuntuacio);
 
   const clearFilters = () => {
     setSearchQuery('');
     setFilterTematica('');
     setFilterPuntuacio('');
-    setFilterParticipant('');
   };
 
   return (
@@ -141,8 +135,6 @@ export default function App() {
           onFilterTematicaChange={setFilterTematica}
           filterPuntuacio={filterPuntuacio}
           onFilterPuntuacioChange={setFilterPuntuacio}
-          filterParticipant={filterParticipant}
-          onFilterParticipantChange={setFilterParticipant}
           selectedRoomId={selectedRoomId}
           onRoomClick={handleRoomCardClick}
           onEditRoom={(room) => setFormState(room)}
