@@ -12,7 +12,19 @@ const STORAGE_KEY = 'escape-rooms-tracker-v1';
 function loadRooms(): EscapeRoom[] {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved) as EscapeRoom[];
+    if (saved) {
+      const rooms = JSON.parse(saved) as EscapeRoom[];
+      const initial = initialData as EscapeRoom[];
+      // Migrate: fill in preu/imatgeUrl from JSON for rooms that don't have them
+      return rooms.map((room) => {
+        const source = initial.find((r) => r.id === room.id);
+        return {
+          ...room,
+          preu: room.preu || source?.preu || '',
+          imatgeUrl: room.imatgeUrl || source?.imatgeUrl || '',
+        };
+      });
+    }
   } catch {
     // fall through to initial data
   }
