@@ -8,14 +8,19 @@ interface HeaderProps {
 
 export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
   return (
-    <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-5 py-3 flex items-center shadow-lg">
-      <div className="whitespace-nowrap">
-        <span className="font-montserrat text-xl md:text-2xl font-black tracking-tight">
+    <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-5 py-3 flex items-center relative shadow-lg">
+      {/* Títol a l'esquerra */}
+      <div className="flex-shrink-0">
+        <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-tight">
           ESCAPE ROOMS <span className="text-accent">TRACKER</span>
-        </span>
-        <span className="font-montserrat text-xl md:text-2xl font-black tracking-tight ml-4" style={{ color: '#eab308' }}>
+        </h1>
+      </div>
+
+      {/* Subtítol centrat absolutament */}
+      <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none">
+        <p className="font-montserrat text-xl md:text-2xl font-black tracking-tight whitespace-nowrap" style={{ color: '#eab308' }}>
           Totes les meves aventures en un sol lloc
-        </span>
+        </p>
       </div>
 
       <div className="flex items-center gap-3 ml-auto">
