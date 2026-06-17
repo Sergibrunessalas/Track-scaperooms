@@ -73,7 +73,7 @@ export default function StatsBar({
         </div>
 
         {/* Filtres — en línia en desktop, ocults aquí en mòbil */}
-        <div className="hidden md:flex items-center gap-2 flex-1 min-w-0 ml-1">
+        <div className="hidden md:flex items-center gap-2 ml-auto">
           <div className="h-5 w-px bg-gray-200 flex-shrink-0" />
           <FiltersRow
             searchQuery={searchQuery}
@@ -114,11 +114,11 @@ function FiltersRow({
 }: Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>) {
   return (
     <>
-      <div className="relative flex-1 min-w-0">
+      <div className="relative flex-1 md:flex-none md:w-40 min-w-0">
         <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
         <input
           type="text"
-          placeholder="Cercar per nom…"
+          placeholder="Cercar…"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="w-full pl-8 pr-7 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-accent focus:outline-none transition-colors"
