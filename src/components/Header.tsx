@@ -19,10 +19,7 @@ export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
       <div className="flex items-center gap-3">
         <div className="text-right hidden md:block">
           <p className="font-semibold text-sm leading-tight">Sergi Brunés Salas</p>
-          <p className="text-gray-400 text-xs">📍 Barcelona, Catalunya</p>
-          <span className="inline-block bg-accent/20 text-accent text-xs px-2 py-0.5 rounded-full mt-0.5">
-            🗝️ Escapista
-          </span>
+          <p className="text-gray-400 text-xs">📍 Lliçà de Vall, Catalunya</p>
         </div>
 
         <div className="flex items-center gap-2 ml-2">
