@@ -38,7 +38,6 @@ export default function App() {
   const [rooms, setRooms] = useState<EscapeRoom[]>(loadRooms);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
-  const [filterPuntuacio, setFilterPuntuacio] = useState('');
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [formState, setFormState] = useState<FormState>('closed');
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
@@ -52,15 +51,6 @@ export default function App() {
   const filteredRooms = rooms.filter((room) => {
     if (searchQuery && !room.nom.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     if (filterTematica && room.tematica1 !== filterTematica && room.tematica2 !== filterTematica) return false;
-    if (filterPuntuacio) {
-      switch (filterPuntuacio) {
-        case '5':    if (room.puntuacio === null || room.puntuacio < 4.5) return false; break;
-        case '4':    if (room.puntuacio === null || room.puntuacio < 4.0) return false; break;
-        case '3':    if (room.puntuacio === null || room.puntuacio < 3.0) return false; break;
-        case 'amb':  if (room.puntuacio === null) return false; break;
-        case 'sense':if (room.puntuacio !== null) return false; break;
-      }
-    }
     return true;
   });
 
@@ -121,12 +111,11 @@ export default function App() {
     e.target.value = '';
   };
 
-  const hasFilters = !!(searchQuery || filterTematica || filterPuntuacio);
+  const hasFilters = !!(searchQuery || filterTematica);
 
   const clearFilters = () => {
     setSearchQuery('');
     setFilterTematica('');
-    setFilterPuntuacio('');
   };
 
   return (
@@ -140,8 +129,6 @@ export default function App() {
         onSearchChange={setSearchQuery}
         filterTematica={filterTematica}
         onFilterTematicaChange={setFilterTematica}
-        filterPuntuacio={filterPuntuacio}
-        onFilterPuntuacioChange={setFilterPuntuacio}
         hasFilters={hasFilters}
         onClearFilters={clearFilters}
       />

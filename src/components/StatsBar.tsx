@@ -1,13 +1,5 @@
-import { Search, X, Tag, Star } from 'lucide-react';
+import { Search, X, Tag } from 'lucide-react';
 import { TEMATIQUES } from '../types';
-
-const SCORE_OPTIONS = [
-  { value: '5', label: '5★ (perfecte)' },
-  { value: '4', label: '4★+' },
-  { value: '3', label: '3★+' },
-  { value: 'amb', label: 'Amb puntuació' },
-  { value: 'sense', label: 'Sense puntuació' },
-];
 
 interface StatsBarProps {
   total: number;
@@ -17,8 +9,6 @@ interface StatsBarProps {
   onSearchChange: (v: string) => void;
   filterTematica: string;
   onFilterTematicaChange: (v: string) => void;
-  filterPuntuacio: string;
-  onFilterPuntuacioChange: (v: string) => void;
   hasFilters: boolean;
   onClearFilters: () => void;
 }
@@ -31,8 +21,6 @@ export default function StatsBar({
   onSearchChange,
   filterTematica,
   onFilterTematicaChange,
-  filterPuntuacio,
-  onFilterPuntuacioChange,
   hasFilters,
   onClearFilters,
 }: StatsBarProps) {
@@ -80,8 +68,6 @@ export default function StatsBar({
             onSearchChange={onSearchChange}
             filterTematica={filterTematica}
             onFilterTematicaChange={onFilterTematicaChange}
-            filterPuntuacio={filterPuntuacio}
-            onFilterPuntuacioChange={onFilterPuntuacioChange}
             hasFilters={hasFilters}
             onClearFilters={onClearFilters}
           />
@@ -95,8 +81,6 @@ export default function StatsBar({
           onSearchChange={onSearchChange}
           filterTematica={filterTematica}
           onFilterTematicaChange={onFilterTematicaChange}
-          filterPuntuacio={filterPuntuacio}
-          onFilterPuntuacioChange={onFilterPuntuacioChange}
           hasFilters={hasFilters}
           onClearFilters={onClearFilters}
         />
@@ -109,7 +93,6 @@ export default function StatsBar({
 function FiltersRow({
   searchQuery, onSearchChange,
   filterTematica, onFilterTematicaChange,
-  filterPuntuacio, onFilterPuntuacioChange,
   hasFilters, onClearFilters,
 }: Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>) {
   return (
@@ -145,22 +128,6 @@ function FiltersRow({
           <option value="">Temàtica</option>
           {TEMATIQUES.map((t) => (
             <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="relative flex-shrink-0 w-28 md:w-36">
-        <Star size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        <select
-          value={filterPuntuacio}
-          onChange={(e) => onFilterPuntuacioChange(e.target.value)}
-          className={`w-full pl-7 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
-            filterPuntuacio ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
-          }`}
-        >
-          <option value="">Puntuació</option>
-          {SCORE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
       </div>
