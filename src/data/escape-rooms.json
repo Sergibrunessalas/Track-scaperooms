@@ -14,7 +14,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "consultar web"
   },
   {
     "id": "er-002",
@@ -31,7 +32,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "SciFi",
-    "tematica2": "Apocalipsis"
+    "tematica2": "Apocalipsis",
+    "preu": "des de 30€/p"
   },
   {
     "id": "er-003",
@@ -48,7 +50,8 @@
     "comentaris": "Judith TOP Game Master",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Misteri",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-004",
@@ -65,7 +68,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Terror"
+    "tematica2": "Terror",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-005",
@@ -82,7 +86,8 @@
     "comentaris": "",
     "participants": "Josep Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Mitologia"
+    "tematica2": "Mitologia",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-006",
@@ -99,7 +104,8 @@
     "comentaris": "Patricia TOP Game Master",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Crim",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-007",
@@ -116,7 +122,8 @@
     "comentaris": "Game Master interactiu",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "SciFi",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-008",
@@ -133,7 +140,8 @@
     "comentaris": "Era tot molt vell",
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Misteri",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": ""
   },
   {
     "id": "er-009",
@@ -150,7 +158,8 @@
     "comentaris": "",
     "participants": "Cristina Josep Xamo Sergi",
     "tematica1": "SciFi",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-010",
@@ -167,7 +176,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-011",
@@ -184,7 +194,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Tensió",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-012",
@@ -201,7 +212,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-013",
@@ -218,7 +230,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-014",
@@ -235,7 +248,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-015",
@@ -252,7 +266,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "25€/p"
   },
   {
     "id": "er-016",
@@ -269,7 +284,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-017",
@@ -286,7 +302,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-018",
@@ -303,7 +320,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-019",
@@ -320,7 +338,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-020",
@@ -337,7 +356,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "SciFi",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": ""
   },
   {
     "id": "er-021",
@@ -354,7 +374,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-022",
@@ -371,7 +392,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 35€/p"
   },
   {
     "id": "er-023",
@@ -388,7 +410,8 @@
     "comentaris": "",
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
-    "tematica2": "Fantasia"
+    "tematica2": "Fantasia",
+    "preu": ""
   },
   {
     "id": "er-024",
@@ -405,7 +428,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "25€/p"
   },
   {
     "id": "er-025",
@@ -422,7 +446,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-026",
@@ -439,7 +464,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Fantasia"
+    "tematica2": "Fantasia",
+    "preu": ""
   },
   {
     "id": "er-027",
@@ -456,7 +482,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": ""
   },
   {
     "id": "er-028",
@@ -473,7 +500,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo",
     "tematica1": "Tensió",
-    "tematica2": "Crim"
+    "tematica2": "Crim",
+    "preu": ""
   },
   {
     "id": "er-029",
@@ -490,7 +518,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 30€/p"
   },
   {
     "id": "er-030",
@@ -507,7 +536,8 @@
     "comentaris": "",
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
-    "tematica2": "Comèdia"
+    "tematica2": "Comèdia",
+    "preu": ""
   },
   {
     "id": "er-031",
@@ -524,7 +554,8 @@
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
-    "tematica2": "Mitologia"
+    "tematica2": "Mitologia",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-032",
@@ -541,7 +572,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-033",
@@ -558,7 +590,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Comèdia",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-034",
@@ -575,7 +608,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-035",
@@ -592,7 +626,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-036",
@@ -609,7 +644,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Apocalipsis"
+    "tematica2": "Apocalipsis",
+    "preu": ""
   },
   {
     "id": "er-037",
@@ -626,7 +662,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-038",
@@ -643,7 +680,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-039",
@@ -660,7 +698,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Apocalipsis",
-    "tematica2": "Ciència"
+    "tematica2": "Ciència",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-040",
@@ -677,13 +716,14 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-041",
     "nom": "Cybercity 2049",
     "localitzacio": "Carrer de Ponent, 18, 08922 Santa Coloma de Gramenet, Barcelona",
-    "lat": 41.4510,
+    "lat": 41.451,
     "lng": 2.2083,
     "data": "",
     "dificultat": "",
@@ -694,7 +734,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "SciFi",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-042",
@@ -711,7 +752,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Comèdia"
+    "tematica2": "Comèdia",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-043",
@@ -728,7 +770,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Tensió",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-044",
@@ -745,7 +788,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-045",
@@ -762,7 +806,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": ""
+    "tematica2": "",
+    "preu": "des de 21€/p"
   },
   {
     "id": "er-046",
@@ -779,7 +824,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-047",
@@ -796,7 +842,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 13€/p"
   },
   {
     "id": "er-048",
@@ -813,7 +860,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 19€/p"
   },
   {
     "id": "er-049",
@@ -830,7 +878,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-050",
@@ -847,7 +896,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-051",
@@ -864,7 +914,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-052",
@@ -881,7 +932,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-053",
@@ -898,7 +950,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": ""
   },
   {
     "id": "er-054",
@@ -915,7 +968,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Apocalipsis"
+    "tematica2": "Apocalipsis",
+    "preu": ""
   },
   {
     "id": "er-055",
@@ -932,7 +986,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-056",
@@ -949,7 +1004,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-057",
@@ -966,7 +1022,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-058",
@@ -983,7 +1040,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Aventures"
+    "tematica2": "Aventures",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-059",
@@ -1000,7 +1058,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Terror"
+    "tematica2": "Terror",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-060",
@@ -1017,7 +1076,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-061",
@@ -1034,7 +1094,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": ""
   },
   {
     "id": "er-062",
@@ -1051,7 +1112,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Fantasia"
+    "tematica2": "Fantasia",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-063",
@@ -1068,13 +1130,14 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "SciFi"
+    "tematica2": "SciFi",
+    "preu": ""
   },
   {
     "id": "er-064",
     "nom": "K.O.N.G. Protocol",
     "localitzacio": "Carrer de Ponent, 18, 08922 Santa Coloma de Gramenet, Barcelona",
-    "lat": 41.4510,
+    "lat": 41.451,
     "lng": 2.2083,
     "data": "",
     "dificultat": "",
@@ -1085,7 +1148,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "SciFi",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": ""
   },
   {
     "id": "er-065",
@@ -1102,7 +1166,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-066",
@@ -1119,7 +1184,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-067",
@@ -1136,7 +1202,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 13€/p"
   },
   {
     "id": "er-068",
@@ -1153,7 +1220,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-069",
@@ -1170,7 +1238,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "SciFi"
+    "tematica2": "SciFi",
+    "preu": "des de 22€/p"
   },
   {
     "id": "er-070",
@@ -1187,7 +1256,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Infantil",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-071",
@@ -1204,7 +1274,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-072",
@@ -1221,7 +1292,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Infantil",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-073",
@@ -1238,7 +1310,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 13€/p"
   },
   {
     "id": "er-074",
@@ -1255,7 +1328,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-075",
@@ -1272,7 +1346,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-076",
@@ -1289,7 +1364,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-077",
@@ -1306,7 +1382,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 23€/p"
   },
   {
     "id": "er-078",
@@ -1323,7 +1400,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 21€/p"
   },
   {
     "id": "er-079",
@@ -1340,7 +1418,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 20€/p"
   },
   {
     "id": "er-080",
@@ -1357,7 +1436,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-081",
@@ -1374,7 +1454,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-082",
@@ -1391,7 +1472,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-083",
@@ -1408,7 +1490,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Aventures",
-    "tematica2": "Fantasia"
+    "tematica2": "Fantasia",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-084",
@@ -1425,7 +1508,8 @@
     "comentaris": "",
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-085",
@@ -1442,7 +1526,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Acció",
-    "tematica2": "Misteri"
+    "tematica2": "Misteri",
+    "preu": ""
   },
   {
     "id": "er-086",
@@ -1459,7 +1544,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-087",
@@ -1476,7 +1562,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
-    "tematica2": "Comèdia"
+    "tematica2": "Comèdia",
+    "preu": "des de 25€/p"
   },
   {
     "id": "er-088",
@@ -1493,7 +1580,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Història"
+    "tematica2": "Història",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-089",
@@ -1510,7 +1598,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 21€/p"
   },
   {
     "id": "er-090",
@@ -1527,7 +1616,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Apocalipsis",
-    "tematica2": "Terror"
+    "tematica2": "Terror",
+    "preu": "des de 18€/p"
   },
   {
     "id": "er-091",
@@ -1544,7 +1634,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Misteri",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 15€/p"
   },
   {
     "id": "er-092",
@@ -1561,7 +1652,8 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "SciFi",
-    "tematica2": "Acció"
+    "tematica2": "Acció",
+    "preu": "des de 27€/p"
   },
   {
     "id": "er-093",
@@ -1578,6 +1670,7 @@
     "comentaris": "",
     "participants": "",
     "tematica1": "Apocalipsis",
-    "tematica2": "Tensió"
+    "tematica2": "Tensió",
+    "preu": "des de 30€/p"
   }
 ]

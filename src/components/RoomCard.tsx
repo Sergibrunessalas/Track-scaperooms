@@ -41,6 +41,9 @@ export default function RoomCard({ room, rank, selected, onClick, onEdit }: Room
           {room.data && (
             <span className="text-xs text-gray-400">{room.data}</span>
           )}
+          {room.preu && (
+            <span className="text-xs text-green-600 font-medium">💶 {room.preu}</span>
+          )}
           {tems.map((t) => (
             <span
               key={t}

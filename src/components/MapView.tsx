@@ -77,6 +77,7 @@ function buildPopupHtml(room: EscapeRoom): string {
         ? `<p style="margin:3px 0;font-size:13px;color:#e8490a;font-weight:700;letter-spacing:.5px">${stars}
             <span style="color:#6b7280;font-weight:400;font-size:12px;margin-left:4px">${scoreStr}</span></p>`
         : `<p style="margin:3px 0;font-size:12px;color:#9ca3af;font-style:italic">Pendent de valorar</p>`}
+      ${room.preu ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">💶 ${esc(room.preu)}</p>` : ''}
       ${room.dificultat ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">⚔️ ${esc(room.dificultat)}</p>` : ''}
       ${room.data ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">📅 ${esc(room.data)}</p>` : ''}
       ${tems.length ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">🏷️ ${tems.map(esc).join(' · ')}</p>` : ''}

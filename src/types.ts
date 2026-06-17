@@ -13,6 +13,7 @@ export interface EscapeRoom {
   comentaris: string;
   participants: string;
   imatgeUrl: string;
+  preu: string;
   tematica1: string;
   tematica2: string;
 }
