@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Trash2, Save, MapPin, Loader2 } from 'lucide-react';
+import { X, Trash2, Save, MapPin, Loader2, Image } from 'lucide-react';
 import { EscapeRoom, TEMATIQUES, calcPuntuacio, generateId, starsFromScore } from '../types';
 
 interface RoomFormProps {
@@ -23,6 +23,7 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   puntuacio: null,
   comentaris: '',
   participants: '',
+  imatgeUrl: '',
   tematica1: '',
   tematica2: '',
 };
@@ -396,6 +397,27 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 rows={3}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none resize-none"
               />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">
+                <span className="flex items-center gap-1"><Image size={12} /> Foto (URL d'Imgur)</span>
+              </label>
+              <input
+                type="url"
+                value={form.imatgeUrl}
+                onChange={(e) => set('imatgeUrl', e.target.value)}
+                placeholder="https://i.imgur.com/xxxxx.jpg"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+              />
+              {form.imatgeUrl && (
+                <img
+                  src={form.imatgeUrl}
+                  alt="Previsualització"
+                  className="mt-2 w-full h-32 object-cover rounded-lg border border-gray-200"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              )}
             </div>
           </section>
         </form>

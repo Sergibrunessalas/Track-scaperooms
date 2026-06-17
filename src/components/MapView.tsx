@@ -43,7 +43,10 @@ function buildPopupHtml(room: EscapeRoom): string {
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
 
   return `
-    <div style="font-family:Inter,system-ui,sans-serif;min-width:185px;max-width:240px">
+    <div style="font-family:Inter,system-ui,sans-serif;min-width:200px;max-width:260px">
+      ${room.imatgeUrl
+        ? `<img src="${esc(room.imatgeUrl)}" alt="${esc(room.nom)}" style="width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:8px;display:block" onerror="this.style.display='none'" />`
+        : ''}
       <h3 style="font-weight:700;font-size:14px;margin:0 0 7px;color:#111827;line-height:1.3">${esc(room.nom)}</h3>
       ${scoreStr
         ? `<p style="margin:3px 0;font-size:13px;color:#e8490a;font-weight:700;letter-spacing:.5px">${stars}

@@ -12,6 +12,7 @@ export interface EscapeRoom {
   puntuacio: number | null;
   comentaris: string;
   participants: string;
+  imatgeUrl: string;
   tematica1: string;
   tematica2: string;
 }
