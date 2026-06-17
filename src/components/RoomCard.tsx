@@ -42,7 +42,10 @@ export default function RoomCard({ room, rank, selected, onClick, onEdit }: Room
             <span className="text-xs text-gray-400">{room.data}</span>
           )}
           {room.preu && (
-            <span className="text-xs text-green-600 font-medium">💶 {room.preu}</span>
+            <span className="text-xs text-green-700 font-medium">
+              <span className="inline-block bg-green-500 text-white font-bold rounded px-1 mr-0.5 leading-tight">€</span>
+              {room.preu}
+            </span>
           )}
           {tems.map((t) => (
             <span
