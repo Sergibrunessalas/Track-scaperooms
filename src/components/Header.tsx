@@ -8,17 +8,18 @@ interface HeaderProps {
 
 export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
   return (
-    <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-5 py-3 flex items-center justify-between shadow-lg">
-      <div>
-        <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-tight">
+    <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-5 py-3 flex items-center relative shadow-lg">
+      {/* Títol + subtítol centrats absolutament en una sola línia */}
+      <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+        <span className="font-montserrat text-xl md:text-2xl font-black tracking-tight">
           ESCAPE ROOMS <span className="text-accent">TRACKER</span>
-        </h1>
-        <p className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-tight" style={{ color: '#eab308' }}>
+        </span>
+        <span className="font-montserrat text-xl md:text-2xl font-black tracking-tight ml-4" style={{ color: '#eab308' }}>
           Totes les meves aventures en un sol lloc
-        </p>
+        </span>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ml-auto">
         <div className="text-right hidden md:block">
           <p className="font-semibold text-sm leading-tight">Sergi Brunés Salas</p>
           <p className="text-gray-400 text-xs">📍 Lliçà de Vall, Catalunya</p>
