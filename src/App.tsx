@@ -121,6 +121,14 @@ export default function App() {
           total={rooms.length}
           valorats={rooms.filter((r) => r.puntuacio !== null).length}
           pendents={rooms.filter((r) => r.puntuacio === null).length}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          filterTematica={filterTematica}
+          onFilterTematicaChange={setFilterTematica}
+          filterPuntuacio={filterPuntuacio}
+          onFilterPuntuacioChange={setFilterPuntuacio}
+          hasFilters={hasFilters}
+          onClearFilters={clearFilters}
         />
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
@@ -132,18 +140,10 @@ export default function App() {
         />
         <Sidebar
           rooms={filteredRooms}
-          allRooms={rooms}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          filterTematica={filterTematica}
-          onFilterTematicaChange={setFilterTematica}
-          filterPuntuacio={filterPuntuacio}
-          onFilterPuntuacioChange={setFilterPuntuacio}
+          filteredCount={filteredRooms.length}
           selectedRoomId={selectedRoomId}
           onRoomClick={handleRoomCardClick}
           onEditRoom={(room) => setFormState(room)}
-          hasFilters={hasFilters}
-          onClearFilters={clearFilters}
         />
       </div>
 
