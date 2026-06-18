@@ -10,6 +10,7 @@ interface StatsBarProps {
   pendents: number;
   mainView: MainView;
   onMainViewChange: (v: MainView) => void;
+  canEdit: boolean;
   searchQuery: string;
   onSearchChange: (v: string) => void;
   searchEmpresa: string;
@@ -23,7 +24,7 @@ interface StatsBarProps {
 
 export default function StatsBar({
   total, valorats, pendents,
-  mainView, onMainViewChange,
+  mainView, onMainViewChange, canEdit,
   searchQuery, onSearchChange,
   searchEmpresa, onSearchEmpresaChange, empreses,
   filterTematica, onFilterTematicaChange,
@@ -59,21 +60,30 @@ export default function StatsBar({
           </div>
         </div>
 
-        {/* Pestanyes WEB / MAPA — centrades absolutament */}
+        {/* Pestanyes MAPA / ESTADÍSTIQUES — centrades absolutament */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-gray-100 rounded-xl p-1">
-          {(['mapa', 'web'] as MainView[]).map((v) => (
+          <button
+            onClick={() => onMainViewChange('mapa')}
+            className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all uppercase tracking-wide ${
+              mainView === 'mapa'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            🗺 Mapa
+          </button>
+          {canEdit && (
             <button
-              key={v}
-              onClick={() => onMainViewChange(v)}
+              onClick={() => onMainViewChange('web')}
               className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all uppercase tracking-wide ${
-                mainView === v
+                mainView === 'web'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
-              {v === 'mapa' ? '🗺 Mapa' : '📊 Estadístiques'}
+              📊 Estadístiques
             </button>
-          ))}
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-2 ml-auto">
@@ -100,7 +110,7 @@ export default function StatsBar({
   );
 }
 
-type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange'>;
+type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange' | 'canEdit'>;
 
 function FiltersRow({
   searchQuery, onSearchChange,

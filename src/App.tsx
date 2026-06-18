@@ -290,13 +290,14 @@ export default function App() {
           filterTematica={filterTematica}
           onFilterTematicaChange={setFilterTematica}
           mainView={mainView}
-          onMainViewChange={setMainView}
+          onMainViewChange={(v) => { if (v === 'web' && !canEdit) return; setMainView(v); }}
+          canEdit={canEdit}
           hasFilters={hasFilters}
           onClearFilters={clearFilters}
         />
 
-        {/* Vista WEB — dashboard d'estadístiques */}
-        {mainView === 'web' && <WebView rooms={rooms} />}
+        {/* Vista WEB — dashboard d'estadístiques (només usuaris autoritzats) */}
+        {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
 
         {/* Mobile tabs */}
         <div className={`${mainView === 'web' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
