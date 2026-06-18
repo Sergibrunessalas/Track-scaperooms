@@ -10,7 +10,7 @@ import StatsBar from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
-import { EscapeRoom, calcPuntuacio } from './types';
+import { EscapeRoom, calcPuntuacio, normalizeRoom } from './types';
 import initialData from './data/escape-rooms.json';
 
 const ROOMS_COL = 'rooms';
@@ -36,8 +36,9 @@ export default function App() {
       if (snap.empty) {
         console.log('[Firebase] Base de dades buida, sembrant dades...');
         const batch = writeBatch(db);
-        (initialData as EscapeRoom[]).forEach((room) => {
-          batch.set(doc(db, ROOMS_COL, room.id), room);
+        (initialData as Record<string, unknown>[]).forEach((room) => {
+          const normalized = normalizeRoom(room);
+          batch.set(doc(db, ROOMS_COL, normalized.id), normalized);
         });
         await batch.commit();
         console.log('[Firebase] Dades sembrades correctament.');
@@ -46,7 +47,7 @@ export default function App() {
       // Escolta canvis en temps real — qualsevol usuari que editi ho veu tothom
       unsub = onSnapshot(collection(db, ROOMS_COL), (snapshot) => {
         const data = snapshot.docs
-          .map((d) => d.data() as EscapeRoom)
+          .map((d) => normalizeRoom(d.data()))
           .sort((a, b) => a.id.localeCompare(b.id));
         setRooms(data);
         setDbReady(true);
@@ -72,15 +73,7 @@ export default function App() {
   }, []);
 
   const handleSaveRoom = useCallback((room: EscapeRoom) => {
-    const withCalc: EscapeRoom = {
-      ...room,
-      puntuacio: calcPuntuacio(
-        room.decoracio, room.gameMaster, room.proves,
-        room.decoracio2 ?? null, room.gameMaster2 ?? null, room.proves2 ?? null,
-        room.decoracio3 ?? null, room.gameMaster3 ?? null, room.proves3 ?? null,
-        room.decoracio4 ?? null, room.gameMaster4 ?? null, room.proves4 ?? null,
-      ),
-    };
+    const withCalc: EscapeRoom = { ...room, puntuacio: calcPuntuacio(room.ratings) };
     setDoc(doc(db, ROOMS_COL, room.id), withCalc).catch(console.error);
     setFormState('closed');
   }, []);
@@ -110,8 +103,9 @@ export default function App() {
         const data = JSON.parse(evt.target?.result as string);
         if (Array.isArray(data)) {
           const batch = writeBatch(db);
-          (data as EscapeRoom[]).forEach((room) => {
-            batch.set(doc(db, ROOMS_COL, room.id), room);
+          (data as Record<string, unknown>[]).forEach((room) => {
+            const normalized = normalizeRoom(room);
+            batch.set(doc(db, ROOMS_COL, normalized.id), normalized);
           });
           batch.commit().catch(console.error);
           setSelectedRoomId(null);

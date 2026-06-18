@@ -71,7 +71,7 @@ function dificultatLabel(n: number): string {
 }
 
 function avgDificultat(room: EscapeRoom): number | null {
-  const vals = [room.dificultat, room.dificultat2 ?? '', room.dificultat3 ?? '', room.dificultat4 ?? '']
+  const vals = (room.dificultats ?? [])
     .map(d => (d.match(/★/g) || []).length)
     .filter(n => n > 0);
   if (!vals.length) return null;

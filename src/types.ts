@@ -1,3 +1,9 @@
+export interface ParticipantRating {
+  decoracio: number | null;
+  gameMaster: number | null;
+  proves: number | null;
+}
+
 export interface EscapeRoom {
   id: string;
   nom: string;
@@ -5,22 +11,8 @@ export interface EscapeRoom {
   lat: number | null;
   lng: number | null;
   data: string;
-  dificultat: string;
-  dificultat2?: string;
-  dificultat3?: string;
-  dificultat4?: string;
-  decoracio: number | null;
-  gameMaster: number | null;
-  proves: number | null;
-  decoracio2?: number | null;
-  gameMaster2?: number | null;
-  proves2?: number | null;
-  decoracio3?: number | null;
-  gameMaster3?: number | null;
-  proves3?: number | null;
-  decoracio4?: number | null;
-  gameMaster4?: number | null;
-  proves4?: number | null;
+  dificultats: string[];
+  ratings: ParticipantRating[];
   puntuacio: number | null;
   comentaris: string;
   participants: string;
@@ -39,32 +31,50 @@ export const TEMATIQUES = [
 
 export type Tematica = typeof TEMATIQUES[number];
 
-function noteFromSubs(d: number | null | undefined, g: number | null | undefined, p: number | null | undefined): number | null {
-  const subs = [d, g, p].filter((v): v is number => v != null);
-  return subs.length > 0 ? subs.reduce((a, b) => a + b, 0) / subs.length : null;
+export function calcPuntuacio(ratings: ParticipantRating[]): number | null {
+  const notes = ratings.map((r) => {
+    const subs = [r.decoracio, r.gameMaster, r.proves].filter((v): v is number => v != null);
+    return subs.length > 0 ? subs.reduce((a, b) => a + b, 0) / subs.length : null;
+  }).filter((v): v is number => v !== null);
+  if (!notes.length) return null;
+  return Math.round(notes.reduce((a, b) => a + b, 0) / notes.length * 10) / 10;
 }
 
-export function calcPuntuacio(
-  decoracio: number | null,
-  gameMaster: number | null,
-  proves: number | null,
-  decoracio2?: number | null,
-  gameMaster2?: number | null,
-  proves2?: number | null,
-  decoracio3?: number | null,
-  gameMaster3?: number | null,
-  proves3?: number | null,
-  decoracio4?: number | null,
-  gameMaster4?: number | null,
-  proves4?: number | null,
-): number | null {
-  const nota1 = noteFromSubs(decoracio, gameMaster, proves);
-  const nota2 = noteFromSubs(decoracio2, gameMaster2, proves2);
-  const nota3 = noteFromSubs(decoracio3, gameMaster3, proves3);
-  const nota4 = noteFromSubs(decoracio4, gameMaster4, proves4);
-  const notes = [nota1, nota2, nota3, nota4].filter((v): v is number => v !== null);
-  if (!notes.length) return null;
-  return Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 10) / 10;
+export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
+  if (Array.isArray(data.ratings) && Array.isArray(data.dificultats)) {
+    return data as unknown as EscapeRoom;
+  }
+  // Migrate from old individual-field format
+  const dificultats = [
+    (data.dificultat as string) ?? '',
+    (data.dificultat2 as string) ?? '',
+    (data.dificultat3 as string) ?? '',
+    (data.dificultat4 as string) ?? '',
+  ];
+  const ratings: ParticipantRating[] = [
+    { decoracio: (data.decoracio as number) ?? null, gameMaster: (data.gameMaster as number) ?? null, proves: (data.proves as number) ?? null },
+    { decoracio: (data.decoracio2 as number) ?? null, gameMaster: (data.gameMaster2 as number) ?? null, proves: (data.proves2 as number) ?? null },
+    { decoracio: (data.decoracio3 as number) ?? null, gameMaster: (data.gameMaster3 as number) ?? null, proves: (data.proves3 as number) ?? null },
+    { decoracio: (data.decoracio4 as number) ?? null, gameMaster: (data.gameMaster4 as number) ?? null, proves: (data.proves4 as number) ?? null },
+  ];
+  return {
+    id: data.id as string,
+    nom: (data.nom as string) ?? '',
+    localitzacio: (data.localitzacio as string) ?? '',
+    lat: (data.lat as number) ?? null,
+    lng: (data.lng as number) ?? null,
+    data: (data.data as string) ?? '',
+    dificultats,
+    ratings,
+    puntuacio: (data.puntuacio as number) ?? null,
+    comentaris: (data.comentaris as string) ?? '',
+    participants: (data.participants as string) ?? '',
+    imatgeUrl: (data.imatgeUrl as string) ?? '',
+    preu: (data.preu as string) ?? '',
+    web: (data.web as string) ?? '',
+    tematica1: (data.tematica1 as string) ?? '',
+    tematica2: (data.tematica2 as string) ?? '',
+  };
 }
 
 export function starsFromScore(score: number | null): string {
