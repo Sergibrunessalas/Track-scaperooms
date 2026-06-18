@@ -28,9 +28,15 @@ function loadRooms(): EscapeRoom[] {
           localitzacio: source?.localitzacio || room.localitzacio || '',
           tematica1: source?.tematica1 ?? room.tematica1,
           tematica2: source?.tematica2 ?? room.tematica2,
-          nota2: room.nota2 ?? null,
-          nota3: room.nota3 ?? null,
-          nota4: room.nota4 ?? null,
+          decoracio2: room.decoracio2 ?? null,
+          gameMaster2: room.gameMaster2 ?? null,
+          proves2: room.proves2 ?? null,
+          decoracio3: room.decoracio3 ?? null,
+          gameMaster3: room.gameMaster3 ?? null,
+          proves3: room.proves3 ?? null,
+          decoracio4: room.decoracio4 ?? null,
+          gameMaster4: room.gameMaster4 ?? null,
+          proves4: room.proves4 ?? null,
           dificultat2: room.dificultat2 ?? '',
           dificultat3: room.dificultat3 ?? '',
           dificultat4: room.dificultat4 ?? '',
@@ -76,7 +82,12 @@ export default function App() {
   const handleSaveRoom = useCallback((room: EscapeRoom) => {
     const withCalc: EscapeRoom = {
       ...room,
-      puntuacio: calcPuntuacio(room.decoracio, room.gameMaster, room.proves, room.nota2 ?? null, room.nota3 ?? null, room.nota4 ?? null),
+      puntuacio: calcPuntuacio(
+        room.decoracio, room.gameMaster, room.proves,
+        room.decoracio2 ?? null, room.gameMaster2 ?? null, room.proves2 ?? null,
+        room.decoracio3 ?? null, room.gameMaster3 ?? null, room.proves3 ?? null,
+        room.decoracio4 ?? null, room.gameMaster4 ?? null, room.proves4 ?? null,
+      ),
     };
     setRooms((prev) => {
       const exists = prev.some((r) => r.id === room.id);

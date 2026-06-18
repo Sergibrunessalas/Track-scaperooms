@@ -23,9 +23,15 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   decoracio: null,
   gameMaster: null,
   proves: null,
-  nota2: null,
-  nota3: null,
-  nota4: null,
+  decoracio2: null,
+  gameMaster2: null,
+  proves2: null,
+  decoracio3: null,
+  gameMaster3: null,
+  proves3: null,
+  decoracio4: null,
+  gameMaster4: null,
+  proves4: null,
   puntuacio: null,
   comentaris: '',
   participants: '',
@@ -137,10 +143,12 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
   const [geocoding, setGeocoding] = useState(false);
   const [geocodeMsg, setGeocodeMsg] = useState<GeocodeMsg | null>(null);
 
-  const nota2 = form.nota2 ?? null;
-  const nota3 = form.nota3 ?? null;
-  const nota4 = form.nota4 ?? null;
-  const liveScore = calcPuntuacio(form.decoracio, form.gameMaster, form.proves, nota2, nota3, nota4);
+  const liveScore = calcPuntuacio(
+    form.decoracio, form.gameMaster, form.proves,
+    form.decoracio2 ?? null, form.gameMaster2 ?? null, form.proves2 ?? null,
+    form.decoracio3 ?? null, form.gameMaster3 ?? null, form.proves3 ?? null,
+    form.decoracio4 ?? null, form.gameMaster4 ?? null, form.proves4 ?? null,
+  );
   const stars = starsFromScore(liveScore);
 
   // Average dificultat
@@ -386,44 +394,36 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
           <section className="space-y-3">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Valoració (0–5)</h3>
 
-            {/* Person 1 detailed sub-ratings */}
-            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(0, 'Participant 1')} — detall</p>
+            {/* Person 1 */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(0, 'Participant 1')}</p>
             <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
-              <ScoreInput
-                label="Decoració"
-                value={form.decoracio}
-                onChange={(v) => set('decoracio', v)}
-              />
-              <ScoreInput
-                label="Game Master"
-                value={form.gameMaster}
-                onChange={(v) => set('gameMaster', v)}
-              />
-              <ScoreInput
-                label="Proves"
-                value={form.proves}
-                onChange={(v) => set('proves', v)}
-              />
+              <ScoreInput label="Decoració" value={form.decoracio} onChange={(v) => set('decoracio', v)} />
+              <ScoreInput label="Game Master" value={form.gameMaster} onChange={(v) => set('gameMaster', v)} />
+              <ScoreInput label="Proves" value={form.proves} onChange={(v) => set('proves', v)} />
             </div>
 
-            {/* Individual notes for persons 2-4 */}
-            <p className="text-xs text-gray-400 font-medium -mb-1">Notes individuals</p>
-            <div className="space-y-2.5 pl-2 border-l-2 border-gray-200">
-              <ScoreInput
-                label={pLabel(1, 'Participant 2')}
-                value={nota2}
-                onChange={(v) => set('nota2', v)}
-              />
-              <ScoreInput
-                label={pLabel(2, 'Participant 3')}
-                value={nota3}
-                onChange={(v) => set('nota3', v)}
-              />
-              <ScoreInput
-                label={pLabel(3, 'Participant 4')}
-                value={nota4}
-                onChange={(v) => set('nota4', v)}
-              />
+            {/* Person 2 */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(1, 'Participant 2')}</p>
+            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+              <ScoreInput label="Decoració" value={form.decoracio2 ?? null} onChange={(v) => set('decoracio2', v)} />
+              <ScoreInput label="Game Master" value={form.gameMaster2 ?? null} onChange={(v) => set('gameMaster2', v)} />
+              <ScoreInput label="Proves" value={form.proves2 ?? null} onChange={(v) => set('proves2', v)} />
+            </div>
+
+            {/* Person 3 */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(2, 'Participant 3')}</p>
+            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+              <ScoreInput label="Decoració" value={form.decoracio3 ?? null} onChange={(v) => set('decoracio3', v)} />
+              <ScoreInput label="Game Master" value={form.gameMaster3 ?? null} onChange={(v) => set('gameMaster3', v)} />
+              <ScoreInput label="Proves" value={form.proves3 ?? null} onChange={(v) => set('proves3', v)} />
+            </div>
+
+            {/* Person 4 */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(3, 'Participant 4')}</p>
+            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+              <ScoreInput label="Decoració" value={form.decoracio4 ?? null} onChange={(v) => set('decoracio4', v)} />
+              <ScoreInput label="Game Master" value={form.gameMaster4 ?? null} onChange={(v) => set('gameMaster4', v)} />
+              <ScoreInput label="Proves" value={form.proves4 ?? null} onChange={(v) => set('proves4', v)} />
             </div>
 
             {/* Auto-calculated score */}

@@ -12,9 +12,15 @@ export interface EscapeRoom {
   decoracio: number | null;
   gameMaster: number | null;
   proves: number | null;
-  nota2?: number | null;
-  nota3?: number | null;
-  nota4?: number | null;
+  decoracio2?: number | null;
+  gameMaster2?: number | null;
+  proves2?: number | null;
+  decoracio3?: number | null;
+  gameMaster3?: number | null;
+  proves3?: number | null;
+  decoracio4?: number | null;
+  gameMaster4?: number | null;
+  proves4?: number | null;
   puntuacio: number | null;
   comentaris: string;
   participants: string;
@@ -33,16 +39,29 @@ export const TEMATIQUES = [
 
 export type Tematica = typeof TEMATIQUES[number];
 
+function noteFromSubs(d: number | null | undefined, g: number | null | undefined, p: number | null | undefined): number | null {
+  const subs = [d, g, p].filter((v): v is number => v != null);
+  return subs.length > 0 ? subs.reduce((a, b) => a + b, 0) / subs.length : null;
+}
+
 export function calcPuntuacio(
   decoracio: number | null,
   gameMaster: number | null,
   proves: number | null,
-  nota2: number | null = null,
-  nota3: number | null = null,
-  nota4: number | null = null,
+  decoracio2?: number | null,
+  gameMaster2?: number | null,
+  proves2?: number | null,
+  decoracio3?: number | null,
+  gameMaster3?: number | null,
+  proves3?: number | null,
+  decoracio4?: number | null,
+  gameMaster4?: number | null,
+  proves4?: number | null,
 ): number | null {
-  const sub = [decoracio, gameMaster, proves].filter((v): v is number => v !== null);
-  const nota1 = sub.length > 0 ? sub.reduce((a, b) => a + b, 0) / sub.length : null;
+  const nota1 = noteFromSubs(decoracio, gameMaster, proves);
+  const nota2 = noteFromSubs(decoracio2, gameMaster2, proves2);
+  const nota3 = noteFromSubs(decoracio3, gameMaster3, proves3);
+  const nota4 = noteFromSubs(decoracio4, gameMaster4, proves4);
   const notes = [nota1, nota2, nota3, nota4].filter((v): v is number => v !== null);
   if (!notes.length) return null;
   return Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 10) / 10;
