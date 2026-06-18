@@ -26,6 +26,12 @@ export default function App() {
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  // Quan el sidebar canvia de mida, cal que Leaflet recalculi les dimensions del mapa
+  useEffect(() => {
+    const t = setTimeout(() => mapRef.current?.invalidateSize(), 60);
+    return () => clearTimeout(t);
+  }, [sidebarCollapsed]);
+
   const mapRef = useRef<MapViewHandle>(null);
 
   useEffect(() => {
@@ -261,12 +267,12 @@ export default function App() {
               : <ChevronRight size={12} className="text-gray-500" />}
           </button>
 
-          {/* Sidebar */}
-          <div className={`
-            ${mobileView === 'map' ? 'hidden md:flex' : 'flex'}
-            ${sidebarCollapsed ? 'md:hidden' : ''}
-            flex-col w-full md:w-80 lg:w-96 flex-shrink-0
-          `}>
+          {/* Sidebar — mobile: controlled by mobileView; desktop: controlled by sidebarCollapsed */}
+          <div className={[
+            'flex-col w-full md:w-80 lg:w-96 flex-shrink-0',
+            mobileView === 'map' ? 'hidden' : 'flex',
+            sidebarCollapsed ? 'md:hidden' : 'md:flex',
+          ].join(' ')}>
             <Sidebar
               rooms={filteredRooms}
               filteredCount={filteredRooms.length}

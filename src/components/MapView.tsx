@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import confetti from 'canvas-confetti';
 import { EscapeRoom, starsFromScore } from '../types';
@@ -8,28 +8,16 @@ function launchFireworks() {
   const duration = 2200;
   const end = Date.now() + duration;
   const colors = ['#eab308', '#e8490a', '#ffffff', '#ff6535', '#fbbf24'];
-
   (function frame() {
-    confetti({
-      particleCount: 6,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 },
-      colors,
-    });
-    confetti({
-      particleCount: 6,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 },
-      colors,
-    });
+    confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 }, colors });
+    confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 }, colors });
     if (Date.now() < end) requestAnimationFrame(frame);
   })();
 }
 
 export interface MapViewHandle {
   flyToRoom: (room: EscapeRoom) => void;
+  invalidateSize: () => void;
 }
 
 interface MapViewProps {
@@ -114,15 +102,7 @@ function MapInitializer({ onReady }: { onReady: (map: L.Map) => void }) {
   return null;
 }
 
-function RoomMarker({
-  room,
-  selected,
-  onSelect,
-}: {
-  room: EscapeRoom;
-  selected: boolean;
-  onSelect: () => void;
-}) {
+function RoomMarker({ room, selected, onSelect }: { room: EscapeRoom; selected: boolean; onSelect: () => void }) {
   const markerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
@@ -144,6 +124,25 @@ function RoomMarker({
       icon={createMarkerIcon(room.puntuacio !== null, selected)}
       eventHandlers={{ click: onSelect }}
     >
+      {/* Tooltip en hover — desapareix en treure el cursor */}
+      <Tooltip direction="top" sticky offset={[0, -8]} opacity={1}>
+        <div style={{ fontFamily: 'Inter, system-ui, sans-serif', minWidth: '140px', maxWidth: '200px' }}>
+          <p style={{ fontWeight: 700, fontSize: '13px', margin: '0 0 2px', color: '#111827', lineHeight: 1.3 }}>
+            {room.nom}
+          </p>
+          {room.empresa && (
+            <p style={{ fontSize: '10px', color: '#9ca3af', margin: '0 0 3px' }}>{room.empresa}</p>
+          )}
+          {room.puntuacio !== null
+            ? <p style={{ fontSize: '12px', color: '#e8490a', fontWeight: 600, margin: 0 }}>
+                {starsFromScore(room.puntuacio)} <span style={{ color: '#6b7280', fontWeight: 400 }}>{room.puntuacio.toFixed(1)}/5</span>
+              </p>
+            : <p style={{ fontSize: '11px', color: '#9ca3af', fontStyle: 'italic', margin: 0 }}>Pendent de valorar</p>
+          }
+        </div>
+      </Tooltip>
+
+      {/* Popup en click — amb tots els detalls */}
       <Popup>
         <div dangerouslySetInnerHTML={{ __html: buildPopupHtml(room) }} />
       </Popup>
@@ -161,6 +160,9 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
     flyToRoom: (room: EscapeRoom) => {
       if (!room.lat || !room.lng || !mapInstanceRef.current) return;
       mapInstanceRef.current.flyTo([room.lat, room.lng], 15, { animate: true, duration: 1 });
+    },
+    invalidateSize: () => {
+      mapInstanceRef.current?.invalidateSize();
     },
   }));
 
