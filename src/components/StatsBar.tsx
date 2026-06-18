@@ -32,8 +32,8 @@ export default function StatsBar({
   return (
     <div className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 shadow-sm">
 
-      {/* Fila superior: stats + pestanyes + llegenda */}
-      <div className="flex items-center gap-3">
+      {/* Fila superior: stats + pestanyes centrades + filtres */}
+      <div className="relative flex items-center gap-3">
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-2xl md:text-3xl font-black font-montserrat text-gray-900 leading-none">{total}</span>
           <div>
@@ -59,8 +59,8 @@ export default function StatsBar({
           </div>
         </div>
 
-        {/* Pestanyes WEB / MAPA */}
-        <div className="flex items-center bg-gray-100 rounded-lg p-0.5 flex-shrink-0">
+        {/* Pestanyes WEB / MAPA — centrades absolutament */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-gray-100 rounded-lg p-0.5">
           {(['mapa', 'web'] as MainView[]).map((v) => (
             <button
               key={v}
