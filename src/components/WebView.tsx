@@ -104,8 +104,8 @@ export default function WebView({ rooms }: Props) {
 
 function GlassCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '20px' }}>
-      <h3 style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>{title}</h3>
+    <div style={{ padding: '4px 0' }}>
+      <h3 style={{ fontWeight: 700, fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{title}</h3>
       {children}
     </div>
   );
@@ -113,15 +113,10 @@ function GlassCard({ title, children }: { title: string; children: React.ReactNo
 
 function KpiCard({ icon, label, value, accent }: { icon: string; label: string; value: string | number; accent?: boolean }) {
   return (
-    <div style={{
-      background: accent ? 'rgba(232,73,10,0.75)' : 'rgba(0,0,0,0.22)',
-      backdropFilter: 'blur(8px)',
-      borderRadius: 20,
-      padding: '16px',
-    }}>
-      <p style={{ fontSize: 24, marginBottom: 6 }}>{icon}</p>
-      <p style={{ fontSize: 28, fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'Montserrat, sans-serif' }}>{value}</p>
-      <p style={{ fontSize: 11, fontWeight: 600, color: accent ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)', marginTop: 4 }}>{label}</p>
+    <div style={{ textAlign: 'center', padding: '8px 0' }}>
+      <p style={{ fontSize: 22, marginBottom: 4, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.6))' }}>{icon}</p>
+      <p style={{ fontSize: 32, fontWeight: 900, color: accent ? '#fb923c' : '#fff', lineHeight: 1, fontFamily: 'Montserrat, sans-serif', textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}>{value}</p>
+      <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.55)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em', textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}>{label}</p>
     </div>
   );
 }
@@ -129,10 +124,10 @@ function KpiCard({ icon, label, value, accent }: { icon: string; label: string; 
 function RecordItem({ icon, label, name, sub, subColor }: { icon: string; label: string; name: string; sub?: string; subColor?: string }) {
   return (
     <div>
-      <p style={{ fontSize: 22, marginBottom: 4 }}>{icon}</p>
-      <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>{label}</p>
-      <p style={{ fontSize: 13, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{name}</p>
-      {sub && <p style={{ fontSize: 11, fontWeight: 600, color: subColor ?? '#9ca3af', marginTop: 2 }}>{sub}</p>}
+      <p style={{ fontSize: 22, marginBottom: 4, filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.6))' }}>{icon}</p>
+      <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2, textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}>{label}</p>
+      <p style={{ fontSize: 13, fontWeight: 700, color: '#fff', lineHeight: 1.3, textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>{name}</p>
+      {sub && <p style={{ fontSize: 11, fontWeight: 600, color: subColor ?? '#9ca3af', marginTop: 2, textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{sub}</p>}
     </div>
   );
 }
