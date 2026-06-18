@@ -197,7 +197,7 @@ export default function App() {
   };
 
   const topRooms = useMemo(
-    () => rooms.filter(r => r.puntuacio !== null).sort((a, b) => (b.puntuacio ?? 0) - (a.puntuacio ?? 0)).slice(0, 6),
+    () => rooms.filter(r => r.puntuacio !== null).sort((a, b) => (b.puntuacio ?? 0) - (a.puntuacio ?? 0)).slice(0, 5),
     [rooms]
   );
 
@@ -224,68 +224,45 @@ export default function App() {
     <div className="h-full flex flex-row font-inter overflow-hidden">
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ paddingTop: '14px', paddingBottom: '12px' }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px' }}>
 
-        {/* Capçalera — fixada */}
-        <div style={{ flexShrink: 0, margin: '0 10px 8px', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
+        {/* Capçalera */}
+        <div style={{ flexShrink: 0, marginBottom: '8px', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
           <p style={{ margin: 0, fontSize: '9px', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#fef08a', textShadow: '0 0 14px rgba(254,240,138,0.95)' }}>
             ★ TOP VALORATS ★
           </p>
         </div>
 
-        {/* Targetes desplaçables — les 6 fan scroll intern sense scrollbar visible */}
-        <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 10px' }}>
+        {/* Les 5 targetes repartides de dalt a baix */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', overflow: 'hidden' }}>
           {topRooms.map(room => (
             <a
               key={room.id}
               href={room.web || undefined}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'block', flexShrink: 0, borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', boxShadow: '0 3px 12px rgba(0,0,0,0.35)', transition: 'transform 0.18s ease, box-shadow 0.18s ease', cursor: room.web ? 'pointer' : 'default' }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.04)'; el.style.boxShadow = '0 6px 22px rgba(0,0,0,0.55)'; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1)'; el.style.boxShadow = '0 3px 12px rgba(0,0,0,0.35)'; }}
+              style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', transition: 'transform 0.18s ease', cursor: room.web ? 'pointer' : 'default', minHeight: 0 }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
             >
               {room.imatgeUrl && (
                 <img src={room.imatgeUrl} alt={room.nom}
-                  style={{ width: '100%', height: '58px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', flex: 1, objectFit: 'cover', display: 'block', minHeight: 0 }}
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               )}
-              <div style={{ padding: '6px 9px' }}>
-                <p style={{ margin: '0 0 2px', fontSize: '11px', fontWeight: 700, color: '#ffffff', lineHeight: 1.25, textShadow: '0 1px 5px rgba(0,0,0,0.7)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
+              <div style={{ flexShrink: 0, padding: '5px 8px' }}>
+                <p style={{ margin: '0 0 1px', fontSize: '10px', fontWeight: 700, color: '#ffffff', lineHeight: 1.2, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' as const }}>
                   {room.nom}
                 </p>
-                {room.empresa && (
-                  <p style={{ margin: '0 0 4px', fontSize: '9px', color: 'rgba(255,255,255,0.52)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                    {room.empresa}
-                  </p>
-                )}
-                <p style={{ margin: 0, fontSize: '12px', color: '#fef08a', fontWeight: 800, textShadow: '0 0 10px rgba(254,240,138,0.7)' }}>
+                <p style={{ margin: 0, fontSize: '11px', color: '#fef08a', fontWeight: 800 }}>
                   {starsFromScore(room.puntuacio)}
-                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)', fontWeight: 500, marginLeft: '3px' }}>
+                  <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginLeft: '2px' }}>
                     {room.puntuacio?.toFixed(1)}
                   </span>
                 </p>
               </div>
             </a>
           ))}
-        </div>
-
-        {/* Peu fixat: telèfon de contacte + espai publicitari */}
-        <div style={{ flexShrink: 0, margin: '10px 10px 0', borderTop: '1px solid rgba(255,255,255,0.18)', paddingTop: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-          <a
-            href="tel:609987748"
-            style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', padding: '6px 8px', textDecoration: 'none', width: '100%', justifyContent: 'center', transition: 'background 0.15s' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.6)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.4)'; }}
-          >
-            <span style={{ fontSize: '13px' }}>📞</span>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff', letterSpacing: '0.04em', textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}>
-              609 987 748
-            </span>
-          </a>
-          <p style={{ margin: 0, fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)', textAlign: 'center' }}>
-            Espai publicitari
-          </p>
         </div>
 
       </div>
