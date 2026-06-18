@@ -2,10 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import { Search, X, Tag, Building2, ChevronDown } from 'lucide-react';
 import { TEMATIQUES } from '../types';
 
+export type MainView = 'mapa' | 'web';
+
 interface StatsBarProps {
   total: number;
   valorats: number;
   pendents: number;
+  mainView: MainView;
+  onMainViewChange: (v: MainView) => void;
   searchQuery: string;
   onSearchChange: (v: string) => void;
   searchEmpresa: string;
@@ -19,6 +23,7 @@ interface StatsBarProps {
 
 export default function StatsBar({
   total, valorats, pendents,
+  mainView, onMainViewChange,
   searchQuery, onSearchChange,
   searchEmpresa, onSearchEmpresaChange, empreses,
   filterTematica, onFilterTematicaChange,
@@ -27,7 +32,7 @@ export default function StatsBar({
   return (
     <div className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 shadow-sm">
 
-      {/* Fila superior: stats + llegenda */}
+      {/* Fila superior: stats + pestanyes + llegenda */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-2xl md:text-3xl font-black font-montserrat text-gray-900 leading-none">{total}</span>
@@ -54,6 +59,23 @@ export default function StatsBar({
           </div>
         </div>
 
+        {/* Pestanyes WEB / MAPA */}
+        <div className="flex items-center bg-gray-100 rounded-lg p-0.5 flex-shrink-0">
+          {(['mapa', 'web'] as MainView[]).map((v) => (
+            <button
+              key={v}
+              onClick={() => onMainViewChange(v)}
+              className={`px-3 py-1 text-xs font-bold rounded-md transition-all uppercase tracking-wide ${
+                mainView === v
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              {v === 'mapa' ? '🗺 Mapa' : '🌐 Web'}
+            </button>
+          ))}
+        </div>
+
         <div className="hidden md:flex items-center gap-2 ml-auto">
           <div className="h-5 w-px bg-gray-200 flex-shrink-0" />
           <FiltersRow
@@ -78,7 +100,7 @@ export default function StatsBar({
   );
 }
 
-type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>;
+type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange'>;
 
 function FiltersRow({
   searchQuery, onSearchChange,

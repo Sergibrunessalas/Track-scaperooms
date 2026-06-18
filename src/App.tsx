@@ -6,7 +6,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import Header from './components/Header';
-import StatsBar from './components/StatsBar';
+import StatsBar, { MainView } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
@@ -25,6 +25,7 @@ export default function App() {
   const [formState, setFormState] = useState<'closed' | 'new' | EscapeRoom>('closed');
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mainView, setMainView] = useState<MainView>('mapa');
 
   // Quan el sidebar canvia de mida, cal que Leaflet recalculi les dimensions del mapa
   useEffect(() => {
@@ -284,12 +285,21 @@ export default function App() {
           empreses={empreses}
           filterTematica={filterTematica}
           onFilterTematicaChange={setFilterTematica}
+          mainView={mainView}
+          onMainViewChange={setMainView}
           hasFilters={hasFilters}
           onClearFilters={clearFilters}
         />
 
+        {/* Vista WEB — blanc de moment */}
+        {mainView === 'web' && (
+          <div className="flex-1 bg-white flex items-center justify-center">
+            <p className="text-gray-300 text-sm font-medium select-none">Pròximament…</p>
+          </div>
+        )}
+
         {/* Mobile tabs */}
-        <div className="flex md:hidden flex-shrink-0 bg-white border-b border-gray-200">
+        <div className={`${mainView === 'web' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -309,7 +319,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className={`${mainView === 'web' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView
