@@ -1,14 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-// Configuració del projecte Firebase — omplir amb les dades del teu projecte
 const firebaseConfig = {
-  apiKey: "POSA_EL_TEU_API_KEY",
-  authDomain: "POSA_EL_TEU_AUTH_DOMAIN",
-  projectId: "POSA_EL_TEU_PROJECT_ID",
-  storageBucket: "POSA_EL_TEU_STORAGE_BUCKET",
-  messagingSenderId: "POSA_EL_TEU_MESSAGING_SENDER_ID",
-  appId: "POSA_EL_TEU_APP_ID",
+  apiKey: "AIzaSyDhzJ_JyNOkrpHt65USWmWGKRve0rX_1mc",
+  authDomain: "escape-room-tracker-92d60.firebaseapp.com",
+  projectId: "escape-room-tracker-92d60",
+  storageBucket: "escape-room-tracker-92d60.firebasestorage.app",
+  messagingSenderId: "429520999110",
+  appId: "1:429520999110:web:82bec74ea8a28a24d93dc7",
 };
 
 export const app = initializeApp(firebaseConfig);
