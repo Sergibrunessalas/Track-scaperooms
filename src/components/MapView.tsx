@@ -12,6 +12,7 @@ interface MapViewProps {
   rooms: EscapeRoom[];
   selectedRoomId: string | null;
   onSelectRoom: (room: EscapeRoom) => void;
+  canEdit: boolean;
 }
 
 function createMarkerIcon(rated: boolean, selected: boolean) {
@@ -54,7 +55,7 @@ function avgDificultat(room: EscapeRoom): number | null {
   return vals.reduce((a, b) => a + b, 0) / vals.length;
 }
 
-function buildPopupHtml(room: EscapeRoom): string {
+function buildPopupHtml(room: EscapeRoom, canEdit: boolean): string {
   const stars = starsFromScore(room.puntuacio);
   const scoreStr = room.puntuacio !== null ? `${room.puntuacio.toFixed(1)}/5` : null;
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
@@ -62,7 +63,7 @@ function buildPopupHtml(room: EscapeRoom): string {
 
   return `
     <div style="font-family:Inter,system-ui,sans-serif;min-width:200px;max-width:260px">
-      ${room.imatgeUrl
+      ${canEdit && room.imatgeUrl
         ? `<img src="${esc(room.imatgeUrl)}" alt="${esc(room.nom)}" onclick="(function(src){var sc=1;var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99999;display:flex;align-items:center;justify-content:center;cursor:zoom-out';var i=document.createElement('img');i.src=src;i.style.cssText='max-width:90vw;max-height:90vh;border-radius:10px;box-shadow:0 30px 60px rgba(0,0,0,.6);transition:transform .15s;transform-origin:center';o.appendChild(i);o.addEventListener('wheel',function(e){e.preventDefault();sc=Math.min(Math.max(sc+(e.deltaY<0?.15:-.15),.5),5);i.style.transform='scale('+sc+')';},{passive:false});o.onclick=function(){document.body.removeChild(o)};document.body.appendChild(o);})(this.src)" style="width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:8px;display:block;cursor:zoom-in" onerror="this.style.display='none'" />`
         : ''}
       <h3 style="font-weight:700;font-size:14px;margin:0 0 7px;color:#111827;line-height:1.3">${esc(room.nom)}</h3>
@@ -90,7 +91,7 @@ function MapInitializer({ onReady }: { onReady: (map: L.Map) => void }) {
   return null;
 }
 
-function RoomMarker({ room, selected, onSelect }: { room: EscapeRoom; selected: boolean; onSelect: () => void }) {
+function RoomMarker({ room, selected, onSelect, canEdit }: { room: EscapeRoom; selected: boolean; onSelect: () => void; canEdit: boolean }) {
   const markerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
@@ -126,14 +127,14 @@ function RoomMarker({ room, selected, onSelect }: { room: EscapeRoom; selected: 
         </div>
       </Tooltip>
       <Popup>
-        <div dangerouslySetInnerHTML={{ __html: buildPopupHtml(room) }} />
+        <div dangerouslySetInnerHTML={{ __html: buildPopupHtml(room, canEdit) }} />
       </Popup>
     </Marker>
   );
 }
 
 const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
-  { rooms, selectedRoomId, onSelectRoom },
+  { rooms, selectedRoomId, onSelectRoom, canEdit },
   ref
 ) {
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -170,6 +171,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
               room={room}
               selected={selectedRoomId === room.id}
               onSelect={() => onSelectRoom(room)}
+              canEdit={canEdit}
             />
           ))}
       </MapContainer>

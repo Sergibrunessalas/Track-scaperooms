@@ -245,7 +245,7 @@ export default function App() {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
             >
-              {room.imatgeUrl && (
+              {canEdit && room.imatgeUrl && (
                 <img src={room.imatgeUrl} alt={room.nom}
                   style={{ width: '100%', flex: 1, objectFit: 'cover', display: 'block', minHeight: 0 }}
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -327,6 +327,7 @@ export default function App() {
               ref={mapRef}
               rooms={filteredRooms}
               selectedRoomId={selectedRoomId}
+              canEdit={canEdit}
               onSelectRoom={(room) => {
                 setSelectedRoomId(room.id);
                 mapRef.current?.flyToRoom(room);
