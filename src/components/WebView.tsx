@@ -32,7 +32,10 @@ export default function WebView({ rooms }: Props) {
   const bgImage = bestRoom?.imatgeUrl ?? '';
 
   return (
-    <div className="flex-1 overflow-y-auto sidebar-scroll no-select">
+    <div
+      className="flex-1 overflow-y-auto sidebar-scroll no-select"
+      onMouseDown={(e) => { if ((e.target as HTMLElement).tagName !== 'INPUT') e.preventDefault(); }}
+    >
       <div
         style={{
           minHeight: '100%',
