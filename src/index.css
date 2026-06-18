@@ -38,3 +38,28 @@ html, body, #root {
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+/* Ad bar glow animation */
+@keyframes ad-glow {
+  0%, 100% { box-shadow: 4px 0 25px rgba(234, 73, 10, 0.6), inset -3px 0 20px rgba(255, 220, 0, 0.15); }
+  50%       { box-shadow: 4px 0 45px rgba(220, 38, 38, 0.8), inset -3px 0 30px rgba(255, 220, 0, 0.30); }
+}
+@keyframes ad-shine {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 0% 200%; }
+}
+.ad-bar {
+  background: linear-gradient(
+    180deg,
+    #fef08a  0%,
+    #facc15  8%,
+    #fbbf24 16%,
+    #f97316 32%,
+    #ea580c 50%,
+    #e8490a 65%,
+    #dc2626 82%,
+    #b91c1c 100%
+  );
+  background-size: 100% 200%;
+  animation: ad-glow 2.8s ease-in-out infinite, ad-shine 5s linear infinite;
+}

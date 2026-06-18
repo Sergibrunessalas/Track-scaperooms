@@ -193,9 +193,9 @@ export default function App() {
     <div className="h-full flex flex-row font-inter overflow-hidden">
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px) ── */}
-      <div className="hidden lg:flex w-40 bg-white border-r border-gray-100 flex-shrink-0 flex-col items-center justify-center gap-3 py-6">
-        <p className="text-[10px] text-gray-300 uppercase tracking-widest select-none"
-          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col items-center justify-center gap-3 py-6">
+        <p className="text-[10px] text-white/70 uppercase tracking-widest select-none font-bold"
+          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>
           Espai publicitari
         </p>
       </div>
