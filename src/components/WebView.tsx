@@ -68,7 +68,9 @@ export default function WebView({ rooms }: Props) {
                     <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
                     <Tooltip
                       formatter={(v) => [v, 'Rooms']}
-                      contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
+                      contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 13, color: '#fff' }}
+                      labelStyle={{ color: '#fff', fontWeight: 700, fontSize: 13 }}
+                      itemStyle={{ color: '#fff', fontSize: 13 }}
                       cursor={false}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
