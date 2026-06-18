@@ -15,8 +15,9 @@
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Història",
-    "preu": "consultar web",
-    "web": "https://thecityescaperoom.com/barcelona/la-taberna/"
+    "preu": "des de 35€/p",
+    "web": "https://thecityescaperoom.com/barcelona/la-taberna/",
+    "imatgeUrl": "https://i.imgur.com/snWOp6Q.jpeg"
   },
   {
     "id": "er-002",
@@ -35,7 +36,8 @@
     "tematica1": "SciFi",
     "tematica2": "Apocalipsis",
     "preu": "des de 30€/p",
-    "web": "https://www.elementsescaperoom.com/exodus/"
+    "web": "https://www.elementsescaperoom.com/exodus/",
+    "imatgeUrl": "https://i.imgur.com/fRi6TJG.jpeg"
   },
   {
     "id": "er-003",
@@ -111,7 +113,8 @@
     "tematica1": "Crim",
     "tematica2": "Misteri",
     "preu": "des de 20€/p",
-    "web": "https://quimeraescape.com/seven/"
+    "web": "https://quimeraescape.com/seven/",
+    "imatgeUrl": "https://i.imgur.com/SvSPF59.jpeg"
   },
   {
     "id": "er-007",
@@ -130,7 +133,8 @@
     "tematica1": "SciFi",
     "tematica2": "Acció",
     "preu": "des de 25€/p",
-    "web": "https://mataro.cubickroomescape.es/siro-3-0/"
+    "web": "https://mataro.cubickroomescape.es/siro-3-0/",
+    "imatgeUrl": "https://i.imgur.com/eVZENi8.jpeg"
   },
   {
     "id": "er-008",
@@ -196,17 +200,18 @@
     "lat": 41.5382,
     "lng": 2.444,
     "data": "24/04/2026",
-    "dificultat": "",
-    "decoracio": null,
-    "gameMaster": null,
-    "proves": null,
-    "puntuacio": null,
+    "dificultat": "★★★",
+    "decoracio": 3,
+    "gameMaster": 4,
+    "proves": 3,
+    "puntuacio": 3.3,
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Tensió",
     "tematica2": "Misteri",
     "preu": "des de 25€/p",
-    "web": "https://mataro.cubickroomescape.es/la-entrevista/"
+    "web": "https://mataro.cubickroomescape.es/la-entrevista/",
+    "imatgeUrl": "https://i.imgur.com/hsxq9Yc.jpeg"
   },
   {
     "id": "er-012",
@@ -248,22 +253,23 @@
   },
   {
     "id": "er-014",
-    "nom": "Base secreta - Código rojo",
+    "nom": "Código rojo",
     "localitzacio": "Carrer de Nicolau Talló, 108, 08224 Terrassa, Barcelona",
     "lat": 41.562,
     "lng": 2.0105,
     "data": "",
     "dificultat": "",
-    "decoracio": null,
-    "gameMaster": null,
-    "proves": null,
-    "puntuacio": null,
+    "decoracio": 4,
+    "gameMaster": 3.5,
+    "proves": 4.5,
+    "puntuacio": 4,
     "comentaris": "",
-    "participants": "",
+    "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Acció",
     "tematica2": "Tensió",
     "preu": "des de 15€/p",
-    "web": "https://thecityescaperoom.com"
+    "web": "https://thecityescaperoom.com",
+    "imatgeUrl": "https://i.imgur.com/UXsMK4Y.jpeg"
   },
   {
     "id": "er-015",
@@ -290,18 +296,19 @@
     "localitzacio": "Carrer Sant Antoni Maria Claret, 258, Local, 08041 Barcelona",
     "lat": 41.4186,
     "lng": 2.1779,
-    "data": "",
+    "data": "18/04/2026",
     "dificultat": "",
-    "decoracio": null,
-    "gameMaster": null,
-    "proves": null,
-    "puntuacio": null,
+    "decoracio": 3,
+    "gameMaster": 4,
+    "proves": 4,
+    "puntuacio": 3.7,
     "comentaris": "",
-    "participants": "Cristina Ari Xamo Sergi",
+    "participants": "Marc Xamo Sergi",
     "tematica1": "Crim",
     "tematica2": "Acció",
     "preu": "des de 18€/p",
-    "web": "https://www.xcaperoombcn.com/room/el-casino-royal/"
+    "web": "https://www.xcaperoombcn.com/room/el-casino-royal/",
+    "imatgeUrl": "https://i.imgur.com/thQYxcv.jpeg"
   },
   {
     "id": "er-017",
@@ -348,17 +355,18 @@
     "lat": 41.4407,
     "lng": 2.1757,
     "data": "20/09/2025",
-    "dificultat": "",
-    "decoracio": null,
-    "gameMaster": null,
-    "proves": null,
-    "puntuacio": null,
+    "dificultat": "★★★",
+    "decoracio": 3,
+    "gameMaster": 4,
+    "proves": 3,
+    "puntuacio": 3.3,
     "comentaris": "",
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Misteri",
     "preu": "des de 22€/p",
-    "web": "https://www.residentriddle.es/barcelona/resident-riddle-invernadero-escape-room/"
+    "web": "https://www.residentriddle.es/barcelona/resident-riddle-invernadero-escape-room/",
+    "imatgeUrl": "https://i.imgur.com/Y22cQe2.jpeg"
   },
   {
     "id": "er-020",
@@ -415,7 +423,8 @@
     "tematica1": "Aventures",
     "tematica2": "Història",
     "preu": "des de 35€/p",
-    "web": "https://www.elementsescaperoom.com/katrina/"
+    "web": "https://www.elementsescaperoom.com/katrina/",
+    "imatgeUrl": "https://i.imgur.com/DIZpzp2.jpeg"
   },
   {
     "id": "er-023",
@@ -433,8 +442,9 @@
     "participants": "Laura Marc Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Fantasia",
-    "preu": "des de 17€/p",
-    "web": "https://www.insomniacorp.com/escapes/6"
+    "preu": "des de 30€/p",
+    "web": "https://www.insomniacorp.com/escapes/6",
+    "imatgeUrl": "https://i.imgur.com/vWM1giR.jpeg"
   },
   {
     "id": "er-024",
@@ -480,18 +490,19 @@
     "localitzacio": "Passeig de la Muntanya, 112, 08402 Granollers, Barcelona",
     "lat": 41.6075,
     "lng": 2.2864,
-    "data": "",
-    "dificultat": "",
-    "decoracio": null,
-    "gameMaster": null,
-    "proves": null,
-    "puntuacio": null,
+    "data": "11/01/2026",
+    "dificultat": "★★★",
+    "decoracio": 4.5,
+    "gameMaster": 4,
+    "proves": 5,
+    "puntuacio": 4.5,
     "comentaris": "",
     "participants": "Cristina Ari Xamo Sergi",
     "tematica1": "Aventures",
     "tematica2": "Fantasia",
     "preu": "des de 22€/p",
-    "web": "https://www.keyplay.es"
+    "web": "https://www.keyplay.es",
+    "imatgeUrl": "https://i.imgur.com/Dk1JEWC.jpeg"
   },
   {
     "id": "er-027",
@@ -518,7 +529,7 @@
     "localitzacio": "Carrer del Guadalhorce, 5, 08223 Terrassa, Barcelona",
     "lat": 41.5608,
     "lng": 2.0095,
-    "data": "",
+    "data": "04/01/2026",
     "dificultat": "",
     "decoracio": null,
     "gameMaster": null,
@@ -529,7 +540,8 @@
     "tematica1": "Tensió",
     "tematica2": "Crim",
     "preu": "des de 21€/p",
-    "web": "https://rowkaescaperoom.com"
+    "web": "https://rowkaescaperoom.com",
+    "imatgeUrl": "https://i.imgur.com/IdwkhFe.jpeg"
   },
   {
     "id": "er-029",
@@ -748,10 +760,10 @@
     "lng": 2.2985964,
     "data": "06/03/2026",
     "dificultat": "",
-    "decoracio": 1,
-    "gameMaster": 1,
-    "proves": 1,
-    "puntuacio": 1,
+    "decoracio": null,
+    "gameMaster": null,
+    "proves": null,
+    "puntuacio": null,
     "comentaris": "",
     "participants": "",
     "tematica1": "Crim",
@@ -1582,7 +1594,7 @@
     "localitzacio": "Carrer Jules Verne, 12, 08402 Granollers, Barcelona",
     "lat": 41.607,
     "lng": 2.287,
-    "data": "",
+    "data": "25/03/2026",
     "dificultat": "★★★★",
     "decoracio": 5,
     "gameMaster": 5,
@@ -1593,7 +1605,8 @@
     "tematica1": "Terror",
     "tematica2": "Misteri",
     "preu": "des de 18€/p",
-    "web": "https://escaperoos.es/escape-room/profana_e71724"
+    "web": "https://escaperoos.es/escape-room/profana_e71724",
+    "imatgeUrl": "https://i.imgur.com/UPkVdDZ.jpeg"
   },
   {
     "id": "er-085",
@@ -1639,14 +1652,14 @@
     "localitzacio": "Carrer Rioja, 22, 08521 Les Franqueses del Vallès, Barcelona",
     "lat": 41.6217787,
     "lng": 2.2985964,
-    "data": "",
+    "data": "20/06/2026",
     "dificultat": "",
     "decoracio": null,
     "gameMaster": null,
     "proves": null,
     "puntuacio": null,
     "comentaris": "",
-    "participants": "",
+    "participants": "Cristina Xamo Sergi",
     "tematica1": "Terror",
     "tematica2": "Comèdia",
     "preu": "des de 25€/p",
