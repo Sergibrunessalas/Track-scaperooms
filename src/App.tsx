@@ -59,6 +59,39 @@ export default function App() {
           await batch.commit();
           console.log('[Firebase] Migració empresa completada.');
         }
+
+        // Migració Sergi: mou valoracions de l'índex 0 a la posició real del Sergi
+        const needsSergiMigration = snap.docs.filter((d) => {
+          const room = normalizeRoom(d.data());
+          const parts = room.participants.trim().split(/\s+/).filter(Boolean);
+          const sergiIdx = parts.findIndex((p) => p.toLowerCase() === 'sergi');
+          if (sergiIdx <= 0) return false;
+          const r0 = room.ratings[0] ?? { decoracio: null, gameMaster: null, proves: null };
+          const hasData0 = r0.decoracio != null || r0.gameMaster != null || r0.proves != null;
+          if (!hasData0) return false;
+          const rS = room.ratings[sergiIdx] ?? { decoracio: null, gameMaster: null, proves: null };
+          return rS.decoracio == null && rS.gameMaster == null && rS.proves == null;
+        });
+        if (needsSergiMigration.length > 0) {
+          console.log(`[Firebase] Migrant valoracions al Sergi en ${needsSergiMigration.length} rooms...`);
+          const batch = writeBatch(db);
+          needsSergiMigration.forEach((d) => {
+            const room = normalizeRoom(d.data());
+            const parts = room.participants.trim().split(/\s+/).filter(Boolean);
+            const sergiIdx = parts.findIndex((p) => p.toLowerCase() === 'sergi');
+            const n = Math.max(room.dificultats.length, sergiIdx + 1);
+            const dificultats = Array.from({ length: n }, (_, i) => room.dificultats[i] ?? '');
+            const ratings = Array.from({ length: n }, (_, i) => room.ratings[i] ?? { decoracio: null, gameMaster: null, proves: null });
+            dificultats[sergiIdx] = dificultats[0];
+            dificultats[0] = '';
+            ratings[sergiIdx] = { ...ratings[0] };
+            ratings[0] = { decoracio: null, gameMaster: null, proves: null };
+            const puntuacio = calcPuntuacio(ratings);
+            batch.set(doc(db, ROOMS_COL, room.id), { ...room, dificultats, ratings, puntuacio });
+          });
+          await batch.commit();
+          console.log('[Firebase] Migració Sergi completada.');
+        }
       }
 
       unsub = onSnapshot(collection(db, ROOMS_COL), (snapshot) => {
