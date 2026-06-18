@@ -250,11 +250,23 @@ export default function App() {
                   style={{ width: '100%', flex: 1, objectFit: 'cover', display: 'block', minHeight: 0 }}
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               )}
-              <div style={{ flexShrink: 0, padding: '5px 8px' }}>
-                <p style={{ margin: '0 0 1px', fontSize: '10px', fontWeight: 700, color: '#ffffff', lineHeight: 1.2, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' as const }}>
+              <div style={{
+                flexShrink: canEdit ? 0 : 1,
+                flex: canEdit ? undefined : 1,
+                padding: canEdit ? '5px 8px' : '8px 10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}>
+                <p style={{ margin: '0 0 2px', fontSize: canEdit ? '10px' : '13px', fontWeight: 700, color: '#ffffff', lineHeight: 1.25, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: canEdit ? 1 : 2, WebkitBoxOrient: 'vertical' as const }}>
                   {room.nom}
                 </p>
-                <p style={{ margin: 0, fontSize: '11px', color: '#fef08a', fontWeight: 800 }}>
+                {!canEdit && room.empresa && (
+                  <p style={{ margin: '0 0 4px', fontSize: '9px', color: 'rgba(255,255,255,0.5)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                    {room.empresa}
+                  </p>
+                )}
+                <p style={{ margin: 0, fontSize: canEdit ? '11px' : '13px', color: '#fef08a', fontWeight: 800 }}>
                   {starsFromScore(room.puntuacio)}
                   <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginLeft: '2px' }}>
                     {room.puntuacio?.toFixed(1)}
