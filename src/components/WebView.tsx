@@ -37,9 +37,9 @@ export default function WebView({ rooms }: Props) {
         style={{
           minHeight: '100%',
           backgroundImage: bgImage ? `url(${bgImage})` : undefined,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'local',
+          backgroundSize: 'contain',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
           backgroundColor: '#111',
         }}
       >
