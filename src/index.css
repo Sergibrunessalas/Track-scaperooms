@@ -39,14 +39,16 @@ html, body, #root {
   background: #9ca3af;
 }
 
-/* Ad bar glow animation */
+/* Ad bar animations — pampalluges (parpadeig de llum de neó) */
 @keyframes ad-glow {
   0%, 100% { box-shadow: 4px 0 25px rgba(234, 73, 10, 0.6), inset -3px 0 20px rgba(255, 220, 0, 0.15); }
-  50%       { box-shadow: 4px 0 45px rgba(220, 38, 38, 0.8), inset -3px 0 30px rgba(255, 220, 0, 0.30); }
+  50%       { box-shadow: 4px 0 50px rgba(220, 38, 38, 0.9), inset -3px 0 30px rgba(255, 220, 0, 0.35); }
 }
-@keyframes ad-shine {
-  0%   { background-position: 0% 0%; }
-  100% { background-position: 0% 200%; }
+@keyframes ad-flicker {
+  0%,  4%,  8%,  44%,  48%, 73%,  79%,  100% { filter: brightness(1); }
+  2%,  6%              { filter: brightness(0.15); }
+  46%                  { filter: brightness(0.25); }
+  75%, 77%             { filter: brightness(0.1); }
 }
 .ad-bar {
   background: linear-gradient(
@@ -60,6 +62,5 @@ html, body, #root {
     #dc2626 82%,
     #b91c1c 100%
   );
-  background-size: 100% 200%;
-  animation: ad-glow 2.8s ease-in-out infinite, ad-shine 5s linear infinite;
+  animation: ad-glow 3s ease-in-out infinite, ad-flicker 5s linear infinite;
 }

@@ -10,7 +10,7 @@ import StatsBar from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
-import { EscapeRoom, calcPuntuacio, normalizeRoom } from './types';
+import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
 const ROOMS_COL = 'rooms';
@@ -176,6 +176,11 @@ export default function App() {
     e.target.value = '';
   };
 
+  const topRooms = useMemo(
+    () => rooms.filter(r => r.puntuacio !== null).sort((a, b) => (b.puntuacio ?? 0) - (a.puntuacio ?? 0)).slice(0, 3),
+    [rooms]
+  );
+
   const empreses = useMemo(
     () => [...new Set(rooms.map((r) => r.empresa).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ca')),
     [rooms]
@@ -199,9 +204,46 @@ export default function App() {
     <div className="h-full flex flex-row font-inter overflow-hidden">
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col items-center justify-center gap-3 py-6">
-        <p className="text-[10px] text-white/70 uppercase tracking-widest select-none font-bold"
-          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col items-center gap-3 py-4 px-2 overflow-hidden">
+        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.75)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+          ⭐ Top Escape Rooms
+        </p>
+
+        {topRooms.map(room => (
+          <a
+            key={room.id}
+            href={room.web || undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: 'block', width: '100%', borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.28)', border: '1px solid rgba(255,255,255,0.22)', textDecoration: 'none', cursor: room.web ? 'pointer' : 'default', transition: 'transform 0.15s, box-shadow 0.15s' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(0,0,0,0.4)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
+          >
+            {room.imatgeUrl && (
+              <img
+                src={room.imatgeUrl}
+                alt={room.nom}
+                style={{ width: '100%', height: '64px', objectFit: 'cover', display: 'block' }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+            )}
+            <div style={{ padding: '6px 8px' }}>
+              <p style={{ fontSize: '11px', fontWeight: 700, color: 'white', lineHeight: 1.25, marginBottom: '2px', textShadow: '0 1px 4px rgba(0,0,0,0.6)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                {room.nom}
+              </p>
+              {room.empresa && (
+                <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.6)', marginBottom: '4px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                  {room.empresa}
+                </p>
+              )}
+              <p style={{ fontSize: '13px', color: '#fef08a', fontWeight: 700, margin: 0, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>
+                {starsFromScore(room.puntuacio)} <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{room.puntuacio?.toFixed(1)}</span>
+              </p>
+            </div>
+          </a>
+        ))}
+
+        <p style={{ fontSize: '8px', color: 'rgba(255,255,255,0.35)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 'auto' }}>
           Espai publicitari
         </p>
       </div>
