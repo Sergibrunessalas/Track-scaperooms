@@ -204,46 +204,52 @@ export default function App() {
     <div className="h-full flex flex-row font-inter overflow-hidden">
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col items-center gap-3 py-4 px-2 overflow-hidden">
-        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.75)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
-          ⭐ Top Escape Rooms
-        </p>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col items-center gap-2.5 py-4 px-2.5 overflow-hidden">
 
+        {/* Capçalera */}
+        <div style={{ width: '100%', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: '9px', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#fef08a', textShadow: '0 0 14px rgba(254,240,138,0.95)' }}>
+            ★ TOP VALORATS ★
+          </p>
+        </div>
+
+        {/* Targetes dels millors escape rooms */}
         {topRooms.map(room => (
           <a
             key={room.id}
             href={room.web || undefined}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ display: 'block', width: '100%', borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.28)', border: '1px solid rgba(255,255,255,0.22)', textDecoration: 'none', cursor: room.web ? 'pointer' : 'default', transition: 'transform 0.15s, box-shadow 0.15s' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(0,0,0,0.4)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
+            style={{ display: 'block', width: '100%', borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', boxShadow: '0 3px 12px rgba(0,0,0,0.35)', transition: 'transform 0.18s ease, box-shadow 0.18s ease', cursor: room.web ? 'pointer' : 'default' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.04)'; el.style.boxShadow = '0 6px 22px rgba(0,0,0,0.55)'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1)'; el.style.boxShadow = '0 3px 12px rgba(0,0,0,0.35)'; }}
           >
             {room.imatgeUrl && (
-              <img
-                src={room.imatgeUrl}
-                alt={room.nom}
-                style={{ width: '100%', height: '64px', objectFit: 'cover', display: 'block' }}
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
-              />
+              <img src={room.imatgeUrl} alt={room.nom}
+                style={{ width: '100%', height: '70px', objectFit: 'cover', display: 'block' }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
             )}
-            <div style={{ padding: '6px 8px' }}>
-              <p style={{ fontSize: '11px', fontWeight: 700, color: 'white', lineHeight: 1.25, marginBottom: '2px', textShadow: '0 1px 4px rgba(0,0,0,0.6)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+            <div style={{ padding: '7px 9px' }}>
+              <p style={{ margin: '0 0 2px', fontSize: '11px', fontWeight: 700, color: '#ffffff', lineHeight: 1.25, textShadow: '0 1px 5px rgba(0,0,0,0.7)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
                 {room.nom}
               </p>
               {room.empresa && (
-                <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.6)', marginBottom: '4px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <p style={{ margin: '0 0 5px', fontSize: '9px', color: 'rgba(255,255,255,0.52)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                   {room.empresa}
                 </p>
               )}
-              <p style={{ fontSize: '13px', color: '#fef08a', fontWeight: 700, margin: 0, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>
-                {starsFromScore(room.puntuacio)} <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{room.puntuacio?.toFixed(1)}</span>
+              <p style={{ margin: 0, fontSize: '13px', color: '#fef08a', fontWeight: 800, textShadow: '0 0 10px rgba(254,240,138,0.7)' }}>
+                {starsFromScore(room.puntuacio)}
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', fontWeight: 500, marginLeft: '4px' }}>
+                  {room.puntuacio?.toFixed(1)}
+                </span>
               </p>
             </div>
           </a>
         ))}
 
-        <p style={{ fontSize: '8px', color: 'rgba(255,255,255,0.35)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 'auto' }}>
+        {/* Text vertical al peu */}
+        <p style={{ marginTop: 'auto', fontSize: '8px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)', writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
           Espai publicitari
         </p>
       </div>
