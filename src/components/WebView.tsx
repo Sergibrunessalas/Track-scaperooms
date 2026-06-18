@@ -6,7 +6,6 @@ import { EscapeRoom, starsFromScore } from '../types';
 
 const ACCENT = '#e8490a';
 const GOLD   = '#eab308';
-const SCORE_COLORS = ['#dc2626', '#f97316', '#eab308', '#84cc16', '#22c55e'];
 
 interface Props { rooms: EscapeRoom[]; }
 
@@ -28,15 +27,6 @@ export default function WebView({ rooms }: Props) {
     });
     return Object.entries(map).sort().map(([year, count]) => ({ year, count }));
   }, [rooms]);
-
-  const scoreDist = useMemo(() => {
-    const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    rated.forEach(r => {
-      const s = Math.min(5, Math.max(1, Math.round(r.puntuacio!)));
-      counts[s]++;
-    });
-    return [5, 4, 3, 2, 1].map(s => ({ label: '★'.repeat(s), count: counts[s], star: s }));
-  }, [rated]);
 
   const bestYear = perYear.length ? perYear.reduce((b, y) => y.count > b.count ? y : b) : null;
   const bgImage = bestRoom?.imatgeUrl ?? '';
@@ -65,45 +55,25 @@ export default function WebView({ rooms }: Props) {
               <KpiCard icon="⏳" label="Pendents" value={rooms.length - rated.length} />
             </div>
 
-            {/* Gràfiques */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-              {perYear.length > 0 && (
-                <GlassCard title="Rooms per any">
-                  <ResponsiveContainer width="100%" height={190}>
-                    <BarChart data={perYear} barCategoryGap="35%">
-                      <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
-                      <Tooltip
-                        formatter={(v) => [v, 'Rooms']}
-                        contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
-                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                      />
-                      <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-                        {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </GlassCard>
-              )}
-
-              <GlassCard title="Distribució de puntuacions">
+            {/* Rooms per any */}
+            {perYear.length > 0 && (
+              <GlassCard title="Rooms per any">
                 <ResponsiveContainer width="100%" height={190}>
-                  <BarChart data={scoreDist} layout="vertical" barCategoryGap="25%">
-                    <XAxis type="number" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
-                    <YAxis type="category" dataKey="label" tick={{ fontSize: 14 }} axisLine={false} tickLine={false} width={55} />
+                  <BarChart data={perYear} barCategoryGap="35%">
+                    <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
                     <Tooltip
                       formatter={(v) => [v, 'Rooms']}
                       contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
                       cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                     />
-                    <Bar dataKey="count" radius={[0, 6, 6, 0]}>
-                      {scoreDist.map((_, i) => <Cell key={i} fill={SCORE_COLORS[4 - i]} />)}
+                    <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                      {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </GlassCard>
-            </div>
+            )}
 
             {/* Rècords */}
             <GlassCard title="🏆 Rècords del grup">
