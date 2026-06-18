@@ -12,6 +12,7 @@ interface RoomFormProps {
 
 const BLANK: Omit<EscapeRoom, 'id'> = {
   nom: '',
+  empresa: '',
   localitzacio: '',
   lat: null,
   lng: null,
@@ -211,6 +212,17 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 value={form.nom}
                 onChange={(e) => set('nom', e.target.value)}
                 placeholder="Nom de l'escape room"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Companyia</label>
+              <input
+                type="text"
+                value={form.empresa}
+                onChange={(e) => set('empresa', e.target.value)}
+                placeholder="Nom de l'empresa que gestiona el local"
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
               />
             </div>

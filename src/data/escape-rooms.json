@@ -1,5 +1,6 @@
 [
   {
+    "empresa": "",
     "id": "er-001",
     "nom": "La Taberna",
     "localitzacio": "Carrer del Llobregat, 4B, Local 11, 08223 Terrassa, Barcelona",
@@ -44,6 +45,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-002",
     "nom": "Exodus",
     "localitzacio": "Passatge Toledo, 6-8, 08014 Barcelona",
@@ -88,6 +90,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-003",
     "nom": "La iniciativa",
     "localitzacio": "Carrer Sant Josep de Calassanç, 125, 08402 Granollers, Barcelona",
@@ -131,6 +134,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-004",
     "nom": "Bajo cero",
     "localitzacio": "Carrer de Casp, 9, 08204 Sabadell",
@@ -174,6 +178,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-005",
     "nom": "Troya",
     "localitzacio": "Passeig de Santa Coloma, 106, 08030 Barcelona",
@@ -211,6 +216,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-006",
     "nom": "Seven",
     "localitzacio": "Carrer Rioja, 22, 08521 Les Franqueses del Vallès, Barcelona",
@@ -255,6 +261,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-007",
     "nom": "Siro 3.0",
     "localitzacio": "Ronda Mossèn Jacint Verdaguer, 69, 08304 Mataró, Barcelona",
@@ -299,6 +306,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-008",
     "nom": "La Mansión Odisea",
     "localitzacio": "Carrer de Volta, 233, 08224 Terrassa, Barcelona",
@@ -342,6 +350,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-009",
     "nom": "Origen",
     "localitzacio": "Carrer de Llull, 256, 08019 Barcelona",
@@ -385,6 +394,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-010",
     "nom": "Scubick-Doo",
     "localitzacio": "Carrer de la Cooperativa, 77, Local 2, 08302 Mataró, Barcelona",
@@ -428,6 +438,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-011",
     "nom": "La entrevista",
     "localitzacio": "Carrer de la Cooperativa, 77, Local 1, 08302 Mataró, Barcelona",
@@ -472,6 +483,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-012",
     "nom": "Awaken",
     "localitzacio": "Carrer Alcalá de Guadaira, 20, 08020 Barcelona",
@@ -497,6 +509,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-013",
     "nom": "Bajo 2ª",
     "localitzacio": "Carretera de la Bordeta, 62-68, 08014 Barcelona",
@@ -522,6 +535,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-014",
     "nom": "Código rojo",
     "localitzacio": "Carrer de Nicolau Talló, 108, 08224 Terrassa, Barcelona",
@@ -566,6 +580,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-015",
     "nom": "Blasfemia",
     "localitzacio": "Carrer del Padró, 27, 08272 Sant Fruitós de Bages, Barcelona",
@@ -591,6 +606,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-016",
     "nom": "Casino Royal",
     "localitzacio": "Carrer Sant Antoni Maria Claret, 258, Local, 08041 Barcelona",
@@ -629,6 +645,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-017",
     "nom": "Diamante de almas",
     "localitzacio": "Carrer Can Castells, 43, 08110 Montcada i Reixac, Barcelona",
@@ -654,6 +671,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-018",
     "nom": "El exorcista",
     "localitzacio": "Carrer de Virgili, 26, 08030 Barcelona",
@@ -679,6 +697,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-019",
     "nom": "El invernadero",
     "localitzacio": "Carrer de Joan Riera, 32, 08042 Barcelona",
@@ -705,6 +724,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-020",
     "nom": "Evermore",
     "localitzacio": "Carrer de Cervantes, 8, 08221 Terrassa, Barcelona",
@@ -730,6 +750,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-021",
     "nom": "Fugitivos",
     "localitzacio": "Passatge Posoltega, 11, 08030 Barcelona",
@@ -755,6 +776,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-022",
     "nom": "Katrina",
     "localitzacio": "Carrer de la Serra del Montsec, 22, 08950 Esplugues de Llobregat, Barcelona",
@@ -799,6 +821,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-023",
     "nom": "La casa",
     "localitzacio": "Olvan, 08617 Berga, Barcelona",
@@ -843,6 +866,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-024",
     "nom": "La isla de las muñecas",
     "localitzacio": "Carrer del Padró, 27, 08272 Sant Fruitós de Bages, Barcelona",
@@ -868,6 +892,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-025",
     "nom": "Lightshift turno de noche",
     "localitzacio": "Carrer de Casp, 8, 08204 Sabadell",
@@ -893,6 +918,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-026",
     "nom": "Los mundos de Alicia",
     "localitzacio": "Passeig de la Muntanya, 112, 08402 Granollers, Barcelona",
@@ -937,6 +963,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-027",
     "nom": "Malum",
     "localitzacio": "Carretera del Mig, 92, 08907 L'Hospitalet de Llobregat, Barcelona",
@@ -962,6 +989,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-028",
     "nom": "Organum",
     "localitzacio": "Carrer del Guadalhorce, 5, 08223 Terrassa, Barcelona",
@@ -1000,6 +1028,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-029",
     "nom": "Outline",
     "localitzacio": "Avinguda del Parc de Can Mercader, 5, 08940 Cornellà de Llobregat, Barcelona",
@@ -1043,6 +1072,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-030",
     "nom": "Randall's party",
     "localitzacio": "Carrer de Joan Riera, 32, 08042 Barcelona",
@@ -1086,6 +1116,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-031",
     "nom": "La reina roja",
     "localitzacio": "Carrer de Casp, 8, 08204 Sabadell",
@@ -1129,6 +1160,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-032",
     "nom": "Achijira",
     "localitzacio": "Carrer Alcalá de Guadaira, 20, 08020 Barcelona",
@@ -1154,6 +1186,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-033",
     "nom": "After-Party",
     "localitzacio": "Passatge del Patriarca, 4-10D, 08002 Barcelona",
@@ -1179,6 +1212,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-034",
     "nom": "Alkatraz Classic",
     "localitzacio": "Carrer de Llull, 256, 08005 Barcelona",
@@ -1204,6 +1238,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-035",
     "nom": "Alkatraz Medieval",
     "localitzacio": "Carrer de Llull, 256, 08005 Barcelona",
@@ -1229,6 +1264,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-036",
     "nom": "Biohazard",
     "localitzacio": "Carrer de la Indústria, 268, 08026 Barcelona",
@@ -1254,6 +1290,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-037",
     "nom": "Casanova: La Fuga de Barcelona",
     "localitzacio": "Carrer de Sant Antoni Maria Claret, 100, 08025 Barcelona",
@@ -1279,6 +1316,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-038",
     "nom": "Catalepsia",
     "localitzacio": "Carrer de la Indústria, 268, 08026 Barcelona",
@@ -1304,6 +1342,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-039",
     "nom": "Chernobyl 2.0",
     "localitzacio": "Carrer de los Castillejos, 287, 08025 Barcelona",
@@ -1329,6 +1368,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-040",
     "nom": "Crupier",
     "localitzacio": "Carrer Rioja, 22, 08521 Les Franqueses del Vallès, Barcelona",
@@ -1354,6 +1394,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-041",
     "nom": "Cybercity 2049",
     "localitzacio": "Carrer de Ponent, 18, 08922 Santa Coloma de Gramenet, Barcelona",
@@ -1379,6 +1420,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-042",
     "nom": "Damn Fame!",
     "localitzacio": "Carrer de Trafalgar, 17, 08010 Barcelona",
@@ -1404,6 +1446,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-043",
     "nom": "El 11S",
     "localitzacio": "Carrer Travessera, 10, 08940 Cornellà de Llobregat, Barcelona",
@@ -1429,6 +1472,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-044",
     "nom": "El Arca de Dalí",
     "localitzacio": "Carrer de Sant Antoni Maria Claret, 100, 08025 Barcelona",
@@ -1454,6 +1498,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-045",
     "nom": "El Bar",
     "localitzacio": "Carrer de Bonaventura Pollés, 21, 08014 Barcelona",
@@ -1479,6 +1524,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-046",
     "nom": "El Diario de Miko",
     "localitzacio": "Carrer Sant Antoni Maria Claret, 258, 08041 Barcelona",
@@ -1504,6 +1550,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-047",
     "nom": "El Final del Túnel",
     "localitzacio": "Carrer Antic de Bofarull, 15, 08026 Barcelona",
@@ -1529,6 +1576,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-048",
     "nom": "El Laberinto del Tiempo",
     "localitzacio": "Passatge del Patriarca, 4-10D, 08002 Barcelona",
@@ -1554,6 +1602,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-049",
     "nom": "El Misterio de Gaudí (Sala 1)",
     "localitzacio": "Carrer de Nàpols, 255, 08025 Barcelona",
@@ -1579,6 +1628,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-050",
     "nom": "El Misterio de la Mansión (Sala 1)",
     "localitzacio": "Avinguda Diagonal, 111, 08005 Barcelona",
@@ -1604,6 +1654,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-051",
     "nom": "El Misterio de la Mansión (Sala 2)",
     "localitzacio": "Avinguda Diagonal, 111, 08005 Barcelona",
@@ -1629,6 +1680,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-052",
     "nom": "El Projecte de la Bruixa",
     "localitzacio": "Passatge de Nogués, 8, 08025 Barcelona",
@@ -1654,6 +1706,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-053",
     "nom": "El Tesoro de Barcelona",
     "localitzacio": "Plaça Antoni Maura, 08003 Barcelona",
@@ -1679,6 +1732,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-054",
     "nom": "El Virus",
     "localitzacio": "Carrer de les Acàcies, 38, 08027 Barcelona",
@@ -1704,6 +1758,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-055",
     "nom": "Enigmik",
     "localitzacio": "Carrer del Rosselló, 508, 08026 Barcelona",
@@ -1729,6 +1784,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-056",
     "nom": "Escapestory",
     "localitzacio": "Carrer de Sant Narcís, 61, 08030 Barcelona",
@@ -1754,6 +1810,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-057",
     "nom": "Escola de Lladres",
     "localitzacio": "Carrer de Nàpols, 255, 08025 Barcelona",
@@ -1779,6 +1836,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-058",
     "nom": "Espies de Gala: Missió Extrem",
     "localitzacio": "Carrer de Balmes, 107, 08008 Barcelona",
@@ -1804,6 +1862,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-059",
     "nom": "Galería de Cadáveres",
     "localitzacio": "Carrer Sant Antoni Maria Claret, 258, 08041 Barcelona",
@@ -1829,6 +1888,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-060",
     "nom": "Gangsters: money, guns and whiskey",
     "localitzacio": "Carrer de Girona, 27, 08010 Barcelona",
@@ -1854,6 +1914,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-061",
     "nom": "Jigsaw",
     "localitzacio": "Carrer de la Indústria, 268, 08026 Barcelona",
@@ -1879,6 +1940,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-062",
     "nom": "Jumanji - The Adventure",
     "localitzacio": "Carrer de Balmes, 107, 08008 Barcelona",
@@ -1904,6 +1966,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-063",
     "nom": "Jurásico",
     "localitzacio": "Carrer de Badajoz, 49, 08005 Barcelona",
@@ -1929,6 +1992,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-064",
     "nom": "K.O.N.G. Protocol",
     "localitzacio": "Carrer de Ponent, 18, 08922 Santa Coloma de Gramenet, Barcelona",
@@ -1954,6 +2018,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-065",
     "nom": "La Cámara Acorazada",
     "localitzacio": "Avinguda Diagonal, 111, 08005 Barcelona",
@@ -1979,6 +2044,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-066",
     "nom": "La Casa Paranormal",
     "localitzacio": "Carrer de los Castillejos, 287, 08025 Barcelona",
@@ -2004,6 +2070,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-067",
     "nom": "La Ducha Fría",
     "localitzacio": "Carrer Antic de Bofarull, 15, 08026 Barcelona",
@@ -2029,6 +2096,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-068",
     "nom": "La Fortaleza",
     "localitzacio": "Passatge Posoltega, 11, 08030 Barcelona",
@@ -2054,6 +2122,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-069",
     "nom": "La Fortaleza 2.0",
     "localitzacio": "Passatge Posoltega, 11, 08030 Barcelona",
@@ -2079,6 +2148,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-070",
     "nom": "La Fortaleza Kids",
     "localitzacio": "Passatge Posoltega, 11, 08030 Barcelona",
@@ -2104,6 +2174,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-071",
     "nom": "La Historia de Charlotte",
     "localitzacio": "Carrer de les Acàcies, 23, 08027 Barcelona",
@@ -2129,6 +2200,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-072",
     "nom": "La Nube",
     "localitzacio": "Carrer de la Legalitat, 93, 08024 Barcelona",
@@ -2154,6 +2226,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-073",
     "nom": "La Toma de Control",
     "localitzacio": "Carrer Antic de Bofarull, 15, 08026 Barcelona",
@@ -2165,7 +2238,7 @@
     "participants": "",
     "tematica1": "Terror",
     "tematica2": "Tensió",
-    "preu": "des de 13€/p",
+    "preu": "",
     "web": "https://prison-experience.com/en/the-takeover/",
     "dificultats": [
       ""
@@ -2179,6 +2252,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-074",
     "nom": "La Última Función (Sala 1)",
     "localitzacio": "Carrer de Sant Antoni Maria Claret, 100, 08025 Barcelona",
@@ -2204,6 +2278,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-075",
     "nom": "La Última Función (Sala 2)",
     "localitzacio": "Carrer de Sant Antoni Maria Claret, 100, 08025 Barcelona",
@@ -2229,6 +2304,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-076",
     "nom": "La Vampira de Barcelona (Sala 1)",
     "localitzacio": "Carrer de Nàpols, 255, 08025 Barcelona",
@@ -2254,6 +2330,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-077",
     "nom": "La Vampira de Barcelona (Sala 2)",
     "localitzacio": "Carrer de Nàpols, 255, 08025 Barcelona",
@@ -2279,6 +2356,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-078",
     "nom": "Misió Gaudí",
     "localitzacio": "Passatge del Patriarca, 4-10D, 08002 Barcelona",
@@ -2304,6 +2382,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-079",
     "nom": "Misión S.W.A.T.",
     "localitzacio": "Carrer Travessera, 10, 08940 Cornellà de Llobregat, Barcelona",
@@ -2329,6 +2408,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-080",
     "nom": "Ouija",
     "localitzacio": "Carrer de la Indústria, 268, 08026 Barcelona",
@@ -2354,6 +2434,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-081",
     "nom": "Picadero Motel",
     "localitzacio": "Passatge de Nogués, 8, 08025 Barcelona",
@@ -2379,6 +2460,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-082",
     "nom": "Poison",
     "localitzacio": "Carrer de la Cooperativa, 4, 08302 Mataró, Barcelona",
@@ -2404,6 +2486,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-083",
     "nom": "Prisoners of Alkaban",
     "localitzacio": "Carrer de Trafalgar, 17, 08010 Barcelona",
@@ -2429,6 +2512,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-084",
     "nom": "Profana",
     "localitzacio": "Carrer Jules Verne, 12, 08402 Granollers, Barcelona",
@@ -2473,6 +2557,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-085",
     "nom": "Servei Secret",
     "localitzacio": "Carrer de l'Arc de Sant Silvestre, 3, 08003 Barcelona",
@@ -2498,6 +2583,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-086",
     "nom": "Sherlock Holmes vs London Devil",
     "localitzacio": "Carrer de Trafalgar, 17, 08010 Barcelona",
@@ -2523,6 +2609,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-087",
     "nom": "Sustos S.A.",
     "localitzacio": "Carrer Rioja, 22, 08521 Les Franqueses del Vallès, Barcelona",
@@ -2560,6 +2647,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-088",
     "nom": "The Dungeon: One last round",
     "localitzacio": "Carrer de Girona, 27, 08010 Barcelona",
@@ -2585,6 +2673,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-089",
     "nom": "The Narcos",
     "localitzacio": "Carrer de Bonaventura Pollés, 21, 08014 Barcelona",
@@ -2610,6 +2699,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-090",
     "nom": "The Z Lab",
     "localitzacio": "Carrer de los Castillejos, 287, 08025 Barcelona",
@@ -2635,6 +2725,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-091",
     "nom": "Tras el Espejo",
     "localitzacio": "Carrer de Sant Antoni Maria Claret, 100, 08025 Barcelona",
@@ -2660,6 +2751,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-092",
     "nom": "Ulysses Spaceship",
     "localitzacio": "Carrer de Trafalgar, 17, 08010 Barcelona",
@@ -2685,6 +2777,7 @@
     ]
   },
   {
+    "empresa": "",
     "id": "er-093",
     "nom": "Vault 27",
     "localitzacio": "Carrer de Girona, 27, 08010 Barcelona",

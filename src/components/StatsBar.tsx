@@ -1,4 +1,4 @@
-import { Search, X, Tag } from 'lucide-react';
+import { Search, X, Tag, Building2 } from 'lucide-react';
 import { TEMATIQUES } from '../types';
 
 interface StatsBarProps {
@@ -7,6 +7,8 @@ interface StatsBarProps {
   pendents: number;
   searchQuery: string;
   onSearchChange: (v: string) => void;
+  searchEmpresa: string;
+  onSearchEmpresaChange: (v: string) => void;
   filterTematica: string;
   onFilterTematicaChange: (v: string) => void;
   hasFilters: boolean;
@@ -14,22 +16,17 @@ interface StatsBarProps {
 }
 
 export default function StatsBar({
-  total,
-  valorats,
-  pendents,
-  searchQuery,
-  onSearchChange,
-  filterTematica,
-  onFilterTematicaChange,
-  hasFilters,
-  onClearFilters,
+  total, valorats, pendents,
+  searchQuery, onSearchChange,
+  searchEmpresa, onSearchEmpresaChange,
+  filterTematica, onFilterTematicaChange,
+  hasFilters, onClearFilters,
 }: StatsBarProps) {
   return (
     <div className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 shadow-sm">
 
       {/* Fila superior: stats + llegenda */}
       <div className="flex items-center gap-3">
-        {/* Total */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-2xl md:text-3xl font-black font-montserrat text-gray-900 leading-none">{total}</span>
           <div>
@@ -40,36 +37,28 @@ export default function StatsBar({
 
         <div className="h-5 w-px bg-gray-200 flex-shrink-0" />
 
-        {/* Llegenda */}
         <div className="flex items-center gap-3 text-xs text-gray-500 flex-shrink-0">
           <div className="flex items-center gap-1.5">
-            <div
-              className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
-              style={{ background: '#eab308', borderRadius: '50% 50% 50% 0', transform: 'rotate(-45deg)' }}
-            />
+            <div className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
+              style={{ background: '#eab308', borderRadius: '50% 50% 50% 0', transform: 'rotate(-45deg)' }} />
             <span className="hidden sm:inline">Valorat</span>
             <span className="font-bold text-gray-700">{valorats}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div
-              className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
-              style={{ background: '#dc2626', borderRadius: '50% 50% 50% 0', transform: 'rotate(-45deg)' }}
-            />
+            <div className="w-3 h-3 border-2 border-white shadow-sm flex-shrink-0"
+              style={{ background: '#dc2626', borderRadius: '50% 50% 50% 0', transform: 'rotate(-45deg)' }} />
             <span className="hidden sm:inline">Pendent</span>
             <span className="font-bold text-gray-700">{pendents}</span>
           </div>
         </div>
 
-        {/* Filtres — en línia en desktop, ocults aquí en mòbil */}
         <div className="hidden md:flex items-center gap-2 ml-auto">
           <div className="h-5 w-px bg-gray-200 flex-shrink-0" />
           <FiltersRow
-            searchQuery={searchQuery}
-            onSearchChange={onSearchChange}
-            filterTematica={filterTematica}
-            onFilterTematicaChange={onFilterTematicaChange}
-            hasFilters={hasFilters}
-            onClearFilters={onClearFilters}
+            searchQuery={searchQuery} onSearchChange={onSearchChange}
+            searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange}
+            filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
+            hasFilters={hasFilters} onClearFilters={onClearFilters}
           />
         </div>
       </div>
@@ -77,46 +66,62 @@ export default function StatsBar({
       {/* Fila inferior: filtres — només en mòbil */}
       <div className="flex md:hidden items-center gap-2 mt-2">
         <FiltersRow
-          searchQuery={searchQuery}
-          onSearchChange={onSearchChange}
-          filterTematica={filterTematica}
-          onFilterTematicaChange={onFilterTematicaChange}
-          hasFilters={hasFilters}
-          onClearFilters={onClearFilters}
+          searchQuery={searchQuery} onSearchChange={onSearchChange}
+          searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange}
+          filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
+          hasFilters={hasFilters} onClearFilters={onClearFilters}
         />
       </div>
-
     </div>
   );
 }
 
+type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>;
+
 function FiltersRow({
   searchQuery, onSearchChange,
+  searchEmpresa, onSearchEmpresaChange,
   filterTematica, onFilterTematicaChange,
   hasFilters, onClearFilters,
-}: Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>) {
+}: FiltersRowProps) {
   return (
     <>
-      <div className="relative flex-1 md:flex-none md:w-40 min-w-0">
+      {/* Cerca per nom */}
+      <div className="relative flex-1 md:flex-none md:w-36 min-w-0">
         <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
         <input
           type="text"
-          placeholder="Cercar…"
+          placeholder="Nom…"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="w-full pl-8 pr-7 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-accent focus:outline-none transition-colors"
         />
         {searchQuery && (
-          <button
-            onClick={() => onSearchChange('')}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-          >
+          <button onClick={() => onSearchChange('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
             <X size={12} />
           </button>
         )}
       </div>
 
-      <div className="relative flex-shrink-0 w-28 md:w-36">
+      {/* Cerca per companyia */}
+      <div className="relative flex-1 md:flex-none md:w-36 min-w-0">
+        <Building2 size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Companyia…"
+          value={searchEmpresa}
+          onChange={(e) => onSearchEmpresaChange(e.target.value)}
+          className="w-full pl-8 pr-7 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-accent focus:outline-none transition-colors"
+        />
+        {searchEmpresa && (
+          <button onClick={() => onSearchEmpresaChange('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <X size={12} />
+          </button>
+        )}
+      </div>
+
+      {/* Filtre temàtica */}
+      <div className="relative flex-shrink-0 w-28 md:w-32">
         <Tag size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
         <select
           value={filterTematica}
@@ -126,17 +131,12 @@ function FiltersRow({
           }`}
         >
           <option value="">Temàtica</option>
-          {TEMATIQUES.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
+          {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
         </select>
       </div>
 
       {hasFilters && (
-        <button
-          onClick={onClearFilters}
-          className="flex items-center gap-1 text-xs text-accent hover:text-accent-dark font-medium transition-colors flex-shrink-0"
-        >
+        <button onClick={onClearFilters} className="flex items-center gap-1 text-xs text-accent hover:text-accent-dark font-medium transition-colors flex-shrink-0">
           <X size={12} />
           <span className="hidden sm:inline">Treure</span>
         </button>

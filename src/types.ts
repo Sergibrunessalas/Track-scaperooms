@@ -7,6 +7,7 @@ export interface ParticipantRating {
 export interface EscapeRoom {
   id: string;
   nom: string;
+  empresa: string;
   localitzacio: string;
   lat: number | null;
   lng: number | null;
@@ -60,6 +61,7 @@ export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
   return {
     id: data.id as string,
     nom: (data.nom as string) ?? '',
+    empresa: (data.empresa as string) ?? '',
     localitzacio: (data.localitzacio as string) ?? '',
     lat: (data.lat as number) ?? null,
     lng: (data.lng as number) ?? null,
