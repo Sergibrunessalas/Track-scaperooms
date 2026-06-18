@@ -24,6 +24,10 @@ html, body, #root {
   margin-top: -1px;
 }
 
+/* Ad bar inner scroll — sense scrollbar visible */
+.ad-scroll::-webkit-scrollbar { display: none; }
+.ad-scroll { scrollbar-width: none; }
+
 /* Scrollbar styling for sidebar */
 .sidebar-scroll::-webkit-scrollbar {
   width: 5px;
