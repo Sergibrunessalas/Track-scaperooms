@@ -58,8 +58,9 @@ export default function WebView({ rooms }: Props) {
             {/* Rooms per any */}
             {perYear.length > 0 && (
               <GlassCard title="Rooms per any">
+                <div style={{ cursor: 'default', userSelect: 'none' }}>
                 <ResponsiveContainer width="100%" height={190}>
-                  <BarChart data={perYear} barCategoryGap="35%">
+                  <BarChart data={perYear} barCategoryGap="35%" style={{ cursor: 'default' }}>
                     <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
                     <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
                     <Tooltip
@@ -72,6 +73,7 @@ export default function WebView({ rooms }: Props) {
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
+                </div>
               </GlassCard>
             )}
 
