@@ -43,30 +43,20 @@ html, body, #root {
   background: #9ca3af;
 }
 
-/* Ad bar — gradient that flows continuously from bottom to top */
-@keyframes ad-flow {
-  0%   { background-position: 0% 100%; }
-  100% { background-position: 0% 0%;   }
-}
+/* Ad bar — gradient fix de groc, taronja i vermell */
 @keyframes ad-glow {
   0%, 100% { box-shadow: 5px 0 28px rgba(234,73,10,0.55); }
   50%       { box-shadow: 5px 0 55px rgba(220,38,38,0.88); }
 }
 
-/* Gradient simètric: groc→vermell→groc, perquè el bucle sigui perfecte sense talls */
 .ad-bar {
   background: linear-gradient(
-    180deg,
+    160deg,
     #fef08a  0%,
-    #facc15 10%,
-    #f97316 25%,
-    #ea580c 38%,
-    #dc2626 50%,
-    #ea580c 62%,
-    #f97316 75%,
-    #facc15 90%,
-    #fef08a 100%
+    #f97316 30%,
+    #ea580c 55%,
+    #dc2626 80%,
+    #b91c1c 100%
   );
-  background-size: 100% 200%;
-  animation: ad-flow 6s linear infinite, ad-glow 3.5s ease-in-out infinite;
+  animation: ad-glow 3.5s ease-in-out infinite;
 }
