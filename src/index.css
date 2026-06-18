@@ -24,6 +24,12 @@ html, body, #root {
   margin-top: -1px;
 }
 
+/* Gràfiques: forçar cursor per defecte a tots els elements fills */
+.chart-no-cursor,
+.chart-no-cursor * {
+  cursor: default !important;
+}
+
 /* Ad bar inner scroll — sense scrollbar visible */
 .ad-scroll::-webkit-scrollbar { display: none; }
 .ad-scroll { scrollbar-width: none; }
