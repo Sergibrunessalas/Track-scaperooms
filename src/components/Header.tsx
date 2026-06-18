@@ -1,13 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Download, Upload, MoreHorizontal } from 'lucide-react';
+import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut } from 'lucide-react';
+import type { User } from 'firebase/auth';
 
 interface HeaderProps {
+  canEdit: boolean;
+  user: User | null;
   onAddRoom: () => void;
+  onLogin: () => void;
+  onLogout: () => void;
   onExport: () => void;
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
+export default function Header({ canEdit, user, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -44,41 +49,71 @@ export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-2 ml-2">
-          {/* Menú desplegable per exportar/importar */}
-          <div className="relative" ref={menuRef}>
+          {/* Botó d'inici de sessió / tancament */}
+          {user ? (
+            <div className="flex items-center gap-2">
+              {user.photoURL && (
+                <img src={user.photoURL} alt={user.displayName ?? ''} className="w-7 h-7 rounded-full border-2 border-gray-600" />
+              )}
+              <button
+                onClick={onLogout}
+                title="Tancar sessió"
+                className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors"
+              >
+                <LogOut size={15} />
+              </button>
+            </div>
+          ) : (
             <button
-              onClick={() => setMenuOpen((o) => !o)}
-              title="Més opcions"
-              className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors"
+              onClick={onLogin}
+              title="Iniciar sessió amb Google"
+              className="flex items-center gap-1.5 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 hover:text-white rounded-lg text-sm font-medium transition-colors"
             >
-              <MoreHorizontal size={15} />
+              <LogIn size={14} />
+              <span className="hidden sm:inline">Entrar</span>
             </button>
+          )}
 
-            {menuOpen && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 overflow-hidden">
-                <button
-                  onClick={() => { onExport(); setMenuOpen(false); }}
-                  className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                >
-                  <Download size={14} />
-                  Exportar còpia de seguretat
-                </button>
-                <label className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors cursor-pointer">
-                  <Upload size={14} />
-                  Importar còpia de seguretat
-                  <input type="file" accept=".json" className="hidden" onChange={(e) => { onImport(e); setMenuOpen(false); }} />
-                </label>
-              </div>
-            )}
-          </div>
+          {/* Menú desplegable per exportar/importar — només per a editors */}
+          {canEdit && (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                title="Més opcions"
+                className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors"
+              >
+                <MoreHorizontal size={15} />
+              </button>
 
-          <button
-            onClick={onAddRoom}
-            className="flex items-center gap-1.5 px-3 py-2 bg-accent hover:bg-accent-dark text-white rounded-lg font-semibold text-sm transition-colors shadow-md"
-          >
-            <Plus size={15} />
-            <span>Afegir</span>
-          </button>
+              {menuOpen && (
+                <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 overflow-hidden">
+                  <button
+                    onClick={() => { onExport(); setMenuOpen(false); }}
+                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                  >
+                    <Download size={14} />
+                    Exportar còpia de seguretat
+                  </button>
+                  <label className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors cursor-pointer">
+                    <Upload size={14} />
+                    Importar còpia de seguretat
+                    <input type="file" accept=".json" className="hidden" onChange={(e) => { onImport(e); setMenuOpen(false); }} />
+                  </label>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Botó afegir — només per a editors */}
+          {canEdit && (
+            <button
+              onClick={onAddRoom}
+              className="flex items-center gap-1.5 px-3 py-2 bg-accent hover:bg-accent-dark text-white rounded-lg font-semibold text-sm transition-colors shadow-md"
+            >
+              <Plus size={15} />
+              <span>Afegir</span>
+            </button>
+          )}
         </div>
       </div>
     </header>

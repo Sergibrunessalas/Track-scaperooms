@@ -6,6 +6,7 @@ interface SidebarProps {
   rooms: EscapeRoom[];
   filteredCount: number;
   selectedRoomId: string | null;
+  canEdit: boolean;
   onRoomClick: (room: EscapeRoom) => void;
   onEditRoom: (room: EscapeRoom) => void;
 }
@@ -14,6 +15,7 @@ export default function Sidebar({
   rooms,
   filteredCount,
   selectedRoomId,
+  canEdit,
   onRoomClick,
   onEditRoom,
 }: SidebarProps) {
@@ -53,6 +55,7 @@ export default function Sidebar({
               room={room}
               rank={idx + 1}
               selected={selectedRoomId === room.id}
+              canEdit={canEdit}
               onClick={() => onRoomClick(room)}
               onEdit={() => onEditRoom(room)}
             />

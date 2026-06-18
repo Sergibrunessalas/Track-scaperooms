@@ -4,7 +4,13 @@ import {
   collection, doc, setDoc, deleteDoc,
   onSnapshot, getDocs, writeBatch,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { db, auth } from './firebase';
+
+// Emails autoritzats per editar (afegeix els del grup aquí)
+const ALLOWED_EMAILS = [
+  'sbrunessalas@gmail.com',
+];
 import Header from './components/Header';
 import StatsBar, { MainView } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
@@ -18,6 +24,17 @@ const ROOMS_COL = 'rooms';
 export default function App() {
   const [rooms, setRooms] = useState<EscapeRoom[]>([]);
   const [dbReady, setDbReady] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (u) => { setUser(u); setAuthReady(true); });
+  }, []);
+
+  const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
+
+  const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
+  const handleLogout = () => signOut(auth).catch(console.error);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
@@ -273,7 +290,15 @@ export default function App() {
 
       {/* ── Contingut principal ── */}
       <div className="flex-1 flex flex-col bg-gray-50 overflow-hidden min-w-0">
-        <Header onAddRoom={() => setFormState('new')} onExport={handleExport} onImport={handleImport} />
+        <Header
+          canEdit={canEdit}
+          user={user}
+          onAddRoom={() => setFormState('new')}
+          onLogin={handleLogin}
+          onLogout={handleLogout}
+          onExport={handleExport}
+          onImport={handleImport}
+        />
         <StatsBar
           total={rooms.length}
           valorats={rooms.filter((r) => r.puntuacio !== null).length}
@@ -354,6 +379,7 @@ export default function App() {
               rooms={filteredRooms}
               filteredCount={filteredRooms.length}
               selectedRoomId={selectedRoomId}
+              canEdit={canEdit}
               onRoomClick={handleRoomCardClick}
               onEditRoom={(room) => setFormState(room)}
             />

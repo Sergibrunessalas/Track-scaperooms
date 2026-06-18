@@ -5,11 +5,12 @@ interface RoomCardProps {
   room: EscapeRoom;
   rank: number;
   selected: boolean;
+  canEdit: boolean;
   onClick: () => void;
   onEdit: () => void;
 }
 
-export default function RoomCard({ room, rank, selected, onClick, onEdit }: RoomCardProps) {
+export default function RoomCard({ room, rank, selected, canEdit, onClick, onEdit }: RoomCardProps) {
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
@@ -86,18 +87,20 @@ export default function RoomCard({ room, rank, selected, onClick, onEdit }: Room
         )}
       </div>
 
-      {/* Edit button */}
-      <button
-        onClick={(e) => { e.stopPropagation(); onEdit(); }}
-        className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
-          selected
-            ? 'text-accent bg-accent/10 opacity-100'
-            : 'text-gray-400 hover:text-accent hover:bg-accent/10 opacity-0 group-hover:opacity-100'
-        }`}
-        title="Editar"
-      >
-        <Pencil size={13} />
-      </button>
+      {/* Edit button — només visible per a editors */}
+      {canEdit && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onEdit(); }}
+          className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
+            selected
+              ? 'text-accent bg-accent/10 opacity-100'
+              : 'text-gray-400 hover:text-accent hover:bg-accent/10 opacity-0 group-hover:opacity-100'
+          }`}
+          title="Editar"
+        >
+          <Pencil size={13} />
+        </button>
+      )}
     </div>
   );
 }

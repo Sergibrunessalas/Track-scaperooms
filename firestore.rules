@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /rooms/{roomId} {
+      // Qualsevol pot llegir
+      allow read: if true;
+      // Només emails autoritzats poden escriure
+      allow write: if request.auth != null
+        && request.auth.token.email in [
+          'sbrunessalas@gmail.com'
+          // Afegeix aquí els emails dels altres membres del grup:
+          // 'email2@gmail.com',
+          // 'email3@gmail.com',
+        ];
+    }
+  }
+}
