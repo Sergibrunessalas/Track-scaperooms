@@ -60,18 +60,18 @@ export default function StatsBar({
         </div>
 
         {/* Pestanyes WEB / MAPA — centrades absolutament */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-gray-100 rounded-lg p-0.5">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-gray-100 rounded-xl p-1">
           {(['mapa', 'web'] as MainView[]).map((v) => (
             <button
               key={v}
               onClick={() => onMainViewChange(v)}
-              className={`px-3 py-1 text-xs font-bold rounded-md transition-all uppercase tracking-wide ${
+              className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all uppercase tracking-wide ${
                 mainView === v
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
-              {v === 'mapa' ? '🗺 Mapa' : '🌐 Web'}
+              {v === 'mapa' ? '🗺 Mapa' : '📊 Estadístiques'}
             </button>
           ))}
         </div>
