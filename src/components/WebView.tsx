@@ -32,7 +32,7 @@ export default function WebView({ rooms }: Props) {
   const bgImage = bestRoom?.imatgeUrl ?? '';
 
   return (
-    <div className="flex-1 overflow-y-auto sidebar-scroll">
+    <div className="flex-1 overflow-y-auto sidebar-scroll no-select">
       <div
         style={{
           minHeight: '100%',

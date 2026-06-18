@@ -24,10 +24,14 @@ html, body, #root {
   margin-top: -1px;
 }
 
-/* Gràfiques: forçar cursor per defecte a tots els elements fills */
+/* Gràfiques i WebView: forçar cursor per defecte i bloquejar selecció */
 .chart-no-cursor,
-.chart-no-cursor * {
+.chart-no-cursor *,
+.no-select,
+.no-select * {
   cursor: default !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 /* Ad bar inner scroll — sense scrollbar visible */
