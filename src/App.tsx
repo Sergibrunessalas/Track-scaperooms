@@ -28,6 +28,12 @@ function loadRooms(): EscapeRoom[] {
           localitzacio: source?.localitzacio || room.localitzacio || '',
           tematica1: source?.tematica1 ?? room.tematica1,
           tematica2: source?.tematica2 ?? room.tematica2,
+          nota2: room.nota2 ?? null,
+          nota3: room.nota3 ?? null,
+          nota4: room.nota4 ?? null,
+          dificultat2: room.dificultat2 ?? '',
+          dificultat3: room.dificultat3 ?? '',
+          dificultat4: room.dificultat4 ?? '',
         };
       });
     }
@@ -70,7 +76,7 @@ export default function App() {
   const handleSaveRoom = useCallback((room: EscapeRoom) => {
     const withCalc: EscapeRoom = {
       ...room,
-      puntuacio: calcPuntuacio(room.decoracio, room.gameMaster, room.proves),
+      puntuacio: calcPuntuacio(room.decoracio, room.gameMaster, room.proves, room.nota2 ?? null, room.nota3 ?? null, room.nota4 ?? null),
     };
     setRooms((prev) => {
       const exists = prev.some((r) => r.id === room.id);

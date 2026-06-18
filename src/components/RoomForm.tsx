@@ -17,9 +17,15 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   lng: null,
   data: '',
   dificultat: '',
+  dificultat2: '',
+  dificultat3: '',
+  dificultat4: '',
   decoracio: null,
   gameMaster: null,
   proves: null,
+  nota2: null,
+  nota3: null,
+  nota4: null,
   puntuacio: null,
   comentaris: '',
   participants: '',
@@ -47,36 +53,41 @@ function fromInputDate(s: string): string {
 const STAR_VALUES = ['', '★', '★★', '★★★', '★★★★', '★★★★★'];
 
 function DificultatSelector({
+  label,
   value,
   onChange,
 }: {
+  label: string;
   value: string;
   onChange: (v: string) => void;
 }) {
   const current = STAR_VALUES.indexOf(value);
   return (
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <button
-          key={n}
-          type="button"
-          onClick={() => onChange(current === n ? '' : STAR_VALUES[n])}
-          className={`text-xl transition-colors ${
-            n <= current ? 'text-accent' : 'text-gray-300 hover:text-accent/60'
-          }`}
-        >
-          ★
-        </button>
-      ))}
-      {value && (
-        <button
-          type="button"
-          onClick={() => onChange('')}
-          className="ml-1 text-xs text-gray-400 hover:text-gray-600"
-        >
-          ✕
-        </button>
-      )}
+    <div className="flex items-center justify-between">
+      <span className="text-xs text-gray-600 font-medium w-28 truncate">{label}</span>
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            onClick={() => onChange(current === n ? '' : STAR_VALUES[n])}
+            className={`text-xl transition-colors ${
+              n <= current ? 'text-accent' : 'text-gray-300 hover:text-accent/60'
+            }`}
+          >
+            ★
+          </button>
+        ))}
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="ml-1 text-xs text-gray-400 hover:text-gray-600"
+          >
+            ✕
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -92,7 +103,7 @@ function ScoreInput({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <label className="text-xs text-gray-600 font-medium w-28">{label}</label>
+      <label className="text-xs text-gray-600 font-medium w-28 truncate">{label}</label>
       <div className="flex items-center gap-2">
         <input
           type="number"
@@ -120,14 +131,23 @@ type GeocodeMsg = { type: 'ok' | 'error'; text: string };
 export default function RoomForm({ room, existingIds, onSave, onDelete, onClose }: RoomFormProps) {
   const isNew = room === null;
   const [form, setForm] = useState<EscapeRoom>(() => {
-    if (room) return { ...room };
+    if (room) return { ...BLANK, ...room };
     return { id: generateId(existingIds), ...BLANK };
   });
   const [geocoding, setGeocoding] = useState(false);
   const [geocodeMsg, setGeocodeMsg] = useState<GeocodeMsg | null>(null);
 
-  const liveScore = calcPuntuacio(form.decoracio, form.gameMaster, form.proves);
+  const nota2 = form.nota2 ?? null;
+  const nota3 = form.nota3 ?? null;
+  const nota4 = form.nota4 ?? null;
+  const liveScore = calcPuntuacio(form.decoracio, form.gameMaster, form.proves, nota2, nota3, nota4);
   const stars = starsFromScore(liveScore);
+
+  // Average dificultat
+  const difVals = [form.dificultat, form.dificultat2 ?? '', form.dificultat3 ?? '', form.dificultat4 ?? '']
+    .map(d => (d.match(/★/g) || []).length)
+    .filter(n => n > 0);
+  const avgDif = difVals.length > 0 ? difVals.reduce((a, b) => a + b, 0) / difVals.length : null;
 
   useEffect(() => {
     setForm((prev) => ({ ...prev, puntuacio: liveScore }));
@@ -137,6 +157,10 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
     setForm((prev) => ({ ...prev, [key]: value }));
     if (key === 'localitzacio') setGeocodeMsg(null);
   };
+
+  // Participant name labels
+  const parts = form.participants.trim().split(/\s+/).filter(Boolean);
+  const pLabel = (i: number, fallback: string) => parts[i] || fallback;
 
   const handleGeocode = async () => {
     if (!form.localitzacio.trim()) return;
@@ -227,7 +251,6 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
               />
 
-              {/* Geocode button */}
               <button
                 type="button"
                 onClick={handleGeocode}
@@ -240,7 +263,6 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 {geocoding ? 'Buscant coordenades…' : 'Buscar coordenades automàticament'}
               </button>
 
-              {/* Result message */}
               {geocodeMsg && (
                 <p className={`mt-2 text-xs px-3 py-2 rounded-lg ${
                   geocodeMsg.type === 'ok'
@@ -328,16 +350,45 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
           </section>
 
           {/* Dificultat */}
-          <section className="space-y-3">
+          <section className="space-y-2.5">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Dificultat</h3>
-            <DificultatSelector value={form.dificultat} onChange={(v) => set('dificultat', v)} />
+            <DificultatSelector
+              label={pLabel(0, 'Participant 1')}
+              value={form.dificultat}
+              onChange={(v) => set('dificultat', v)}
+            />
+            <DificultatSelector
+              label={pLabel(1, 'Participant 2')}
+              value={form.dificultat2 ?? ''}
+              onChange={(v) => set('dificultat2', v)}
+            />
+            <DificultatSelector
+              label={pLabel(2, 'Participant 3')}
+              value={form.dificultat3 ?? ''}
+              onChange={(v) => set('dificultat3', v)}
+            />
+            <DificultatSelector
+              label={pLabel(3, 'Participant 4')}
+              value={form.dificultat4 ?? ''}
+              onChange={(v) => set('dificultat4', v)}
+            />
+            {avgDif !== null && (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 flex items-center justify-between">
+                <span className="text-xs text-gray-500">Dificultat mitjana</span>
+                <span className="text-xs font-semibold text-gray-700">
+                  {avgDif.toFixed(1)} ★ — {avgDif <= 1.5 ? 'Fàcil' : avgDif <= 2.5 ? 'Fàcil-Mitjà' : avgDif <= 3.5 ? 'Mitjà' : avgDif <= 4.5 ? 'Mitjà-Alt' : 'Alt'}
+                </span>
+              </div>
+            )}
           </section>
 
           {/* Valoració */}
           <section className="space-y-3">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Valoració (0–5)</h3>
 
-            <div className="space-y-2.5">
+            {/* Person 1 detailed sub-ratings */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(0, 'Participant 1')} — detall</p>
+            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
               <ScoreInput
                 label="Decoració"
                 value={form.decoracio}
@@ -352,6 +403,26 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 label="Proves"
                 value={form.proves}
                 onChange={(v) => set('proves', v)}
+              />
+            </div>
+
+            {/* Individual notes for persons 2-4 */}
+            <p className="text-xs text-gray-400 font-medium -mb-1">Notes individuals</p>
+            <div className="space-y-2.5 pl-2 border-l-2 border-gray-200">
+              <ScoreInput
+                label={pLabel(1, 'Participant 2')}
+                value={nota2}
+                onChange={(v) => set('nota2', v)}
+              />
+              <ScoreInput
+                label={pLabel(2, 'Participant 3')}
+                value={nota3}
+                onChange={(v) => set('nota3', v)}
+              />
+              <ScoreInput
+                label={pLabel(3, 'Participant 4')}
+                value={nota4}
+                onChange={(v) => set('nota4', v)}
               />
             </div>
 
@@ -413,7 +484,7 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 placeholder="Cristina Ari Xamo Sergi"
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
               />
-              <p className="text-xs text-gray-400 mt-1">Separats per espai</p>
+              <p className="text-xs text-gray-400 mt-1">Separats per espai · s'usen com a etiquetes de valoració</p>
             </div>
 
             <div>

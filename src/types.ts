@@ -6,9 +6,15 @@ export interface EscapeRoom {
   lng: number | null;
   data: string;
   dificultat: string;
+  dificultat2?: string;
+  dificultat3?: string;
+  dificultat4?: string;
   decoracio: number | null;
   gameMaster: number | null;
   proves: number | null;
+  nota2?: number | null;
+  nota3?: number | null;
+  nota4?: number | null;
   puntuacio: number | null;
   comentaris: string;
   participants: string;
@@ -30,12 +36,16 @@ export type Tematica = typeof TEMATIQUES[number];
 export function calcPuntuacio(
   decoracio: number | null,
   gameMaster: number | null,
-  proves: number | null
+  proves: number | null,
+  nota2: number | null = null,
+  nota3: number | null = null,
+  nota4: number | null = null,
 ): number | null {
-  const vals = [decoracio, gameMaster, proves].filter((v): v is number => v !== null);
-  if (!vals.length) return null;
-  const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
-  return Math.round(avg * 10) / 10;
+  const sub = [decoracio, gameMaster, proves].filter((v): v is number => v !== null);
+  const nota1 = sub.length > 0 ? sub.reduce((a, b) => a + b, 0) / sub.length : null;
+  const notes = [nota1, nota2, nota3, nota4].filter((v): v is number => v !== null);
+  if (!notes.length) return null;
+  return Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 10) / 10;
 }
 
 export function starsFromScore(score: number | null): string {
