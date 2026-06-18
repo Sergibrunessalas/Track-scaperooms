@@ -43,8 +43,8 @@ export default function WebView({ rooms }: Props) {
           backgroundColor: '#111',
         }}
       >
-        {/* Overlay fosc per llegibilitat */}
-        <div style={{ minHeight: '100%', background: 'rgba(0,0,0,0.58)', backdropFilter: 'blur(1px)' }}>
+        {/* Overlay fosc suau */}
+        <div style={{ minHeight: '100%', background: 'rgba(0,0,0,0.35)' }}>
           <div className="max-w-5xl mx-auto p-6 space-y-6">
 
             {/* KPI cards */}
@@ -104,8 +104,8 @@ export default function WebView({ rooms }: Props) {
 
 function GlassCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: 'rgba(15,15,15,0.72)', backdropFilter: 'blur(14px)', borderRadius: 20, padding: '20px', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <h3 style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 16 }}>{title}</h3>
+    <div style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '20px' }}>
+      <h3 style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>{title}</h3>
       {children}
     </div>
   );
@@ -114,9 +114,8 @@ function GlassCard({ title, children }: { title: string; children: React.ReactNo
 function KpiCard({ icon, label, value, accent }: { icon: string; label: string; value: string | number; accent?: boolean }) {
   return (
     <div style={{
-      background: accent ? ACCENT : 'rgba(15,15,15,0.72)',
-      backdropFilter: 'blur(14px)',
-      border: `1px solid ${accent ? ACCENT : 'rgba(255,255,255,0.1)'}`,
+      background: accent ? 'rgba(232,73,10,0.75)' : 'rgba(0,0,0,0.22)',
+      backdropFilter: 'blur(8px)',
       borderRadius: 20,
       padding: '16px',
     }}>
