@@ -43,9 +43,7 @@ function loadRooms(): EscapeRoom[] {
         };
       });
     }
-  } catch {
-    // fall through to initial data
-  }
+  } catch { }
   return initialData as EscapeRoom[];
 }
 
@@ -73,7 +71,7 @@ export default function App() {
 
   const handleRoomCardClick = useCallback((room: EscapeRoom) => {
     setSelectedRoomId(room.id);
-    setMobileView('map'); // en mòbil, salta al mapa en seleccionar un room
+    setMobileView('map');
     if (room.lat && room.lng) {
       mapRef.current?.flyToRoom(room);
     }
@@ -134,11 +132,7 @@ export default function App() {
   };
 
   const hasFilters = !!(searchQuery || filterTematica);
-
-  const clearFilters = () => {
-    setSearchQuery('');
-    setFilterTematica('');
-  };
+  const clearFilters = () => { setSearchQuery(''); setFilterTematica(''); };
 
   return (
     <div className="h-full flex flex-col font-inter bg-gray-50 overflow-hidden">
@@ -155,34 +149,26 @@ export default function App() {
         onClearFilters={clearFilters}
       />
 
-      {/* Tabs mòbil: Mapa / Llista */}
       <div className="flex md:hidden flex-shrink-0 bg-white border-b border-gray-200">
         <button
           onClick={() => setMobileView('map')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
-            mobileView === 'map'
-              ? 'text-accent border-b-2 border-accent'
-              : 'text-gray-500 hover:text-gray-700'
+            mobileView === 'map' ? 'text-accent border-b-2 border-accent' : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          <Map size={15} />
-          Mapa
+          <Map size={15} /> Mapa
         </button>
         <button
           onClick={() => setMobileView('list')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
-            mobileView === 'list'
-              ? 'text-accent border-b-2 border-accent'
-              : 'text-gray-500 hover:text-gray-700'
+            mobileView === 'list' ? 'text-accent border-b-2 border-accent' : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          <List size={15} />
-          Llista
+          <List size={15} /> Llista
         </button>
       </div>
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        {/* Mapa: visible sempre en desktop, en mòbil només quan mobileView==='map' */}
         <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
           <MapView
             ref={mapRef}
@@ -191,8 +177,6 @@ export default function App() {
             onSelectRoom={(room) => setSelectedRoomId(room.id)}
           />
         </div>
-
-        {/* Sidebar: visible sempre en desktop, en mòbil només quan mobileView==='list' */}
         <div className={`${mobileView === 'map' ? 'hidden md:flex' : 'flex'} flex-col w-full md:w-80 lg:w-96 flex-shrink-0`}>
           <Sidebar
             rooms={filteredRooms}
