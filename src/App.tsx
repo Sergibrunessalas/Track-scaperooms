@@ -44,6 +44,21 @@ export default function App() {
         });
         await batch.commit();
         console.log('[Firebase] Dades sembrades correctament.');
+      } else {
+        // Migració: actualitza rooms que no tinguin empresa assignada
+        const empreseMap = Object.fromEntries(
+          (initialData as Record<string, unknown>[]).map((r) => [r.id as string, (r.empresa as string) ?? ''])
+        );
+        const needsUpdate = snap.docs.filter((d) => !d.data().empresa && empreseMap[d.id]);
+        if (needsUpdate.length > 0) {
+          console.log(`[Firebase] Migrant empresa a ${needsUpdate.length} rooms...`);
+          const batch = writeBatch(db);
+          needsUpdate.forEach((d) => {
+            batch.update(doc(db, ROOMS_COL, d.id), { empresa: empreseMap[d.id] });
+          });
+          await batch.commit();
+          console.log('[Firebase] Migració empresa completada.');
+        }
       }
 
       unsub = onSnapshot(collection(db, ROOMS_COL), (snapshot) => {
