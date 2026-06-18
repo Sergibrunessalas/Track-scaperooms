@@ -1,4 +1,5 @@
-import { Search, X, Tag, Building2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Search, X, Tag, Building2, ChevronDown } from 'lucide-react';
 import { TEMATIQUES } from '../types';
 
 interface StatsBarProps {
@@ -104,22 +105,12 @@ function FiltersRow({
         )}
       </div>
 
-      {/* Desplegable de companyies */}
-      <div className="relative flex-shrink-0 w-36 md:w-44">
-        <Building2 size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        <select
-          value={searchEmpresa}
-          onChange={(e) => onSearchEmpresaChange(e.target.value)}
-          className={`w-full pl-7 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
-            searchEmpresa ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
-          }`}
-        >
-          <option value="">Companyia</option>
-          {empreses.map((e) => (
-            <option key={e} value={e}>{e}</option>
-          ))}
-        </select>
-      </div>
+      {/* Combobox de companyies */}
+      <CompanyCombobox
+        value={searchEmpresa}
+        onChange={onSearchEmpresaChange}
+        empreses={empreses}
+      />
 
       {/* Filtre temàtica */}
       <div className="relative flex-shrink-0 w-28 md:w-32">
@@ -143,5 +134,104 @@ function FiltersRow({
         </button>
       )}
     </>
+  );
+}
+
+function CompanyCombobox({
+  value,
+  onChange,
+  empreses,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  empreses: string[];
+}) {
+  const [open, setOpen] = useState(false);
+  const [inputVal, setInputVal] = useState(value);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sync typed text with external value
+  useEffect(() => { setInputVal(value); }, [value]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setInputVal(value); // reset to last confirmed selection
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [value]);
+
+  const filtered = empreses.filter((e) =>
+    e.toLowerCase().includes(inputVal.toLowerCase())
+  );
+
+  const select = (company: string) => {
+    onChange(company);
+    setInputVal(company);
+    setOpen(false);
+  };
+
+  const clear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange('');
+    setInputVal('');
+    setOpen(false);
+  };
+
+  return (
+    <div ref={containerRef} className="relative flex-shrink-0 w-36 md:w-44">
+      <Building2 size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" />
+      <input
+        type="text"
+        placeholder="Companyia"
+        value={inputVal}
+        onFocus={() => setOpen(true)}
+        onChange={(e) => {
+          setInputVal(e.target.value);
+          setOpen(true);
+          if (e.target.value === '') onChange('');
+        }}
+        className={`w-full pl-7 pr-6 py-1.5 text-sm border rounded-lg focus:outline-none focus:border-accent transition-colors cursor-pointer ${
+          value ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50 focus:bg-white'
+        }`}
+      />
+      {/* Icona dreta: X si seleccionat, fletxa si buit */}
+      {value ? (
+        <button onClick={clear} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10">
+          <X size={12} />
+        </button>
+      ) : (
+        <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+      )}
+
+      {/* Llista desplegable */}
+      {open && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-52 overflow-y-auto sidebar-scroll">
+          {filtered.length === 0 ? (
+            <p className="px-3 py-2 text-xs text-gray-400 italic">Cap resultat</p>
+          ) : (
+            filtered.map((company) => (
+              <button
+                key={company}
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => select(company)}
+                className={`w-full text-left px-3 py-1.5 text-xs transition-colors ${
+                  company === value
+                    ? 'bg-orange-50 text-accent font-semibold'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-accent'
+                }`}
+              >
+                {company}
+              </button>
+            ))
+          )}
+        </div>
+      )}
+    </div>
   );
 }
