@@ -26,6 +26,8 @@ function loadRooms(): EscapeRoom[] {
           lat: source?.lat ?? room.lat,
           lng: source?.lng ?? room.lng,
           localitzacio: source?.localitzacio || room.localitzacio || '',
+          tematica1: source?.tematica1 ?? room.tematica1,
+          tematica2: source?.tematica2 ?? room.tematica2,
         };
       });
     }
