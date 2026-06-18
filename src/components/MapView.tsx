@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { EscapeRoom, starsFromScore } from '../types';
 
@@ -92,66 +92,13 @@ function MapInitializer({ onReady }: { onReady: (map: L.Map) => void }) {
 
 function RoomMarker({ room, selected, onSelect }: { room: EscapeRoom; selected: boolean; onSelect: () => void }) {
   const markerRef = useRef<L.Marker | null>(null);
-  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pinnedRef = useRef(false);
-  const onSelectRef = useRef(onSelect);
-  onSelectRef.current = onSelect;
 
-  // Open popup when selected via sidebar (with fireworks if top score)
   useEffect(() => {
     if (selected && markerRef.current) {
-      pinnedRef.current = true;
-      const t = setTimeout(() => {
-        markerRef.current?.openPopup();
-      }, 1100);
+      const t = setTimeout(() => { markerRef.current?.openPopup(); }, 1100);
       return () => clearTimeout(t);
-    } else {
-      pinnedRef.current = false;
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Set up hover-open / click-pin / popup-container events once after mount
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (!marker) return;
-
-    const cancelClose = () => {
-      if (closeTimerRef.current) { clearTimeout(closeTimerRef.current); closeTimerRef.current = null; }
-    };
-    const scheduleClose = () => {
-      cancelClose();
-      if (pinnedRef.current) return;
-      closeTimerRef.current = setTimeout(() => marker.closePopup(), 300);
-    };
-
-    const onMouseover = () => { cancelClose(); marker.openPopup(); };
-    const onMouseout = () => scheduleClose();
-    const onClick = () => { pinnedRef.current = true; onSelectRef.current(); };
-    const onPopupOpen = () => {
-      // Let user move mouse into popup without it closing
-      const el = marker.getPopup()?.getElement();
-      if (el) {
-        el.addEventListener('mouseenter', cancelClose);
-        el.addEventListener('mouseleave', scheduleClose);
-      }
-    };
-    const onPopupClose = () => { pinnedRef.current = false; };
-
-    marker.on('mouseover', onMouseover);
-    marker.on('mouseout', onMouseout);
-    marker.on('click', onClick);
-    marker.on('popupopen', onPopupOpen);
-    marker.on('popupclose', onPopupClose);
-
-    return () => {
-      marker.off('mouseover', onMouseover);
-      marker.off('mouseout', onMouseout);
-      marker.off('click', onClick);
-      marker.off('popupopen', onPopupOpen);
-      marker.off('popupclose', onPopupClose);
-      cancelClose();
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!room.lat || !room.lng) return null;
 
@@ -160,7 +107,24 @@ function RoomMarker({ room, selected, onSelect }: { room: EscapeRoom; selected: 
       ref={(m) => { markerRef.current = m; }}
       position={[room.lat, room.lng]}
       icon={createMarkerIcon(room.puntuacio !== null, selected)}
+      eventHandlers={{ click: onSelect }}
     >
+      <Tooltip direction="top" sticky offset={[0, -8]} opacity={1}>
+        <div style={{ fontFamily: 'Inter, system-ui, sans-serif', minWidth: '140px', maxWidth: '200px' }}>
+          <p style={{ fontWeight: 700, fontSize: '13px', margin: '0 0 2px', color: '#111827', lineHeight: 1.3 }}>
+            {room.nom}
+          </p>
+          {room.empresa && (
+            <p style={{ fontSize: '10px', color: '#9ca3af', margin: '0 0 3px' }}>{room.empresa}</p>
+          )}
+          {room.puntuacio !== null
+            ? <p style={{ fontSize: '12px', color: '#e8490a', fontWeight: 600, margin: 0 }}>
+                {starsFromScore(room.puntuacio)} <span style={{ color: '#6b7280', fontWeight: 400 }}>{room.puntuacio.toFixed(1)}/5</span>
+              </p>
+            : <p style={{ fontSize: '11px', color: '#9ca3af', fontStyle: 'italic', margin: 0 }}>Pendent de valorar</p>
+          }
+        </div>
+      </Tooltip>
       <Popup>
         <div dangerouslySetInnerHTML={{ __html: buildPopupHtml(room) }} />
       </Popup>
