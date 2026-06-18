@@ -24,14 +24,21 @@ html, body, #root {
   margin-top: -1px;
 }
 
-/* Gràfiques i WebView: forçar cursor per defecte i bloquejar selecció */
+/* WebView: bloquejar selecció i cursor a tot, incloent SVG de recharts */
+.no-select,
+.no-select *,
+.no-select svg,
+.no-select svg *,
+.no-select text,
 .chart-no-cursor,
 .chart-no-cursor *,
-.no-select,
-.no-select * {
+.chart-no-cursor svg,
+.chart-no-cursor svg * {
   cursor: default !important;
   user-select: none !important;
   -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
 }
 
 /* Ad bar inner scroll — sense scrollbar visible */
