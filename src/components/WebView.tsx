@@ -97,8 +97,6 @@ export default function WebView({ rooms }: Props) {
                   <RecordItem icon="📅" label="Any més actiu" name={bestYear.year}
                     sub={`${bestYear.count} rooms`} subColor={ACCENT} />
                 )}
-                <RecordItem icon="🏢" label="Companyies" name={`${[...new Set(rooms.map(r => r.empresa).filter(Boolean))].length}`}
-                  sub="empreses visitades" subColor="#6b7280" />
               </div>
             </GlassCard>
 
