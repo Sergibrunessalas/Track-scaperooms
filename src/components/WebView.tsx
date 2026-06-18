@@ -38,192 +38,132 @@ export default function WebView({ rooms }: Props) {
     return [5, 4, 3, 2, 1].map(s => ({ label: '★'.repeat(s), count: counts[s], star: s }));
   }, [rated]);
 
-  const topEmpreses = useMemo(() => {
-    const map: Record<string, { total: number; count: number }> = {};
-    rated.forEach(r => {
-      if (!r.empresa) return;
-      if (!map[r.empresa]) map[r.empresa] = { total: 0, count: 0 };
-      map[r.empresa].total += r.puntuacio!;
-      map[r.empresa].count++;
-    });
-    return Object.entries(map)
-      .filter(([, v]) => v.count >= 2)
-      .map(([empresa, { total, count }]) => ({ empresa, avg: total / count, count }))
-      .sort((a, b) => b.avg - a.avg)
-      .slice(0, 8);
-  }, [rated]);
-
-  const temaData = useMemo(() => {
-    const map: Record<string, number> = {};
-    rooms.forEach(r => {
-      [r.tematica1, r.tematica2].filter(Boolean).forEach(t => { map[t] = (map[t] || 0) + 1; });
-    });
-    return Object.entries(map).sort(([, a], [, b]) => b - a).slice(0, 10).map(([tema, count]) => ({ tema, count }));
-  }, [rooms]);
-
   const bestYear = perYear.length ? perYear.reduce((b, y) => y.count > b.count ? y : b) : null;
+  const bgImage = bestRoom?.imatgeUrl ?? '';
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50 sidebar-scroll">
-      <div className="max-w-5xl mx-auto p-6 space-y-6">
+    <div className="flex-1 overflow-y-auto sidebar-scroll">
+      <div
+        style={{
+          minHeight: '100%',
+          backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'local',
+          backgroundColor: '#111',
+        }}
+      >
+        {/* Overlay fosc per llegibilitat */}
+        <div style={{ minHeight: '100%', background: 'rgba(0,0,0,0.58)', backdropFilter: 'blur(1px)' }}>
+          <div className="max-w-5xl mx-auto p-6 space-y-6">
 
-        {/* Títol */}
-        <div>
-          <h2 className="font-montserrat text-2xl font-black text-gray-900">Estadístiques del grup</h2>
-          <p className="text-sm text-gray-500 mt-1">Resum de totes les aventures fetes junts</p>
-        </div>
-
-        {/* KPI cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <KpiCard icon="🗺" label="Total rooms" value={rooms.length} />
-          <KpiCard icon="⭐" label="Valorats" value={rated.length} />
-          <KpiCard icon="📊" label="Nota mitjana" value={avgScore ? avgScore.toFixed(2) : '—'} accent />
-          <KpiCard icon="⏳" label="Pendents" value={rooms.length - rated.length} />
-        </div>
-
-        {/* Gràfiques principals */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* Rooms per any */}
-          {perYear.length > 0 && (
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-              <h3 className="font-bold text-sm text-gray-700 mb-4">Rooms per any</h3>
-              <ResponsiveContainer width="100%" height={190}>
-                <BarChart data={perYear} barCategoryGap="35%">
-                  <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
-                  <Tooltip
-                    formatter={(v) => [v, 'Rooms']}
-                    contentStyle={{ borderRadius: 10, border: '1px solid #f3f4f6', fontSize: 12 }}
-                    cursor={{ fill: '#f9fafb' }}
-                  />
-                  <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-                    {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            {/* KPI cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+              <KpiCard icon="🗺" label="Total rooms" value={rooms.length} />
+              <KpiCard icon="⭐" label="Valorats" value={rated.length} />
+              <KpiCard icon="📊" label="Nota mitjana" value={avgScore ? avgScore.toFixed(2) : '—'} accent />
+              <KpiCard icon="⏳" label="Pendents" value={rooms.length - rated.length} />
             </div>
-          )}
 
-          {/* Distribució de puntuacions */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-            <h3 className="font-bold text-sm text-gray-700 mb-4">Distribució de puntuacions</h3>
-            <ResponsiveContainer width="100%" height={190}>
-              <BarChart data={scoreDist} layout="vertical" barCategoryGap="25%">
-                <XAxis type="number" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
-                <YAxis type="category" dataKey="label" tick={{ fontSize: 14 }} axisLine={false} tickLine={false} width={55} />
-                <Tooltip
-                  formatter={(v) => [v, 'Rooms']}
-                  contentStyle={{ borderRadius: 10, border: '1px solid #f3f4f6', fontSize: 12 }}
-                  cursor={{ fill: '#f9fafb' }}
-                />
-                <Bar dataKey="count" radius={[0, 6, 6, 0]}>
-                  {scoreDist.map((d, i) => <Cell key={i} fill={SCORE_COLORS[4 - i]} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+            {/* Gràfiques */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        {/* Top companyies */}
-        {topEmpreses.length > 0 && (
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-            <h3 className="font-bold text-sm text-gray-700 mb-5">Millors companyies <span className="text-gray-400 font-normal">(mínim 2 rooms valorades)</span></h3>
-            <div className="space-y-4">
-              {topEmpreses.map((e, i) => (
-                <div key={e.empresa} className="flex items-center gap-3">
-                  <span className="text-xs font-black text-gray-300 w-5 text-right">{i + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-sm font-semibold text-gray-800 truncate">{e.empresa}</span>
-                      <span className="text-xs text-gray-400 ml-3 flex-shrink-0">{e.count} rooms</span>
-                    </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full"
-                        style={{ width: `${(e.avg / 5) * 100}%`, background: i === 0 ? GOLD : ACCENT }}
+              {perYear.length > 0 && (
+                <GlassCard title="Rooms per any">
+                  <ResponsiveContainer width="100%" height={190}>
+                    <BarChart data={perYear} barCategoryGap="35%">
+                      <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
+                      <Tooltip
+                        formatter={(v) => [v, 'Rooms']}
+                        contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
+                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                       />
-                    </div>
-                  </div>
-                  <span className="text-sm font-black text-gray-700 w-8 text-right">{e.avg.toFixed(1)}</span>
-                </div>
-              ))}
+                      <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                        {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </GlassCard>
+              )}
+
+              <GlassCard title="Distribució de puntuacions">
+                <ResponsiveContainer width="100%" height={190}>
+                  <BarChart data={scoreDist} layout="vertical" barCategoryGap="25%">
+                    <XAxis type="number" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
+                    <YAxis type="category" dataKey="label" tick={{ fontSize: 14 }} axisLine={false} tickLine={false} width={55} />
+                    <Tooltip
+                      formatter={(v) => [v, 'Rooms']}
+                      contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
+                      cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                    />
+                    <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+                      {scoreDist.map((_, i) => <Cell key={i} fill={SCORE_COLORS[4 - i]} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </GlassCard>
             </div>
-          </div>
-        )}
 
-        {/* Rècords + Temàtiques */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* Rècords */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-            <h3 className="font-bold text-sm text-gray-700 mb-4">🏆 Rècords del grup</h3>
-            <div className="space-y-4">
-              {bestRoom && (
-                <RecordRow icon="🥇" label="Millor room" name={bestRoom.nom} sub={`${starsFromScore(bestRoom.puntuacio)} ${bestRoom.puntuacio?.toFixed(1)}`} subColor={GOLD} />
-              )}
-              {worstRoom && worstRoom.id !== bestRoom?.id && (
-                <RecordRow icon="😅" label="Menys valorada" name={worstRoom.nom} sub={`${starsFromScore(worstRoom.puntuacio)} ${worstRoom.puntuacio?.toFixed(1)}`} subColor="#9ca3af" />
-              )}
-              {bestYear && (
-                <RecordRow icon="📅" label={`Any més actiu`} name={bestYear.year} sub={`${bestYear.count} rooms`} subColor={ACCENT} />
-              )}
-              <RecordRow icon="🏢" label="Companyies visitades" name={`${[...new Set(rooms.map(r => r.empresa).filter(Boolean))].length} empreses`} />
-            </div>
-          </div>
-
-          {/* Temàtiques */}
-          {temaData.length > 0 && (
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-              <h3 className="font-bold text-sm text-gray-700 mb-4">Temàtiques més freqüents</h3>
-              <div className="space-y-2.5">
-                {temaData.map((t, i) => (
-                  <div key={t.tema} className="flex items-center gap-3">
-                    <span className="text-xs font-black text-gray-300 w-4 text-right">{i + 1}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-gray-700 truncate">{t.tema}</span>
-                        <span className="text-xs font-bold text-gray-500 ml-2">{t.count}</span>
-                      </div>
-                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full"
-                          style={{ width: `${(t.count / temaData[0].count) * 100}%`, background: ACCENT, opacity: Math.max(0.3, 1 - i * 0.07) }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            {/* Rècords */}
+            <GlassCard title="🏆 Rècords del grup">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {bestRoom && (
+                  <RecordItem icon="🥇" label="Millor room" name={bestRoom.nom}
+                    sub={`${starsFromScore(bestRoom.puntuacio)} ${bestRoom.puntuacio?.toFixed(1)}`} subColor={GOLD} />
+                )}
+                {worstRoom && worstRoom.id !== bestRoom?.id && (
+                  <RecordItem icon="😅" label="Menys valorada" name={worstRoom.nom}
+                    sub={`${starsFromScore(worstRoom.puntuacio)} ${worstRoom.puntuacio?.toFixed(1)}`} subColor="#9ca3af" />
+                )}
+                {bestYear && (
+                  <RecordItem icon="📅" label="Any més actiu" name={bestYear.year}
+                    sub={`${bestYear.count} rooms`} subColor={ACCENT} />
+                )}
+                <RecordItem icon="🏢" label="Companyies" name={`${[...new Set(rooms.map(r => r.empresa).filter(Boolean))].length}`}
+                  sub="empreses visitades" subColor="#6b7280" />
               </div>
-            </div>
-          )}
+            </GlassCard>
 
+          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function GlassCard({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ background: 'rgba(15,15,15,0.72)', backdropFilter: 'blur(14px)', borderRadius: 20, padding: '20px', border: '1px solid rgba(255,255,255,0.1)' }}>
+      <h3 style={{ fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 16 }}>{title}</h3>
+      {children}
     </div>
   );
 }
 
 function KpiCard({ icon, label, value, accent }: { icon: string; label: string; value: string | number; accent?: boolean }) {
   return (
-    <div className={`rounded-2xl p-4 shadow-sm border ${accent ? 'border-accent' : 'border-gray-100 bg-white'}`}
-      style={accent ? { background: ACCENT } : {}}>
-      <p className="text-2xl mb-2">{icon}</p>
-      <p className={`text-2xl font-black font-montserrat leading-none ${accent ? 'text-white' : 'text-gray-900'}`}>{value}</p>
-      <p className={`text-xs font-medium mt-1 ${accent ? 'text-white/75' : 'text-gray-500'}`}>{label}</p>
+    <div style={{
+      background: accent ? ACCENT : 'rgba(15,15,15,0.72)',
+      backdropFilter: 'blur(14px)',
+      border: `1px solid ${accent ? ACCENT : 'rgba(255,255,255,0.1)'}`,
+      borderRadius: 20,
+      padding: '16px',
+    }}>
+      <p style={{ fontSize: 24, marginBottom: 6 }}>{icon}</p>
+      <p style={{ fontSize: 28, fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'Montserrat, sans-serif' }}>{value}</p>
+      <p style={{ fontSize: 11, fontWeight: 600, color: accent ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)', marginTop: 4 }}>{label}</p>
     </div>
   );
 }
 
-function RecordRow({ icon, label, name, sub, subColor }: { icon: string; label: string; name: string; sub?: string; subColor?: string }) {
+function RecordItem({ icon, label, name, sub, subColor }: { icon: string; label: string; name: string; sub?: string; subColor?: string }) {
   return (
-    <div className="flex items-start gap-3">
-      <span className="text-xl leading-none mt-0.5">{icon}</span>
-      <div className="min-w-0">
-        <p className="text-xs text-gray-400 font-medium leading-tight">{label}</p>
-        <p className="text-sm font-bold text-gray-800 truncate">{name}</p>
-        {sub && <p className="text-xs font-semibold mt-0.5" style={{ color: subColor ?? '#6b7280' }}>{sub}</p>}
-      </div>
+    <div>
+      <p style={{ fontSize: 22, marginBottom: 4 }}>{icon}</p>
+      <p style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>{label}</p>
+      <p style={{ fontSize: 13, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{name}</p>
+      {sub && <p style={{ fontSize: 11, fontWeight: 600, color: subColor ?? '#9ca3af', marginTop: 2 }}>{sub}</p>}
     </div>
   );
 }
