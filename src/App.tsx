@@ -30,14 +30,17 @@ export default function App() {
     let unsub: (() => void) | null = null;
 
     async function init() {
-      // Si la col·lecció és buida, la populem amb les dades del JSON
+      console.log('[Firebase] Iniciant connexió...');
       const snap = await getDocs(collection(db, ROOMS_COL));
+      console.log('[Firebase] Documents trobats:', snap.size);
       if (snap.empty) {
+        console.log('[Firebase] Base de dades buida, sembrant dades...');
         const batch = writeBatch(db);
         (initialData as EscapeRoom[]).forEach((room) => {
           batch.set(doc(db, ROOMS_COL, room.id), room);
         });
         await batch.commit();
+        console.log('[Firebase] Dades sembrades correctament.');
       }
 
       // Escolta canvis en temps real — qualsevol usuari que editi ho veu tothom
@@ -50,7 +53,7 @@ export default function App() {
       });
     }
 
-    init().catch(console.error);
+    init().catch((err) => console.error('[Firebase] ERROR:', err));
     return () => { unsub?.(); };
   }, []);
 
