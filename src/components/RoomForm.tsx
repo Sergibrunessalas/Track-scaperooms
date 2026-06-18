@@ -169,6 +169,7 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
   // Participant name labels
   const parts = form.participants.trim().split(/\s+/).filter(Boolean);
   const pLabel = (i: number, fallback: string) => parts[i] || fallback;
+  const numParts = Math.max(1, Math.min(4, parts.length));
 
   const handleGeocode = async () => {
     if (!form.localitzacio.trim()) return;
@@ -360,26 +361,10 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
           {/* Dificultat */}
           <section className="space-y-2.5">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Dificultat</h3>
-            <DificultatSelector
-              label={pLabel(0, 'Participant 1')}
-              value={form.dificultat}
-              onChange={(v) => set('dificultat', v)}
-            />
-            <DificultatSelector
-              label={pLabel(1, 'Participant 2')}
-              value={form.dificultat2 ?? ''}
-              onChange={(v) => set('dificultat2', v)}
-            />
-            <DificultatSelector
-              label={pLabel(2, 'Participant 3')}
-              value={form.dificultat3 ?? ''}
-              onChange={(v) => set('dificultat3', v)}
-            />
-            <DificultatSelector
-              label={pLabel(3, 'Participant 4')}
-              value={form.dificultat4 ?? ''}
-              onChange={(v) => set('dificultat4', v)}
-            />
+            <DificultatSelector label={pLabel(0, 'Participant 1')} value={form.dificultat} onChange={(v) => set('dificultat', v)} />
+            {numParts >= 2 && <DificultatSelector label={pLabel(1, 'Participant 2')} value={form.dificultat2 ?? ''} onChange={(v) => set('dificultat2', v)} />}
+            {numParts >= 3 && <DificultatSelector label={pLabel(2, 'Participant 3')} value={form.dificultat3 ?? ''} onChange={(v) => set('dificultat3', v)} />}
+            {numParts >= 4 && <DificultatSelector label={pLabel(3, 'Participant 4')} value={form.dificultat4 ?? ''} onChange={(v) => set('dificultat4', v)} />}
             {avgDif !== null && (
               <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 flex items-center justify-between">
                 <span className="text-xs text-gray-500">Dificultat mitjana</span>
@@ -403,28 +388,34 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
             </div>
 
             {/* Person 2 */}
-            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(1, 'Participant 2')}</p>
-            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
-              <ScoreInput label="Decoració" value={form.decoracio2 ?? null} onChange={(v) => set('decoracio2', v)} />
-              <ScoreInput label="Game Master" value={form.gameMaster2 ?? null} onChange={(v) => set('gameMaster2', v)} />
-              <ScoreInput label="Proves" value={form.proves2 ?? null} onChange={(v) => set('proves2', v)} />
-            </div>
+            {numParts >= 2 && <>
+              <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(1, 'Participant 2')}</p>
+              <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+                <ScoreInput label="Decoració" value={form.decoracio2 ?? null} onChange={(v) => set('decoracio2', v)} />
+                <ScoreInput label="Game Master" value={form.gameMaster2 ?? null} onChange={(v) => set('gameMaster2', v)} />
+                <ScoreInput label="Proves" value={form.proves2 ?? null} onChange={(v) => set('proves2', v)} />
+              </div>
+            </>}
 
             {/* Person 3 */}
-            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(2, 'Participant 3')}</p>
-            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
-              <ScoreInput label="Decoració" value={form.decoracio3 ?? null} onChange={(v) => set('decoracio3', v)} />
-              <ScoreInput label="Game Master" value={form.gameMaster3 ?? null} onChange={(v) => set('gameMaster3', v)} />
-              <ScoreInput label="Proves" value={form.proves3 ?? null} onChange={(v) => set('proves3', v)} />
-            </div>
+            {numParts >= 3 && <>
+              <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(2, 'Participant 3')}</p>
+              <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+                <ScoreInput label="Decoració" value={form.decoracio3 ?? null} onChange={(v) => set('decoracio3', v)} />
+                <ScoreInput label="Game Master" value={form.gameMaster3 ?? null} onChange={(v) => set('gameMaster3', v)} />
+                <ScoreInput label="Proves" value={form.proves3 ?? null} onChange={(v) => set('proves3', v)} />
+              </div>
+            </>}
 
             {/* Person 4 */}
-            <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(3, 'Participant 4')}</p>
-            <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
-              <ScoreInput label="Decoració" value={form.decoracio4 ?? null} onChange={(v) => set('decoracio4', v)} />
-              <ScoreInput label="Game Master" value={form.gameMaster4 ?? null} onChange={(v) => set('gameMaster4', v)} />
-              <ScoreInput label="Proves" value={form.proves4 ?? null} onChange={(v) => set('proves4', v)} />
-            </div>
+            {numParts >= 4 && <>
+              <p className="text-xs text-gray-400 font-medium -mb-1">{pLabel(3, 'Participant 4')}</p>
+              <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
+                <ScoreInput label="Decoració" value={form.decoracio4 ?? null} onChange={(v) => set('decoracio4', v)} />
+                <ScoreInput label="Game Master" value={form.gameMaster4 ?? null} onChange={(v) => set('gameMaster4', v)} />
+                <ScoreInput label="Proves" value={form.proves4 ?? null} onChange={(v) => set('proves4', v)} />
+              </div>
+            </>}
 
             {/* Auto-calculated score */}
             <div className="bg-orange-50 border border-accent/20 rounded-xl p-3 flex items-center justify-between">
