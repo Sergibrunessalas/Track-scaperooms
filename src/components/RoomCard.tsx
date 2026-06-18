@@ -62,15 +62,19 @@ export default function RoomCard({ room, rank, selected, canEdit, onClick, onEdi
               {room.preu}
             </span>
           )}
-          {tems.map((t) => (
-            <span
-              key={t}
-              className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full"
-            >
-              {t}
-            </span>
-          ))}
         </div>
+        {tems.length > 0 && (
+          <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+            {tems.map((t) => (
+              <span
+                key={t}
+                className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Score */}
