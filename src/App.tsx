@@ -252,7 +252,10 @@ export default function App() {
               ref={mapRef}
               rooms={filteredRooms}
               selectedRoomId={selectedRoomId}
-              onSelectRoom={(room) => setSelectedRoomId(room.id)}
+              onSelectRoom={(room) => {
+                setSelectedRoomId(room.id);
+                mapRef.current?.flyToRoom(room);
+              }}
             />
           </div>
 
