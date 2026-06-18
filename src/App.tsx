@@ -17,6 +17,7 @@ import StatsBar, { MainView } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
+import WebView from './components/WebView';
 import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
@@ -317,12 +318,8 @@ export default function App() {
           onClearFilters={clearFilters}
         />
 
-        {/* Vista WEB — blanc de moment */}
-        {mainView === 'web' && (
-          <div className="flex-1 bg-white flex items-center justify-center">
-            <p className="text-gray-300 text-sm font-medium select-none">Pròximament…</p>
-          </div>
-        )}
+        {/* Vista WEB — dashboard d'estadístiques */}
+        {mainView === 'web' && <WebView rooms={rooms} />}
 
         {/* Mobile tabs */}
         <div className={`${mainView === 'web' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
