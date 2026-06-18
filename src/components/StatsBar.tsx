@@ -9,6 +9,7 @@ interface StatsBarProps {
   onSearchChange: (v: string) => void;
   searchEmpresa: string;
   onSearchEmpresaChange: (v: string) => void;
+  empreses: string[];
   filterTematica: string;
   onFilterTematicaChange: (v: string) => void;
   hasFilters: boolean;
@@ -18,7 +19,7 @@ interface StatsBarProps {
 export default function StatsBar({
   total, valorats, pendents,
   searchQuery, onSearchChange,
-  searchEmpresa, onSearchEmpresaChange,
+  searchEmpresa, onSearchEmpresaChange, empreses,
   filterTematica, onFilterTematicaChange,
   hasFilters, onClearFilters,
 }: StatsBarProps) {
@@ -56,7 +57,7 @@ export default function StatsBar({
           <div className="h-5 w-px bg-gray-200 flex-shrink-0" />
           <FiltersRow
             searchQuery={searchQuery} onSearchChange={onSearchChange}
-            searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange}
+            searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange} empreses={empreses}
             filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
             hasFilters={hasFilters} onClearFilters={onClearFilters}
           />
@@ -67,7 +68,7 @@ export default function StatsBar({
       <div className="flex md:hidden items-center gap-2 mt-2">
         <FiltersRow
           searchQuery={searchQuery} onSearchChange={onSearchChange}
-          searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange}
+          searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange} empreses={empreses}
           filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
           hasFilters={hasFilters} onClearFilters={onClearFilters}
         />
@@ -80,7 +81,7 @@ type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents'>;
 
 function FiltersRow({
   searchQuery, onSearchChange,
-  searchEmpresa, onSearchEmpresaChange,
+  searchEmpresa, onSearchEmpresaChange, empreses,
   filterTematica, onFilterTematicaChange,
   hasFilters, onClearFilters,
 }: FiltersRowProps) {
@@ -103,21 +104,21 @@ function FiltersRow({
         )}
       </div>
 
-      {/* Cerca per companyia */}
-      <div className="relative flex-1 md:flex-none md:w-36 min-w-0">
-        <Building2 size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        <input
-          type="text"
-          placeholder="Companyia…"
+      {/* Desplegable de companyies */}
+      <div className="relative flex-shrink-0 w-36 md:w-44">
+        <Building2 size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <select
           value={searchEmpresa}
           onChange={(e) => onSearchEmpresaChange(e.target.value)}
-          className="w-full pl-8 pr-7 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-accent focus:outline-none transition-colors"
-        />
-        {searchEmpresa && (
-          <button onClick={() => onSearchEmpresaChange('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-            <X size={12} />
-          </button>
-        )}
+          className={`w-full pl-7 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
+            searchEmpresa ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
+          }`}
+        >
+          <option value="">Companyia</option>
+          {empreses.map((e) => (
+            <option key={e} value={e}>{e}</option>
+          ))}
+        </select>
       </div>
 
       {/* Filtre temàtica */}

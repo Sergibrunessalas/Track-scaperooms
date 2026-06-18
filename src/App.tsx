@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Map, List, ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   collection, doc, setDoc, deleteDoc,
@@ -137,6 +137,11 @@ export default function App() {
     e.target.value = '';
   };
 
+  const empreses = useMemo(
+    () => [...new Set(rooms.map((r) => r.empresa).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ca')),
+    [rooms]
+  );
+
   const hasFilters = !!(searchQuery || searchEmpresa || filterTematica);
   const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); };
 
@@ -173,6 +178,7 @@ export default function App() {
           onSearchChange={setSearchQuery}
           searchEmpresa={searchEmpresa}
           onSearchEmpresaChange={setSearchEmpresa}
+          empreses={empreses}
           filterTematica={filterTematica}
           onFilterTematicaChange={setFilterTematica}
           hasFilters={hasFilters}
