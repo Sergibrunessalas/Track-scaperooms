@@ -69,7 +69,7 @@ export default function WebView({ rooms }: Props) {
                     <Tooltip
                       formatter={(v) => [v, 'Rooms']}
                       contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 12, color: '#fff' }}
-                      cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                      cursor={false}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
