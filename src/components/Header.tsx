@@ -33,7 +33,7 @@ export default function Header({ onAddRoom, onExport, onImport }: HeaderProps) {
       {/* Subtítol centrat absolutament - ocult en mòbil */}
       <div className="hidden md:block absolute left-1/2 -translate-x-1/2 pointer-events-none">
         <p className="font-montserrat text-xl md:text-2xl font-black tracking-tight whitespace-nowrap" style={{ color: '#eab308' }}>
-          Totes les meves aventures en un sol lloc
+          Totes les nostres aventures en un sol lloc
         </p>
       </div>
 
