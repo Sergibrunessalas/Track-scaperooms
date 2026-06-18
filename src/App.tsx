@@ -10,6 +10,7 @@ import { db, auth } from './firebase';
 // Emails autoritzats per editar (afegeix els del grup aquí)
 const ALLOWED_EMAILS = [
   'sbrunessalas@gmail.com',
+  'marc.brunes95@gmail.com',
 ];
 import Header from './components/Header';
 import StatsBar, { MainView } from './components/StatsBar';
