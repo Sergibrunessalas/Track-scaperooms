@@ -13,10 +13,9 @@ interface HeaderProps {
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onMigrateComarques: () => Promise<void>;
   onFixComarques: () => Promise<void>;
-  onSeedNewRooms: () => Promise<void>;
 }
 
-export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques, onSeedNewRooms }: HeaderProps) {
+export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques }: HeaderProps) {
   const [migrating, setMigrating] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
