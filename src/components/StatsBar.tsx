@@ -282,6 +282,7 @@ function ComarcaCombobox({ value, onChange, comarques }: { value: string; onChan
         placeholder={value || "Comarca"}
         value={inputVal}
         onFocus={() => { setInputVal(''); setOpen(true); }}
+        onClick={() => { setInputVal(''); setOpen(true); }}
         onChange={(e) => { setInputVal(e.target.value); setOpen(true); if (e.target.value === '') onChange(''); }}
         className={`w-full pl-7 pr-6 py-1.5 text-sm border rounded-lg focus:outline-none focus:border-accent transition-colors cursor-pointer ${
           value ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50 focus:bg-white'
@@ -372,6 +373,7 @@ function CompanyCombobox({
         placeholder={value || "Companyia"}
         value={inputVal}
         onFocus={() => { setInputVal(''); setOpen(true); }}
+        onClick={() => { setInputVal(''); setOpen(true); }}
         onChange={(e) => {
           setInputVal(e.target.value);
           setOpen(true);
