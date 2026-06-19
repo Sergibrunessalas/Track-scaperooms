@@ -496,8 +496,6 @@ export default function App() {
           onLogout={handleLogout}
           onExport={handleExport}
           onImport={handleImport}
-          onMigrateComarques={migrateComarques}
-          onFixComarques={fixComarques}
         />
         <StatsBar
           total={rooms.length}

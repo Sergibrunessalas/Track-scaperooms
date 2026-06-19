@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut, Map } from 'lucide-react';
+import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut } from 'lucide-react';
 import type { User } from 'firebase/auth';
 
 interface HeaderProps {
@@ -11,12 +11,9 @@ interface HeaderProps {
   onLogout: () => void;
   onExport: () => void;
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onMigrateComarques: () => Promise<void>;
-  onFixComarques: () => Promise<void>;
 }
 
-export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques }: HeaderProps) {
-  const [migrating, setMigrating] = useState(false);
+export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -103,33 +100,6 @@ export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onL
                     Importar còpia de seguretat
                     <input type="file" accept=".json" className="hidden" onChange={(e) => { onImport(e); setMenuOpen(false); }} />
                   </label>
-                  <div className="border-t border-gray-700" />
-                  <button
-                    onClick={async () => {
-                      setMenuOpen(false);
-                      setMigrating(true);
-                      await onFixComarques();
-                      setMigrating(false);
-                    }}
-                    disabled={migrating}
-                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-orange-300 hover:bg-gray-700 hover:text-orange-200 transition-colors disabled:opacity-50"
-                  >
-                    <Map size={14} />
-                    {migrating ? 'Corregint...' : 'Corregir comarques incorrectes'}
-                  </button>
-                  <button
-                    onClick={async () => {
-                      setMenuOpen(false);
-                      setMigrating(true);
-                      await onMigrateComarques();
-                      setMigrating(false);
-                    }}
-                    disabled={migrating}
-                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    <Map size={14} />
-                    {migrating ? 'Migrant...' : 'Auto-omplir comarques (buides)'}
-                  </button>
                 </div>
               )}
             </div>
