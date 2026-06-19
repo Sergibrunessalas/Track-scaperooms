@@ -21,10 +21,10 @@ export default function GaleriaView({ rooms }: Props) {
         </h2>
         <p className="text-sm text-gray-400 mb-6">{rooms.length} sales · ordenades per puntuació</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {sorted.map((room) => (
-            <RoomCard key={room.id} room={room} />
-          ))}
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <span className="text-5xl mb-4">🔐</span>
+          <p className="text-gray-500 font-semibold text-lg">Pròximament</p>
+          <p className="text-gray-400 text-sm mt-1">Estem preparant el contingut d'aquesta secció.</p>
         </div>
       </div>
     </div>
