@@ -12,9 +12,10 @@ interface HeaderProps {
   onExport: () => void;
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onMigrateComarques: () => Promise<void>;
+  onFixComarques: () => Promise<void>;
 }
 
-export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques }: HeaderProps) {
+export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques }: HeaderProps) {
   const [migrating, setMigrating] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -107,6 +108,19 @@ export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onL
                     onClick={async () => {
                       setMenuOpen(false);
                       setMigrating(true);
+                      await onFixComarques();
+                      setMigrating(false);
+                    }}
+                    disabled={migrating}
+                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-orange-300 hover:bg-gray-700 hover:text-orange-200 transition-colors disabled:opacity-50"
+                  >
+                    <Map size={14} />
+                    {migrating ? 'Corregint...' : 'Corregir comarques incorrectes'}
+                  </button>
+                  <button
+                    onClick={async () => {
+                      setMenuOpen(false);
+                      setMigrating(true);
                       await onMigrateComarques();
                       setMigrating(false);
                     }}
@@ -114,7 +128,7 @@ export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onL
                     className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors disabled:opacity-50"
                   >
                     <Map size={14} />
-                    {migrating ? 'Migrant comarques...' : 'Auto-omplir comarques'}
+                    {migrating ? 'Migrant...' : 'Auto-omplir comarques (buides)'}
                   </button>
                 </div>
               )}

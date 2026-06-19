@@ -217,6 +217,40 @@ export default function App() {
   const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca);
   const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); };
 
+  const fixComarques = async () => {
+    const corrections: Record<string, string> = {
+      'er-003': 'Vallès Oriental',   // Granollers
+      'er-006': 'Vallès Oriental',   // Les Franqueses del Vallès
+      'er-007': 'Maresme',           // Mataró
+      'er-008': 'Vallès Occidental', // Terrassa
+      'er-010': 'Maresme',           // Mataró
+      'er-011': 'Maresme',           // Mataró
+      'er-014': 'Vallès Occidental', // Terrassa
+      'er-015': 'Bages',             // Sant Fruitós de Bages
+      'er-017': 'Vallès Occidental', // Montcada i Reixac
+      'er-020': 'Vallès Occidental', // Terrassa
+      'er-022': 'Baix Llobregat',    // Esplugues de Llobregat
+      'er-024': 'Bages',             // Sant Fruitós de Bages
+      'er-026': 'Vallès Oriental',   // Granollers
+      'er-028': 'Vallès Occidental', // Terrassa
+      'er-029': 'Baix Llobregat',    // Cornellà de Llobregat
+      'er-040': 'Vallès Oriental',   // Les Franqueses del Vallès
+      'er-043': 'Baix Llobregat',    // Cornellà de Llobregat
+      'er-079': 'Baix Llobregat',    // Cornellà de Llobregat
+      'er-082': 'Maresme',           // Mataró
+      'er-084': 'Vallès Oriental',   // Granollers
+      'er-087': 'Vallès Oriental',   // Les Franqueses del Vallès
+      'er-094': 'Berguedà',          // Berga
+      'er-095': 'Berguedà',          // Berga
+      'er-096': 'Baix Llobregat',    // Cornellà de Llobregat
+    };
+
+    for (const [id, comarca] of Object.entries(corrections)) {
+      await updateDoc(doc(db, 'rooms', id), { comarca });
+    }
+    alert(`✅ Corregides ${Object.keys(corrections).length} comarques!`);
+  };
+
   const migrateComarques = async () => {
     const CITY_COMARCA: [string, string][] = [
       // Barcelonès
@@ -451,6 +485,7 @@ export default function App() {
           onExport={handleExport}
           onImport={handleImport}
           onMigrateComarques={migrateComarques}
+          onFixComarques={fixComarques}
         />
         <StatsBar
           total={rooms.length}
