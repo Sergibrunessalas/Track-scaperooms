@@ -5,6 +5,7 @@ import { EscapeRoom, ParticipantRating, TEMATIQUES, calcPuntuacio, generateId, s
 const EMAIL_TO_NAME: Record<string, string> = {
   'lauranavarreteclos@gmail.com': 'Laura',
   'marc.brunes95@gmail.com': 'Marc',
+  'xamoneva@gmail.com': 'Neva', // ← canvia "Neva" pel nom real als participants
 };
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
