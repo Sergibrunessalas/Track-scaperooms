@@ -140,17 +140,6 @@ export default function App() {
     return () => { unsub?.(); };
   }, []);
 
-  // Seleccionar sala via URL param ?sala=er-042
-  useEffect(() => {
-    if (!dbReady || rooms.length === 0) return;
-    const salaId = new URLSearchParams(window.location.search).get('sala');
-    if (!salaId) return;
-    const room = rooms.find(r => r.id === salaId);
-    if (room) {
-      setSelectedRoomId(salaId);
-      setTimeout(() => mapRef.current?.flyToRoom(room), 600);
-    }
-  }, [dbReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const filteredRooms = rooms.filter((room) => {
     if (searchQuery && !room.nom.toLowerCase().includes(searchQuery.toLowerCase())) return false;
