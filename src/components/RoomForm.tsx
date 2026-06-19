@@ -127,7 +127,9 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
   const editableIdx = myName
     ? parts.findIndex(p => p.toLowerCase() === myName.toLowerCase())
     : -1;
-  const canEditSlot = (i: number) => isAdmin || editableIdx === -1 || editableIdx === i;
+  // Si no és admin: només pot editar el seu slot.
+  // Si el seu nom no apareix als participants → cap slot editable (editableIdx === -1 → mai coincideix amb i)
+  const canEditSlot = (i: number) => isAdmin || (myName !== '' && editableIdx === i);
   const numParts = Math.max(1, parts.length);
   const pLabel = (i: number) => parts[i] || `Participant ${i + 1}`;
 
