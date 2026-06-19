@@ -214,6 +214,16 @@ export default function App() {
     [rooms]
   );
 
+  const comarquesDisponibles = useMemo(
+    () => [...new Set(rooms.map((r) => r.comarca).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ca')),
+    [rooms]
+  );
+
+  const tematiquesDisponibles = useMemo(
+    () => [...new Set(rooms.flatMap((r) => [r.tematica1, r.tematica2]).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ca')),
+    [rooms]
+  );
+
   const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca);
   const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); };
 
@@ -496,6 +506,8 @@ export default function App() {
           searchEmpresa={searchEmpresa}
           onSearchEmpresaChange={setSearchEmpresa}
           empreses={empreses}
+          comarques={comarquesDisponibles}
+          tematiques={tematiquesDisponibles}
           filterTematica={filterTematica}
           onFilterTematicaChange={setFilterTematica}
           filterComarca={filterComarca}

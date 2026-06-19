@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, X, Tag, Building2, ChevronDown, MapPin } from 'lucide-react';
-import { TEMATIQUES, COMARQUES } from '../types';
 
 export type MainView = 'mapa' | 'web';
 
@@ -16,6 +15,8 @@ interface StatsBarProps {
   searchEmpresa: string;
   onSearchEmpresaChange: (v: string) => void;
   empreses: string[];
+  comarques: string[];
+  tematiques: string[];
   filterTematica: string;
   onFilterTematicaChange: (v: string) => void;
   filterComarca: string;
@@ -29,6 +30,7 @@ export default function StatsBar({
   mainView, onMainViewChange, canEdit,
   searchQuery, onSearchChange,
   searchEmpresa, onSearchEmpresaChange, empreses,
+  comarques, tematiques,
   filterTematica, onFilterTematicaChange,
   filterComarca, onFilterComarcaChange,
   hasFilters, onClearFilters,
@@ -94,6 +96,7 @@ export default function StatsBar({
           <FiltersRow
             searchQuery={searchQuery} onSearchChange={onSearchChange}
             searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange} empreses={empreses}
+            comarques={comarques} tematiques={tematiques}
             filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
             filterComarca={filterComarca} onFilterComarcaChange={onFilterComarcaChange}
             hasFilters={hasFilters} onClearFilters={onClearFilters}
@@ -106,6 +109,7 @@ export default function StatsBar({
         <FiltersRow
           searchQuery={searchQuery} onSearchChange={onSearchChange}
           searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange} empreses={empreses}
+          comarques={comarques} tematiques={tematiques}
           filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
           filterComarca={filterComarca} onFilterComarcaChange={onFilterComarcaChange}
           hasFilters={hasFilters} onClearFilters={onClearFilters}
@@ -128,6 +132,7 @@ const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
 function FiltersRow({
   searchQuery, onSearchChange,
   searchEmpresa, onSearchEmpresaChange, empreses,
+  comarques, tematiques,
   filterTematica, onFilterTematicaChange,
   filterComarca, onFilterComarcaChange,
   hasFilters, onClearFilters,
@@ -222,13 +227,13 @@ function FiltersRow({
                 className="w-full pl-7 pr-2 py-1.5 text-sm border border-accent bg-orange-50 rounded-lg appearance-none focus:outline-none text-accent"
               >
                 <option value="">— Totes —</option>
-                {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
+                {tematiques.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
           )}
 
           {activeFilter === 'comarca' && (
-            <ComarcaCombobox value={filterComarca} onChange={onFilterComarcaChange} />
+            <ComarcaCombobox value={filterComarca} onChange={onFilterComarcaChange} comarques={comarques} />
           )}
 
           <button
@@ -244,7 +249,7 @@ function FiltersRow({
   );
 }
 
-function ComarcaCombobox({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function ComarcaCombobox({ value, onChange, comarques }: { value: string; onChange: (v: string) => void; comarques: string[] }) {
   const [open, setOpen] = useState(false);
   const [inputVal, setInputVal] = useState(value);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -262,7 +267,7 @@ function ComarcaCombobox({ value, onChange }: { value: string; onChange: (v: str
     return () => document.removeEventListener('mousedown', handler);
   }, [value]);
 
-  const filtered = COMARQUES.filter((c) =>
+  const filtered = comarques.filter((c) =>
     c.toLowerCase().includes(inputVal.toLowerCase())
   );
 
