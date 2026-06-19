@@ -6,6 +6,7 @@ const EMAIL_TO_NAME: Record<string, string> = {
   'lauranavarreteclos@gmail.com': 'Laura',
   'marc.brunes95@gmail.com': 'Marc',
   'cristina.naqui@gmail.com': 'Cristina',
+  'ari.veny.reast@gmail.com': 'Ari',
 };
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];

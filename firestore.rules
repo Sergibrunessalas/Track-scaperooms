@@ -11,7 +11,8 @@ service cloud.firestore {
           'marc.brunes95@gmail.com',
           'lauranavarreteclos@gmail.com',
           'xamolo@hotmail.com',
-          'cristina.naqui@gmail.com'
+          'cristina.naqui@gmail.com',
+          'ari.veny.reast@gmail.com'
         ];
     }
   }

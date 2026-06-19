@@ -14,6 +14,7 @@ const ALLOWED_EMAILS = [
   'lauranavarreteclos@gmail.com',
   'xamolo@hotmail.com',
   'cristina.naqui@gmail.com',
+  'ari.veny.reast@gmail.com',
 ];
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
