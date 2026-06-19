@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Trash2, Save, MapPin, Loader2, Image, Euro, Globe, Clock } from 'lucide-react';
-import { EscapeRoom, ParticipantRating, TEMATIQUES, calcPuntuacio, generateId, starsFromScore } from '../types';
+import { EscapeRoom, ParticipantRating, TEMATIQUES, COMARQUES, calcPuntuacio, generateId, starsFromScore } from '../types';
 
 const EMAIL_TO_NAME: Record<string, string> = {
   'lauranavarreteclos@gmail.com': 'Laura',
@@ -37,6 +37,7 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   tematica1: '',
   tematica2: '',
   temps: '',
+  comarca: '',
 };
 
 function toInputDate(s: string): string {
@@ -284,6 +285,19 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
                   {geocodeMsg.text}
                 </p>
               )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Comarca</label>
+              <select
+                value={form.comarca}
+                disabled={!isAdmin}
+                onChange={(e) => set('comarca', e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none bg-white disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+              >
+                <option value="">— Selecciona comarca —</option>
+                {COMARQUES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
             </div>
 
             <div className="grid grid-cols-2 gap-3">

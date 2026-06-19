@@ -46,6 +46,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
+  const [filterComarca, setFilterComarca] = useState('');
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [formState, setFormState] = useState<'closed' | 'new' | EscapeRoom>('closed');
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
@@ -143,6 +144,7 @@ export default function App() {
     if (searchQuery && !room.nom.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     if (searchEmpresa && !(room.empresa ?? '').toLowerCase().includes(searchEmpresa.toLowerCase())) return false;
     if (filterTematica && room.tematica1 !== filterTematica && room.tematica2 !== filterTematica) return false;
+    if (filterComarca && room.comarca !== filterComarca) return false;
     return true;
   });
 
@@ -212,8 +214,8 @@ export default function App() {
     [rooms]
   );
 
-  const hasFilters = !!(searchQuery || searchEmpresa || filterTematica);
-  const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); };
+  const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca);
+  const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); };
 
   if (!dbReady) {
     return (
@@ -308,6 +310,8 @@ export default function App() {
           empreses={empreses}
           filterTematica={filterTematica}
           onFilterTematicaChange={setFilterTematica}
+          filterComarca={filterComarca}
+          onFilterComarcaChange={setFilterComarca}
           mainView={mainView}
           onMainViewChange={(v) => { if (v === 'web' && !canEdit) return; setMainView(v); }}
           canEdit={canEdit}

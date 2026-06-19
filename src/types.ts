@@ -23,7 +23,19 @@ export interface EscapeRoom {
   tematica1: string;
   tematica2: string;
   temps: string;
+  comarca: string;
 }
+
+export const COMARQUES = [
+  'Alt Camp', 'Alt Empordà', 'Alt Penedès', 'Alt Urgell', 'Alta Ribagorça',
+  'Anoia', 'Bages', 'Baix Camp', 'Baix Ebre', 'Baix Empordà', 'Baix Llobregat',
+  'Baix Penedès', 'Barcelonès', 'Berguedà', 'Cerdanya', 'Conca de Barberà',
+  'Garraf', 'Garrigues', 'Garrotxa', 'Gironès', 'Maresme', 'Moianès',
+  'Montsià', 'Noguera', 'Osona', 'Pallars Jussà', 'Pallars Sobirà',
+  'Pla d\'Urgell', 'Pla de l\'Estany', 'Priorat', 'Ribera d\'Ebre',
+  'Ripollès', 'Segarra', 'Segrià', 'Selva', 'Solsonès', 'Tarragonès',
+  'Terra Alta', 'Urgell', 'Val d\'Aran', 'Vallès Occidental', 'Vallès Oriental',
+] as const;
 
 export const TEMATIQUES = [
   'Acció', 'Adultos', 'Apocalipsis', 'Aventures', 'Ciència', 'Comèdia',
@@ -78,6 +90,7 @@ export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
     tematica1: (data.tematica1 as string) ?? '',
     tematica2: (data.tematica2 as string) ?? '',
     temps: (data.temps as string) ?? '',
+    comarca: (data.comarca as string) ?? '',
   };
 }
 
