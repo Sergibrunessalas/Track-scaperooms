@@ -35,7 +35,15 @@ export default function App() {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => { setUser(u); setAuthReady(true); });
+    return onAuthStateChanged(auth, (u) => {
+      if (u && !ALLOWED_EMAILS.includes(u.email ?? '')) {
+        signOut(auth);
+        setUser(null);
+      } else {
+        setUser(u);
+      }
+      setAuthReady(true);
+    });
   }, []);
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
