@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
-import { X, Trash2, Save, MapPin, Loader2, Image, Euro, Globe } from 'lucide-react';
+import { X, Trash2, Save, MapPin, Loader2, Image, Euro, Globe, Clock } from 'lucide-react';
 import { EscapeRoom, ParticipantRating, TEMATIQUES, calcPuntuacio, generateId, starsFromScore } from '../types';
+
+const EMAIL_TO_NAME: Record<string, string> = {
+  'lauranavarreteclos@gmail.com': 'Laura',
+  'marc.brunes95@gmail.com': 'Marc',
+  'xamolo@hotmail.com': 'Xamo',
+  'sbrunessalas@gmail.com': 'Sergi',
+};
 
 interface RoomFormProps {
   room: EscapeRoom | null;
   existingIds: string[];
+  userEmail: string;
   onSave: (room: EscapeRoom) => void;
   onDelete: (id: string) => void;
   onClose: () => void;
@@ -27,6 +35,7 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   web: '',
   tematica1: '',
   tematica2: '',
+  temps: '',
 };
 
 function toInputDate(s: string): string {
@@ -45,23 +54,24 @@ function fromInputDate(s: string): string {
 
 const STAR_VALUES = ['', '★', '★★', '★★★', '★★★★', '★★★★★'];
 
-function DificultatSelector({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function DificultatSelector({ label, value, onChange, disabled }: { label: string; value: string; onChange: (v: string) => void; disabled?: boolean }) {
   const current = STAR_VALUES.indexOf(value);
   return (
-    <div className="flex items-center justify-between">
+    <div className={`flex items-center justify-between ${disabled ? 'opacity-40' : ''}`}>
       <span className="text-xs text-gray-600 font-medium w-28 truncate">{label}</span>
       <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}
             type="button"
-            onClick={() => onChange(current === n ? '' : STAR_VALUES[n])}
-            className={`text-xl transition-colors ${n <= current ? 'text-accent' : 'text-gray-300 hover:text-accent/60'}`}
+            disabled={disabled}
+            onClick={() => !disabled && onChange(current === n ? '' : STAR_VALUES[n])}
+            className={`text-xl transition-colors ${disabled ? 'cursor-not-allowed' : ''} ${n <= current ? 'text-accent' : 'text-gray-300 hover:text-accent/60'}`}
           >
             ★
           </button>
         ))}
-        {value && (
+        {value && !disabled && (
           <button type="button" onClick={() => onChange('')} className="ml-1 text-xs text-gray-400 hover:text-gray-600">✕</button>
         )}
       </div>
@@ -69,9 +79,9 @@ function DificultatSelector({ label, value, onChange }: { label: string; value: 
   );
 }
 
-function ScoreInput({ label, value, onChange }: { label: string; value: number | null; onChange: (v: number | null) => void }) {
+function ScoreInput({ label, value, onChange, disabled }: { label: string; value: number | null; onChange: (v: number | null) => void; disabled?: boolean }) {
   return (
-    <div className="flex items-center justify-between">
+    <div className={`flex items-center justify-between ${disabled ? 'opacity-40' : ''}`}>
       <label className="text-xs text-gray-600 font-medium w-28 truncate">{label}</label>
       <div className="flex items-center gap-2">
         <input
@@ -79,13 +89,15 @@ function ScoreInput({ label, value, onChange }: { label: string; value: number |
           min="0"
           max="5"
           step="0.5"
+          disabled={disabled}
           value={value ?? ''}
           placeholder="—"
           onChange={(e) => {
+            if (disabled) return;
             const v = e.target.value === '' ? null : parseFloat(e.target.value);
             onChange(v !== null && !isNaN(v) ? Math.min(5, Math.max(0, v)) : null);
           }}
-          className="w-20 px-2 py-1 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none text-center"
+          className={`w-20 px-2 py-1 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none text-center ${disabled ? 'cursor-not-allowed bg-gray-50' : ''}`}
         />
         {value !== null && <span className="text-accent text-xs w-16">{starsFromScore(value)}</span>}
       </div>
@@ -97,7 +109,7 @@ const EMPTY_RATING: ParticipantRating = { decoracio: null, gameMaster: null, pro
 
 type GeocodeMsg = { type: 'ok' | 'error'; text: string };
 
-export default function RoomForm({ room, existingIds, onSave, onDelete, onClose }: RoomFormProps) {
+export default function RoomForm({ room, existingIds, userEmail, onSave, onDelete, onClose }: RoomFormProps) {
   const isNew = room === null;
   const [form, setForm] = useState<EscapeRoom>(() => {
     if (room) return { ...BLANK, ...room };
@@ -107,6 +119,13 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
   const [geocodeMsg, setGeocodeMsg] = useState<GeocodeMsg | null>(null);
 
   const parts = form.participants.trim().split(/\s+/).filter(Boolean);
+
+  // Determina quin índex de participant pot editar l'usuari actual
+  const myName = EMAIL_TO_NAME[userEmail] ?? '';
+  const editableIdx = myName
+    ? parts.findIndex(p => p.toLowerCase() === myName.toLowerCase())
+    : -1; // -1 = pot editar tots (email no reconegut)
+  const canEditSlot = (i: number) => editableIdx === -1 || editableIdx === i;
   const numParts = Math.max(1, parts.length);
   const pLabel = (i: number) => parts[i] || `Participant ${i + 1}`;
 
@@ -283,6 +302,19 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
               />
             </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">
+                <span className="flex items-center gap-1"><Clock size={12} /> Temps (minuts)</span>
+              </label>
+              <input
+                type="text"
+                value={form.temps}
+                onChange={(e) => set('temps', e.target.value)}
+                placeholder="Ex: 75 min"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+              />
+            </div>
           </section>
 
           {/* Temàtiques */}
@@ -312,7 +344,7 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
           <section className="space-y-2.5">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Dificultat</h3>
             {Array.from({ length: numParts }, (_, i) => (
-              <DificultatSelector key={i} label={pLabel(i)} value={getDif(i)} onChange={(v) => setDif(i, v)} />
+              <DificultatSelector key={i} label={pLabel(i)} value={getDif(i)} onChange={(v) => setDif(i, v)} disabled={!canEditSlot(i)} />
             ))}
             {avgDif !== null && (
               <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 flex items-center justify-between">
@@ -330,13 +362,16 @@ export default function RoomForm({ room, existingIds, onSave, onDelete, onClose 
 
             {Array.from({ length: numParts }, (_, i) => {
               const r = getRating(i);
+              const locked = !canEditSlot(i);
               return (
-                <div key={i}>
-                  <p className="text-xs text-gray-400 font-medium mb-1">{pLabel(i)}</p>
+                <div key={i} className={locked ? 'opacity-50' : ''}>
+                  <p className="text-xs text-gray-400 font-medium mb-1">
+                    {pLabel(i)}{locked && <span className="ml-1 text-gray-300">(🔒)</span>}
+                  </p>
                   <div className="space-y-2.5 pl-2 border-l-2 border-accent/20">
-                    <ScoreInput label="Decoració" value={r.decoracio} onChange={(v) => setRatingField(i, 'decoracio', v)} />
-                    <ScoreInput label="Game Master" value={r.gameMaster} onChange={(v) => setRatingField(i, 'gameMaster', v)} />
-                    <ScoreInput label="Proves" value={r.proves} onChange={(v) => setRatingField(i, 'proves', v)} />
+                    <ScoreInput label="Decoració" value={r.decoracio} onChange={(v) => setRatingField(i, 'decoracio', v)} disabled={locked} />
+                    <ScoreInput label="Game Master" value={r.gameMaster} onChange={(v) => setRatingField(i, 'gameMaster', v)} disabled={locked} />
+                    <ScoreInput label="Proves" value={r.proves} onChange={(v) => setRatingField(i, 'proves', v)} disabled={locked} />
                   </div>
                 </div>
               );

@@ -22,6 +22,7 @@ export interface EscapeRoom {
   web: string;
   tematica1: string;
   tematica2: string;
+  temps: string;
 }
 
 export const TEMATIQUES = [
@@ -76,6 +77,7 @@ export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
     web: (data.web as string) ?? '',
     tematica1: (data.tematica1 as string) ?? '',
     tematica2: (data.tematica2 as string) ?? '',
+    temps: (data.temps as string) ?? '',
   };
 }
 

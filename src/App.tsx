@@ -382,6 +382,7 @@ export default function App() {
         <RoomForm
           room={formState === 'new' ? null : formState}
           existingIds={rooms.map((r) => r.id)}
+          userEmail={user?.email ?? ''}
           onSave={handleSaveRoom}
           onDelete={handleDeleteRoom}
           onClose={() => setFormState('closed')}

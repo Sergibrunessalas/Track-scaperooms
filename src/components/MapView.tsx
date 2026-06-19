@@ -72,6 +72,7 @@ function buildPopupHtml(room: EscapeRoom, canEdit: boolean): string {
             <span style="color:#6b7280;font-weight:400;font-size:12px;margin-left:4px">${scoreStr}</span></p>`
         : `<p style="margin:3px 0;font-size:12px;color:#9ca3af;font-style:italic">Pendent de valorar</p>`}
       ${room.preu ? `<p style="margin:3px 0;font-size:12px;color:#374151"><span style="display:inline-block;background:#22c55e;color:white;font-weight:700;border-radius:4px;padding:0 4px;margin-right:4px;font-size:11px;line-height:1.4">€</span>${esc(room.preu)}</p>` : ''}
+      ${room.temps ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">🕐 ${esc(room.temps)}</p>` : ''}
       ${dif !== null ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">⚔️ ${dificultatLabel(dif)}</p>` : ''}
       ${room.data ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">📅 ${esc(room.data)}</p>` : ''}
       ${tems.length ? `<p style="margin:3px 0;font-size:12px;color:#6b7280">🏷️ ${tems.map(esc).join(' · ')}</p>` : ''}
