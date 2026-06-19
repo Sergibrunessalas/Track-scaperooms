@@ -279,9 +279,9 @@ function ComarcaCombobox({ value, onChange, comarques }: { value: string; onChan
       <MapPin size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" />
       <input
         type="text"
-        placeholder="Comarca"
+        placeholder={value || "Comarca"}
         value={inputVal}
-        onFocus={() => setOpen(true)}
+        onFocus={() => { setInputVal(''); setOpen(true); }}
         onChange={(e) => { setInputVal(e.target.value); setOpen(true); if (e.target.value === '') onChange(''); }}
         className={`w-full pl-7 pr-6 py-1.5 text-sm border rounded-lg focus:outline-none focus:border-accent transition-colors cursor-pointer ${
           value ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50 focus:bg-white'
@@ -369,9 +369,9 @@ function CompanyCombobox({
       <Building2 size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" />
       <input
         type="text"
-        placeholder="Companyia"
+        placeholder={value || "Companyia"}
         value={inputVal}
-        onFocus={() => setOpen(true)}
+        onFocus={() => { setInputVal(''); setOpen(true); }}
         onChange={(e) => {
           setInputVal(e.target.value);
           setOpen(true);
