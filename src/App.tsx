@@ -14,6 +14,8 @@ const ALLOWED_EMAILS = [
   'lauranavarreteclos@gmail.com',
   'xamolo@hotmail.com',
 ];
+
+const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
 import Header from './components/Header';
 import StatsBar, { MainView } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
@@ -36,6 +38,7 @@ export default function App() {
   }, []);
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
+  const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
 
   const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
   const handleLogout = () => signOut(auth).catch(console.error);
@@ -285,6 +288,7 @@ export default function App() {
       <div className="flex-1 flex flex-col bg-gray-50 overflow-hidden min-w-0">
         <Header
           canEdit={canEdit}
+          isAdmin={isAdmin}
           user={user}
           onAddRoom={() => setFormState('new')}
           onLogin={handleLogin}

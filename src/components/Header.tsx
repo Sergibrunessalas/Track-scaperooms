@@ -4,6 +4,7 @@ import type { User } from 'firebase/auth';
 
 interface HeaderProps {
   canEdit: boolean;
+  isAdmin: boolean;
   user: User | null;
   onAddRoom: () => void;
   onLogin: () => void;
@@ -12,7 +13,7 @@ interface HeaderProps {
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Header({ canEdit, user, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
+export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -74,8 +75,8 @@ export default function Header({ canEdit, user, onAddRoom, onLogin, onLogout, on
             </button>
           )}
 
-          {/* Menú desplegable per exportar/importar — només per a editors */}
-          {canEdit && (
+          {/* Menú desplegable per exportar/importar — només per a admins */}
+          {isAdmin && (
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen((o) => !o)}
@@ -104,8 +105,8 @@ export default function Header({ canEdit, user, onAddRoom, onLogin, onLogout, on
             </div>
           )}
 
-          {/* Botó afegir — només per a editors */}
-          {canEdit && (
+          {/* Botó afegir — només per a admins */}
+          {isAdmin && (
             <button
               onClick={onAddRoom}
               className="flex items-center gap-1.5 px-3 py-2 bg-accent hover:bg-accent-dark text-white rounded-lg font-semibold text-sm transition-colors shadow-md"

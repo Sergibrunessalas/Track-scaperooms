@@ -220,6 +220,14 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
         </div>
 
         <form id="room-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto sidebar-scroll px-5 py-4 space-y-5">
+
+          {/* Avís per a no-admins */}
+          {!isAdmin && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-xs text-amber-700 font-medium">
+              ℹ️ Només pots editar la teva dificultat i valoració
+            </div>
+          )}
+
           {/* Basic info */}
           <section className="space-y-3">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Informació bàsica</h3>
@@ -230,9 +238,10 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
                 required
                 type="text"
                 value={form.nom}
+                disabled={!isAdmin}
                 onChange={(e) => set('nom', e.target.value)}
                 placeholder="Nom de l'escape room"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -241,9 +250,10 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
               <input
                 type="text"
                 value={form.empresa}
+                disabled={!isAdmin}
                 onChange={(e) => set('empresa', e.target.value)}
                 placeholder="Nom de l'empresa que gestiona el local"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -252,14 +262,15 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
               <input
                 type="text"
                 value={form.localitzacio}
+                disabled={!isAdmin}
                 onChange={(e) => set('localitzacio', e.target.value)}
                 placeholder="Adreça completa"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
               />
               <button
                 type="button"
                 onClick={handleGeocode}
-                disabled={geocoding || !form.localitzacio.trim()}
+                disabled={!isAdmin || geocoding || !form.localitzacio.trim()}
                 className="mt-2 w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-accent border border-accent/30 rounded-lg hover:bg-accent/5 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 {geocoding ? <Loader2 size={13} className="animate-spin" /> : <MapPin size={13} />}
@@ -279,8 +290,9 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
                 </label>
                 <input
                   type="number" step="any" value={form.lat ?? ''} placeholder="41.xxxx"
+                  disabled={!isAdmin}
                   onChange={(e) => set('lat', e.target.value === '' ? null : parseFloat(e.target.value))}
-                  className={`w-full px-3 py-2 text-sm border rounded-lg focus:border-accent focus:outline-none ${form.lat !== null ? 'border-green-200 bg-green-50' : 'border-gray-200'}`}
+                  className={`w-full px-3 py-2 text-sm border rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:cursor-not-allowed ${form.lat !== null ? 'border-green-200 bg-green-50' : 'border-gray-200'}`}
                 />
               </div>
               <div>
@@ -289,8 +301,9 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
                 </label>
                 <input
                   type="number" step="any" value={form.lng ?? ''} placeholder="2.xxxx"
+                  disabled={!isAdmin}
                   onChange={(e) => set('lng', e.target.value === '' ? null : parseFloat(e.target.value))}
-                  className={`w-full px-3 py-2 text-sm border rounded-lg focus:border-accent focus:outline-none ${form.lng !== null ? 'border-green-200 bg-green-50' : 'border-gray-200'}`}
+                  className={`w-full px-3 py-2 text-sm border rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:cursor-not-allowed ${form.lng !== null ? 'border-green-200 bg-green-50' : 'border-gray-200'}`}
                 />
               </div>
             </div>
@@ -299,8 +312,9 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
               <label className="block text-xs font-semibold text-gray-700 mb-1">Data de realització</label>
               <input
                 type="date" value={toInputDate(form.data)}
+                disabled={!isAdmin}
                 onChange={(e) => set('data', fromInputDate(e.target.value))}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -311,9 +325,10 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
               <input
                 type="text"
                 value={form.temps}
+                disabled={!isAdmin}
                 onChange={(e) => set('temps', e.target.value)}
                 placeholder="Ex: 75 min"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
               />
             </div>
           </section>
@@ -324,16 +339,16 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">Principal</label>
-                <select value={form.tematica1} onChange={(e) => set('tematica1', e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none bg-white">
+                <select value={form.tematica1} disabled={!isAdmin} onChange={(e) => set('tematica1', e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none bg-white disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed">
                   <option value="">—</option>
                   {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">Secundària</label>
-                <select value={form.tematica2} onChange={(e) => set('tematica2', e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none bg-white">
+                <select value={form.tematica2} disabled={!isAdmin} onChange={(e) => set('tematica2', e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none bg-white disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed">
                   <option value="">—</option>
                   {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
@@ -404,42 +419,42 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 <span className="flex items-center gap-1"><Globe size={12} /> Web del local</span>
               </label>
-              <input type="url" value={form.web} onChange={(e) => set('web', e.target.value)}
+              <input type="url" value={form.web} disabled={!isAdmin} onChange={(e) => set('web', e.target.value)}
                 placeholder="https://www.nomdellocal.com"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 <span className="flex items-center gap-1"><Euro size={12} /> Preu</span>
               </label>
-              <input type="text" value={form.preu} onChange={(e) => set('preu', e.target.value)}
+              <input type="text" value={form.preu} disabled={!isAdmin} onChange={(e) => set('preu', e.target.value)}
                 placeholder="Ex: 18€/persona"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">Participants</label>
-              <input type="text" value={form.participants} onChange={(e) => set('participants', e.target.value)}
+              <input type="text" value={form.participants} disabled={!isAdmin} onChange={(e) => set('participants', e.target.value)}
                 placeholder="Cristina Ari Xamo Sergi"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
               <p className="text-xs text-gray-400 mt-1">Separats per espai · cada nom genera una casella de valoració</p>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">Comentaris</label>
-              <textarea value={form.comentaris} onChange={(e) => set('comentaris', e.target.value)}
+              <textarea value={form.comentaris} disabled={!isAdmin} onChange={(e) => set('comentaris', e.target.value)}
                 placeholder="Notes sobre l'experiència…" rows={3}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none resize-none" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none resize-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 <span className="flex items-center gap-1"><Image size={12} /> Foto (URL d'Imgur)</span>
               </label>
-              <input type="url" value={form.imatgeUrl} onChange={(e) => set('imatgeUrl', e.target.value)}
+              <input type="url" value={form.imatgeUrl} disabled={!isAdmin} onChange={(e) => set('imatgeUrl', e.target.value)}
                 placeholder="https://i.imgur.com/xxxxx.jpg"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
               {form.imatgeUrl && (
                 <img src={form.imatgeUrl} alt="Previsualització"
                   className="mt-2 w-full h-32 object-cover rounded-lg border border-gray-200"
@@ -450,7 +465,7 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
         </form>
 
         <div className="flex-shrink-0 px-5 py-4 border-t border-gray-100 bg-gray-50 flex items-center gap-3">
-          {!isNew && (
+          {!isNew && isAdmin && (
             <button type="button" onClick={handleDelete}
               className="flex items-center gap-1.5 px-3 py-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium">
               <Trash2 size={14} /> Eliminar
