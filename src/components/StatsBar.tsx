@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, X, Tag, Building2, ChevronDown, MapPin } from 'lucide-react';
 
-export type MainView = 'mapa' | 'web';
+export type MainView = 'mapa' | 'web' | 'galeria';
 
 interface StatsBarProps {
   total: number;
@@ -89,6 +89,16 @@ export default function StatsBar({
               📊 Estadístiques
             </button>
           )}
+          <button
+            onClick={() => onMainViewChange('galeria')}
+            className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all uppercase tracking-wide ${
+              mainView === 'galeria'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            🌐 Web
+          </button>
         </div>
 
         <div className="hidden md:flex items-center gap-2 ml-auto">

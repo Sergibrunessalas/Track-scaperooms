@@ -24,6 +24,7 @@ export interface EscapeRoom {
   tematica2: string;
   temps: string;
   comarca: string;
+  descripcio: string;
 }
 
 export const COMARQUES = [
@@ -91,6 +92,7 @@ export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
     tematica2: (data.tematica2 as string) ?? '',
     temps: (data.temps as string) ?? '',
     comarca: (data.comarca as string) ?? '',
+    descripcio: (data.descripcio as string) ?? '',
   };
 }
 

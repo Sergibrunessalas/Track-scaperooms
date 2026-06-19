@@ -24,6 +24,7 @@ import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
 import WebView from './components/WebView';
+import GaleriaView from './components/GaleriaView';
 import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
@@ -519,11 +520,14 @@ export default function App() {
           onClearFilters={clearFilters}
         />
 
-        {/* Vista WEB — dashboard d'estadístiques (només usuaris autoritzats) */}
+        {/* Vista Estadístiques */}
         {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
 
+        {/* Vista Web / Galeria */}
+        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} />}
+
         {/* Mobile tabs */}
-        <div className={`${mainView === 'web' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -543,7 +547,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className={`${mainView === 'web' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView

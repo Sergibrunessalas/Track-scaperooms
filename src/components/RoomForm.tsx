@@ -39,6 +39,7 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   tematica2: '',
   temps: '',
   comarca: '',
+  descripcio: '',
 };
 
 function toInputDate(s: string): string {
@@ -460,7 +461,14 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">Comentaris</label>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Descripció general (visible a la pestanya Web)</label>
+              <textarea value={form.descripcio} disabled={!isAdmin} onChange={(e) => set('descripcio', e.target.value)}
+                placeholder="Descriu l'escape room: temàtica, ambientació, dificultat general, per a qui és recomanable…" rows={3}
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none resize-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Comentaris (privats del grup)</label>
               <textarea value={form.comentaris} disabled={!isAdmin} onChange={(e) => set('comentaris', e.target.value)}
                 placeholder="Notes sobre l'experiència…" rows={3}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none resize-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
