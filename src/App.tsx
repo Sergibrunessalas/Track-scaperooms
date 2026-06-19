@@ -11,6 +11,8 @@ import { db, auth } from './firebase';
 const ALLOWED_EMAILS = [
   'sbrunessalas@gmail.com',
   'marc.brunes95@gmail.com',
+  'lauranavarreteclos@gmail.com',
+  'xamolo@hotmail.com',
 ];
 import Header from './components/Header';
 import StatsBar, { MainView } from './components/StatsBar';
