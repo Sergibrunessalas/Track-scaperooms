@@ -5,9 +5,9 @@ import { EscapeRoom, ParticipantRating, TEMATIQUES, calcPuntuacio, generateId, s
 const EMAIL_TO_NAME: Record<string, string> = {
   'lauranavarreteclos@gmail.com': 'Laura',
   'marc.brunes95@gmail.com': 'Marc',
-  'xamolo@hotmail.com': 'Xamo',
-  'sbrunessalas@gmail.com': 'Sergi',
 };
+
+const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
 
 interface RoomFormProps {
   room: EscapeRoom | null;
@@ -120,12 +120,13 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
 
   const parts = form.participants.trim().split(/\s+/).filter(Boolean);
 
-  // Determina quin índex de participant pot editar l'usuari actual
+  // Admins poden editar tots els slots; la resta només el seu
+  const isAdmin = ADMIN_EMAILS.includes(userEmail);
   const myName = EMAIL_TO_NAME[userEmail] ?? '';
   const editableIdx = myName
     ? parts.findIndex(p => p.toLowerCase() === myName.toLowerCase())
-    : -1; // -1 = pot editar tots (email no reconegut)
-  const canEditSlot = (i: number) => editableIdx === -1 || editableIdx === i;
+    : -1;
+  const canEditSlot = (i: number) => isAdmin || editableIdx === -1 || editableIdx === i;
   const numParts = Math.max(1, parts.length);
   const pLabel = (i: number) => parts[i] || `Participant ${i + 1}`;
 
