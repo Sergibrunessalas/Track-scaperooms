@@ -10,8 +10,7 @@ service cloud.firestore {
           'sbrunessalas@gmail.com',
           'marc.brunes95@gmail.com',
           'lauranavarreteclos@gmail.com',
-          'xamolo@hotmail.com',
-          'xamoneva@gmail.com'
+          'xamolo@hotmail.com'
         ];
     }
   }
