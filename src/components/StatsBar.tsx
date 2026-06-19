@@ -115,7 +115,15 @@ export default function StatsBar({
   );
 }
 
+type FilterType = 'nom' | 'comarca' | 'tematica' | 'companyia';
 type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange' | 'canEdit'>;
+
+const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
+  { type: 'nom', label: 'Nom' },
+  { type: 'comarca', label: 'Comarca' },
+  { type: 'tematica', label: 'Temàtica' },
+  { type: 'companyia', label: 'Companyia' },
+];
 
 function FiltersRow({
   searchQuery, onSearchChange,
@@ -124,60 +132,115 @@ function FiltersRow({
   filterComarca, onFilterComarcaChange,
   hasFilters, onClearFilters,
 }: FiltersRowProps) {
+  const [chooserOpen, setChooserOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<FilterType | null>(() => {
+    if (searchQuery) return 'nom';
+    if (searchEmpresa) return 'companyia';
+    if (filterTematica) return 'tematica';
+    if (filterComarca) return 'comarca';
+    return null;
+  });
+
+  useEffect(() => {
+    if (!hasFilters) { setActiveFilter(null); setChooserOpen(false); }
+  }, [hasFilters]);
+
+  const selectFilter = (type: FilterType) => { setActiveFilter(type); setChooserOpen(false); };
+
+  const clearActive = () => {
+    if (activeFilter === 'nom') onSearchChange('');
+    else if (activeFilter === 'companyia') onSearchEmpresaChange('');
+    else if (activeFilter === 'tematica') onFilterTematicaChange('');
+    else if (activeFilter === 'comarca') onFilterComarcaChange('');
+    setActiveFilter(null);
+  };
+
+  const activeLabel = FILTER_OPTIONS.find(f => f.type === activeFilter)?.label ?? '';
+
   return (
-    <>
-      {/* Cerca per nom */}
-      <div className="relative flex-1 md:flex-none md:w-36 min-w-0">
-        <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        <input
-          type="text"
-          placeholder="Nom…"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-8 pr-7 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-accent focus:outline-none transition-colors"
-        />
-        {searchQuery && (
-          <button onClick={() => onSearchChange('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-            <X size={12} />
-          </button>
-        )}
-      </div>
+    <div className="flex items-center gap-2">
 
-      {/* Combobox de companyies */}
-      <CompanyCombobox
-        value={searchEmpresa}
-        onChange={onSearchEmpresaChange}
-        empreses={empreses}
-      />
-
-      {/* Combobox de comarques */}
-      <ComarcaCombobox
-        value={filterComarca}
-        onChange={onFilterComarcaChange}
-      />
-
-      {/* Filtre temàtica */}
-      <div className="relative flex-shrink-0 w-28 md:w-32">
-        <Tag size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        <select
-          value={filterTematica}
-          onChange={(e) => onFilterTematicaChange(e.target.value)}
-          className={`w-full pl-7 pr-2 py-1.5 text-sm border rounded-lg appearance-none focus:outline-none focus:border-accent transition-colors ${
-            filterTematica ? 'border-accent bg-orange-50 text-accent' : 'border-gray-200 bg-gray-50'
-          }`}
+      {/* Botó "Filtres" — visible quan no hi ha res obert ni actiu */}
+      {!chooserOpen && !activeFilter && (
+        <button
+          onClick={() => setChooserOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 hover:bg-white hover:border-accent text-gray-500 hover:text-accent transition-colors"
         >
-          <option value="">Temàtica</option>
-          {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
-        </select>
-      </div>
-
-      {hasFilters && (
-        <button onClick={onClearFilters} className="flex items-center gap-1 text-xs text-accent hover:text-accent-dark font-medium transition-colors flex-shrink-0">
-          <X size={12} />
-          <span className="hidden sm:inline">Treure</span>
+          <Search size={13} />
+          <span>Filtres</span>
+          <ChevronDown size={12} />
         </button>
       )}
-    </>
+
+      {/* Selector de 4 filtres */}
+      {chooserOpen && !activeFilter && (
+        <div className="flex items-center gap-1.5">
+          {FILTER_OPTIONS.map(({ type, label }) => (
+            <button
+              key={type}
+              onClick={() => selectFilter(type)}
+              className="px-3 py-1.5 text-xs font-semibold border border-gray-200 rounded-lg bg-white hover:border-accent hover:text-accent hover:bg-orange-50 text-gray-600 transition-colors"
+            >
+              {label}
+            </button>
+          ))}
+          <button onClick={() => setChooserOpen(false)} className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+            <X size={13} />
+          </button>
+        </div>
+      )}
+
+      {/* Input del filtre actiu */}
+      {activeFilter && (
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-wide flex-shrink-0">{activeLabel}:</span>
+
+          {activeFilter === 'nom' && (
+            <div className="relative w-40">
+              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Buscar nom…"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                autoFocus
+                className="w-full pl-8 pr-2 py-1.5 text-sm border border-accent bg-orange-50 rounded-lg focus:outline-none"
+              />
+            </div>
+          )}
+
+          {activeFilter === 'companyia' && (
+            <CompanyCombobox value={searchEmpresa} onChange={onSearchEmpresaChange} empreses={empreses} />
+          )}
+
+          {activeFilter === 'tematica' && (
+            <div className="relative w-36">
+              <Tag size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <select
+                value={filterTematica}
+                onChange={(e) => onFilterTematicaChange(e.target.value)}
+                className="w-full pl-7 pr-2 py-1.5 text-sm border border-accent bg-orange-50 rounded-lg appearance-none focus:outline-none text-accent"
+              >
+                <option value="">— Totes —</option>
+                {TEMATIQUES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+          )}
+
+          {activeFilter === 'comarca' && (
+            <ComarcaCombobox value={filterComarca} onChange={onFilterComarcaChange} />
+          )}
+
+          <button
+            onClick={clearActive}
+            className="p-1.5 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+            title="Tancar filtre"
+          >
+            <X size={13} />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
