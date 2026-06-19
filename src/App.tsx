@@ -13,6 +13,7 @@ const ALLOWED_EMAILS = [
   'marc.brunes95@gmail.com',
   'lauranavarreteclos@gmail.com',
   'xamolo@hotmail.com',
+  'cristina.naqui@gmail.com',
 ];
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
