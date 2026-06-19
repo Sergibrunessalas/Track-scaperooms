@@ -35,33 +35,13 @@ export default function App() {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => {
-      if (u && !ALLOWED_EMAILS.includes(u.email ?? '')) {
-        signOut(auth);
-        setUser(null);
-      } else {
-        setUser(u);
-      }
-      setAuthReady(true);
-    });
+    return onAuthStateChanged(auth, (u) => { setUser(u); setAuthReady(true); });
   }, []);
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
   const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
 
-  const handleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, new GoogleAuthProvider());
-      if (!ALLOWED_EMAILS.includes(result.user.email ?? '')) {
-        await signOut(auth);
-        alert('Aquest correu no té accés a la plataforma.');
-      }
-    } catch (e: unknown) {
-      if (e instanceof Error && 'code' in e && (e as {code: string}).code !== 'auth/popup-closed-by-user') {
-        console.error(e);
-      }
-    }
-  };
+  const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
   const handleLogout = () => signOut(auth).catch(console.error);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
