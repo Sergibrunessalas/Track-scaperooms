@@ -37,7 +37,11 @@ export default function App() {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => { setUser(u); setAuthReady(true); });
+    return onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      setAuthReady(true);
+      if (!u) setMainView('mapa');
+    });
   }, []);
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
@@ -514,7 +518,7 @@ export default function App() {
           filterComarca={filterComarca}
           onFilterComarcaChange={setFilterComarca}
           mainView={mainView}
-          onMainViewChange={(v) => { if (v === 'web' && !canEdit) return; setMainView(v); }}
+          onMainViewChange={(v) => { if ((v === 'web' || v === 'galeria') && !canEdit) return; setMainView(v); }}
           canEdit={canEdit}
           hasFilters={hasFilters}
           onClearFilters={clearFilters}
