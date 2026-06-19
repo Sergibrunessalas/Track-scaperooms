@@ -1,4 +1,4 @@
-import { Pencil, ExternalLink } from 'lucide-react';
+import { Pencil, ExternalLink, Star } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
 
 interface RoomCardProps {
@@ -6,11 +6,12 @@ interface RoomCardProps {
   rank: number;
   selected: boolean;
   canEdit: boolean;
+  isAdmin: boolean;
   onClick: () => void;
   onEdit: () => void;
 }
 
-export default function RoomCard({ room, rank, selected, canEdit, onClick, onEdit }: RoomCardProps) {
+export default function RoomCard({ room, rank, selected, canEdit, isAdmin, onClick, onEdit }: RoomCardProps) {
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
@@ -91,8 +92,8 @@ export default function RoomCard({ room, rank, selected, canEdit, onClick, onEdi
         )}
       </div>
 
-      {/* Edit button — només visible per a editors */}
-      {canEdit && (
+      {/* Llapis per admins, estrella per valoradors */}
+      {isAdmin && (
         <button
           onClick={(e) => { e.stopPropagation(); onEdit(); }}
           className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
@@ -103,6 +104,19 @@ export default function RoomCard({ room, rank, selected, canEdit, onClick, onEdi
           title="Editar"
         >
           <Pencil size={13} />
+        </button>
+      )}
+      {canEdit && !isAdmin && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onEdit(); }}
+          className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
+            selected
+              ? 'text-yellow-500 bg-yellow-50 opacity-100'
+              : 'text-gray-300 hover:text-yellow-500 hover:bg-yellow-50 opacity-0 group-hover:opacity-100'
+          }`}
+          title="Valorar"
+        >
+          <Star size={13} />
         </button>
       )}
     </div>

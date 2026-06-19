@@ -376,6 +376,7 @@ export default function App() {
               filteredCount={filteredRooms.length}
               selectedRoomId={selectedRoomId}
               canEdit={canEdit}
+              isAdmin={isAdmin}
               onRoomClick={handleRoomCardClick}
               onEditRoom={(room) => setFormState(room)}
             />
