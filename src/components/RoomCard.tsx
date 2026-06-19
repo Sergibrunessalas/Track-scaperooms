@@ -1,4 +1,5 @@
-import { Pencil, ExternalLink, Star } from 'lucide-react';
+import { useState } from 'react';
+import { Pencil, ExternalLink, Star, Link } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
 
 interface RoomCardProps {
@@ -15,6 +16,14 @@ export default function RoomCard({ room, rank, selected, canEdit, isAdmin, onCli
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(`${window.location.origin}/?sala=${room.id}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div
@@ -91,6 +100,17 @@ export default function RoomCard({ room, rank, selected, canEdit, isAdmin, onCli
           <span className="text-xs text-gray-400 italic">Pendent</span>
         )}
       </div>
+
+      {/* Botó compartir */}
+      <button
+        onClick={handleShare}
+        className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 opacity-0 group-hover:opacity-100 ${
+          copied ? 'text-green-500 bg-green-50' : 'text-gray-400 hover:text-blue-500 hover:bg-blue-50'
+        }`}
+        title={copied ? 'Copiat!' : 'Copiar enllaç'}
+      >
+        {copied ? <span className="text-xs font-bold">✓</span> : <Link size={12} />}
+      </button>
 
       {/* Llapis per admins, estrella per valoradors */}
       {isAdmin && (

@@ -2,10 +2,100 @@ import { useMemo } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
+import { Download } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
 
 const ACCENT = '#e8490a';
 const GOLD   = '#eab308';
+
+function exportTop10(rooms: EscapeRoom[]) {
+  const top = [...rooms]
+    .filter(r => r.puntuacio !== null)
+    .sort((a, b) => b.puntuacio! - a.puntuacio!)
+    .slice(0, 10);
+
+  const W = 580, ROW = 52, PAD = 24, HEADER = 100, FOOTER = 40;
+  const H = HEADER + top.length * ROW + PAD + FOOTER;
+  const canvas = document.createElement('canvas');
+  canvas.width = W * 2; canvas.height = H * 2; // retina
+  const ctx = canvas.getContext('2d')!;
+  ctx.scale(2, 2);
+
+  // Fons
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#18181b'); bg.addColorStop(1, '#09090b');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  // Títol
+  ctx.fillStyle = GOLD;
+  ctx.font = 'bold 22px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🏆 TOP 10 ESCAPE ROOMS', W / 2, 38);
+  ctx.fillStyle = '#71717a';
+  ctx.font = '13px system-ui, sans-serif';
+  ctx.fillText('Track Scaperooms · trackscaperooms.vercel.app', W / 2, 60);
+
+  // Línia separadora
+  ctx.strokeStyle = '#27272a'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(PAD, 75); ctx.lineTo(W - PAD, 75); ctx.stroke();
+
+  const MEDALS = ['🥇', '🥈', '🥉'];
+
+  top.forEach((room, i) => {
+    const y = HEADER + i * ROW;
+    const isTop3 = i < 3;
+
+    // Fons fila
+    ctx.fillStyle = isTop3 ? 'rgba(234,179,8,0.08)' : (i % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'transparent');
+    ctx.fillRect(PAD, y + 4, W - PAD * 2, ROW - 6);
+
+    // Rank
+    if (i < 3) {
+      ctx.font = '18px system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(MEDALS[i], PAD + 4, y + 30);
+    } else {
+      ctx.fillStyle = '#52525b';
+      ctx.font = 'bold 13px system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`#${i + 1}`, PAD + 6, y + 28);
+    }
+
+    // Nom
+    ctx.fillStyle = '#f4f4f5';
+    ctx.font = `${isTop3 ? 'bold 14px' : '13px'} system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    const nom = room.nom.length > 38 ? room.nom.slice(0, 35) + '…' : room.nom;
+    ctx.fillText(nom, PAD + 38, y + 22);
+
+    // Empresa
+    ctx.fillStyle = '#71717a';
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.fillText(room.empresa || '', PAD + 38, y + 38);
+
+    // Puntuació
+    ctx.fillStyle = ACCENT;
+    ctx.font = 'bold 18px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(room.puntuacio!.toFixed(1), W - PAD, y + 26);
+
+    // Estrelles
+    ctx.fillStyle = GOLD;
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.fillText(starsFromScore(room.puntuacio), W - PAD, y + 40);
+  });
+
+  // Footer
+  ctx.fillStyle = '#3f3f46';
+  ctx.font = '10px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`Generat el ${new Date().toLocaleDateString('ca-ES')}`, W / 2, H - 14);
+
+  const a = document.createElement('a');
+  a.download = 'top10-escape-rooms.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
 
 interface Props { rooms: EscapeRoom[]; }
 
@@ -49,6 +139,20 @@ export default function WebView({ rooms }: Props) {
         {/* Overlay fosc suau */}
         <div style={{ minHeight: '100%', background: 'rgba(0,0,0,0.35)' }}>
           <div className="max-w-5xl mx-auto p-6 space-y-6">
+
+            {/* Botó exportar */}
+            <div className="flex justify-end pt-1">
+              <button
+                onClick={() => exportTop10(rooms)}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all"
+                style={{ background: 'rgba(234,179,8,0.2)', border: '1px solid rgba(234,179,8,0.4)' }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.35)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.2)')}
+              >
+                <Download size={14} />
+                Exportar Top 10
+              </button>
+            </div>
 
             {/* KPI cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">

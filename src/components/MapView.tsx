@@ -13,6 +13,7 @@ interface MapViewProps {
   selectedRoomId: string | null;
   onSelectRoom: (room: EscapeRoom) => void;
   canEdit: boolean;
+  hasFilters: boolean;
 }
 
 function createMarkerIcon(rated: boolean, selected: boolean) {
@@ -92,6 +93,21 @@ function MapInitializer({ onReady }: { onReady: (map: L.Map) => void }) {
   return null;
 }
 
+function FitBoundsOnFilter({ rooms, hasFilters }: { rooms: EscapeRoom[]; hasFilters: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!hasFilters) return;
+    const points = rooms.filter(r => r.lat && r.lng).map(r => [r.lat!, r.lng!] as [number, number]);
+    if (points.length === 0) return;
+    if (points.length === 1) {
+      map.flyTo(points[0], 15, { animate: true, duration: 0.8 });
+    } else {
+      map.fitBounds(L.latLngBounds(points), { padding: [60, 60], animate: true, duration: 0.8, maxZoom: 14 });
+    }
+  }, [rooms, hasFilters]); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
+}
+
 function RoomMarker({ room, selected, onSelect, canEdit }: { room: EscapeRoom; selected: boolean; onSelect: () => void; canEdit: boolean }) {
   const markerRef = useRef<L.Marker | null>(null);
 
@@ -135,7 +151,7 @@ function RoomMarker({ room, selected, onSelect, canEdit }: { room: EscapeRoom; s
 }
 
 const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
-  { rooms, selectedRoomId, onSelectRoom, canEdit },
+  { rooms, selectedRoomId, onSelectRoom, canEdit, hasFilters },
   ref
 ) {
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -159,6 +175,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         zoomControl
       >
         <MapInitializer onReady={(m) => { mapInstanceRef.current = m; }} />
+        <FitBoundsOnFilter rooms={rooms} hasFilters={hasFilters} />
         <TileLayer
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
