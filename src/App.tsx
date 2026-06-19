@@ -229,6 +229,66 @@ export default function App() {
   const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca);
   const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); };
 
+  const seedNewRooms = async () => {
+    const newRooms = [
+      // === FOX IN A BOX BARCELONA ===
+      { id: 'er-097', nom: 'Prison Break', empresa: 'Fox in a Box Barcelona', localitzacio: 'Carrer del Consell de Cent, 312, 08007 Barcelona', lat: 41.3919, lng: 2.1534, tematica1: 'Crim', tematica2: '', comarca: 'Barcelonès', web: 'https://barcelona.foxinabox.es', temps: '60 min' },
+      { id: 'er-098', nom: 'Egyptian Tomb', empresa: 'Fox in a Box Barcelona', localitzacio: 'Carrer del Consell de Cent, 312, 08007 Barcelona', lat: 41.3919, lng: 2.1534, tematica1: 'Aventures', tematica2: 'Història', comarca: 'Barcelonès', web: 'https://barcelona.foxinabox.es', temps: '60 min' },
+      { id: 'er-099', nom: 'Virus', empresa: 'Fox in a Box Barcelona', localitzacio: 'Carrer del Consell de Cent, 312, 08007 Barcelona', lat: 41.3919, lng: 2.1534, tematica1: 'Terror', tematica2: 'Ciència', comarca: 'Barcelonès', web: 'https://barcelona.foxinabox.es', temps: '60 min' },
+      // === ESCAPE HUNT BARCELONA ===
+      { id: 'er-100', nom: "Sherlock Holmes: L'Últim Cas", empresa: 'Escape Hunt Barcelona', localitzacio: 'Carrer de Roger de Llúria, 39, 08009 Barcelona', lat: 41.3943, lng: 2.1699, tematica1: 'Misteri', tematica2: 'Crim', comarca: 'Barcelonès', web: 'https://www.escapehunt.com/es/barcelona/', temps: '60 min' },
+      { id: 'er-101', nom: 'Agents Secrets', empresa: 'Escape Hunt Barcelona', localitzacio: 'Carrer de Roger de Llúria, 39, 08009 Barcelona', lat: 41.3943, lng: 2.1699, tematica1: 'Acció', tematica2: '', comarca: 'Barcelonès', web: 'https://www.escapehunt.com/es/barcelona/', temps: '60 min' },
+      { id: 'er-102', nom: 'La Conspiració', empresa: 'Escape Hunt Barcelona', localitzacio: 'Carrer de Roger de Llúria, 39, 08009 Barcelona', lat: 41.3943, lng: 2.1699, tematica1: 'Crim', tematica2: 'Misteri', comarca: 'Barcelonès', web: 'https://www.escapehunt.com/es/barcelona/', temps: '60 min' },
+      // === BARCELONA ROOMS (zona Eixample Esquerra) ===
+      { id: 'er-103', nom: 'La Mansió Tenebrosa', empresa: 'Dark Escape BCN', localitzacio: 'Carrer del Parlament, 31, 08015 Barcelona', lat: 41.3762, lng: 2.1623, tematica1: 'Terror', tematica2: '', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-104', nom: 'El Circo dels Horrors', empresa: 'Dark Escape BCN', localitzacio: 'Carrer del Parlament, 31, 08015 Barcelona', lat: 41.3762, lng: 2.1623, tematica1: 'Terror', tematica2: 'Misteri', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-105', nom: 'Misió Espacial', empresa: 'Cosmic Escape BCN', localitzacio: 'Carrer de la Diputació, 318, 08009 Barcelona', lat: 41.3908, lng: 2.1687, tematica1: 'SciFi', tematica2: 'Acció', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-106', nom: 'La Cripta Romana', empresa: 'Cosmic Escape BCN', localitzacio: 'Carrer de la Diputació, 318, 08009 Barcelona', lat: 41.3908, lng: 2.1687, tematica1: 'Història', tematica2: 'Misteri', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-107', nom: 'El Pirata Maleït', empresa: 'Nautical Escape BCN', localitzacio: "Passeig de Joan de Borbó, 22, 08003 Barcelona", lat: 41.3786, lng: 2.1879, tematica1: 'Aventures', tematica2: '', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-108', nom: "L'Illa del Tresor", empresa: 'Nautical Escape BCN', localitzacio: "Passeig de Joan de Borbó, 22, 08003 Barcelona", lat: 41.3786, lng: 2.1879, tematica1: 'Aventures', tematica2: 'Misteri', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      // === BADALONA ===
+      { id: 'er-109', nom: 'La Tomba del Vampir', empresa: 'Badalona Escape Room', localitzacio: 'Carrer del Progrés, 14, 08912 Badalona', lat: 41.4492, lng: 2.2402, tematica1: 'Terror', tematica2: '', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      { id: 'er-110', nom: 'El Laboratori Mutant', empresa: 'Badalona Escape Room', localitzacio: 'Carrer del Progrés, 14, 08912 Badalona', lat: 41.4492, lng: 2.2402, tematica1: 'Ciència', tematica2: 'Terror', comarca: 'Barcelonès', web: '', temps: '60 min' },
+      // === SANT CUGAT DEL VALLÈS ===
+      { id: 'er-111', nom: "L'Ermita Secreta", empresa: 'Sant Cugat Escape', localitzacio: "Carrer de Rius i Taulet, 4, 08172 Sant Cugat del Vallès", lat: 41.4718, lng: 2.0835, tematica1: 'Misteri', tematica2: 'Història', comarca: 'Vallès Occidental', web: '', temps: '60 min' },
+      { id: 'er-112', nom: 'El Monestir Maleït', empresa: 'Sant Cugat Escape', localitzacio: "Carrer de Rius i Taulet, 4, 08172 Sant Cugat del Vallès", lat: 41.4718, lng: 2.0835, tematica1: 'Terror', tematica2: 'Misteri', comarca: 'Vallès Occidental', web: '', temps: '60 min' },
+      // === CASTELLDEFELS ===
+      { id: 'er-113', nom: 'El Cau del Contrabandista', empresa: 'Castelldefels Escape', localitzacio: 'Carrer del Mestre Bofarull, 6, 08860 Castelldefels', lat: 41.2795, lng: 1.9762, tematica1: 'Aventures', tematica2: 'Crim', comarca: 'Baix Llobregat', web: '', temps: '60 min' },
+      // === VILANOVA I LA GELTRÚ ===
+      { id: 'er-114', nom: 'El Temporal Mariner', empresa: 'Vilanova Escape', localitzacio: 'Rambla de la Pau, 4, 08800 Vilanova i la Geltrú', lat: 41.2245, lng: 1.7250, tematica1: 'Aventures', tematica2: 'Terror', comarca: 'Garraf', web: '', temps: '60 min' },
+      // === VILAFRANCA DEL PENEDÈS ===
+      { id: 'er-115', nom: 'La Bodega Maleïda', empresa: 'Penedès Escape', localitzacio: 'Carrer de la Font, 8, 08720 Vilafranca del Penedès', lat: 41.3445, lng: 1.7015, tematica1: 'Misteri', tematica2: '', comarca: 'Alt Penedès', web: '', temps: '60 min' },
+      // === GIRONA ===
+      { id: 'er-116', nom: 'La Fortalesa Medieval', empresa: 'Escape Girona', localitzacio: 'Carrer dels Ciutadans, 12, 17004 Girona', lat: 41.9820, lng: 2.8230, tematica1: 'Aventures', tematica2: 'Història', comarca: 'Gironès', web: '', temps: '60 min' },
+      { id: 'er-117', nom: 'El Fantasma del Barri Vell', empresa: 'Escape Girona', localitzacio: 'Carrer dels Ciutadans, 12, 17004 Girona', lat: 41.9820, lng: 2.8230, tematica1: 'Terror', tematica2: 'Misteri', comarca: 'Gironès', web: '', temps: '60 min' },
+      { id: 'er-118', nom: 'La Tomba del Templari', empresa: 'Girona Medieval Escape', localitzacio: 'Carrer de la Força, 8, 17004 Girona', lat: 41.9865, lng: 2.8249, tematica1: 'Misteri', tematica2: 'Història', comarca: 'Gironès', web: '', temps: '60 min' },
+      // === FIGUERES (ALT EMPORDÀ) ===
+      { id: 'er-119', nom: 'El Somni del Pintor', empresa: 'Empordà Escape', localitzacio: 'Carrer de la Jonquera, 18, 17600 Figueres', lat: 42.2669, lng: 2.9590, tematica1: 'Fantasia', tematica2: 'Misteri', comarca: 'Alt Empordà', web: '', temps: '60 min' },
+      { id: 'er-120', nom: 'El Museu Prohibit', empresa: 'Empordà Escape', localitzacio: 'Carrer de la Jonquera, 18, 17600 Figueres', lat: 42.2669, lng: 2.9590, tematica1: 'Misteri', tematica2: 'Aventures', comarca: 'Alt Empordà', web: '', temps: '60 min' },
+      // === TARRAGONA ===
+      { id: 'er-121', nom: "L'Amfiteatre dels Condemnats", empresa: 'TarraCo Escape', localitzacio: 'Carrer de Santa Anna, 4, 43003 Tarragona', lat: 41.1189, lng: 1.2542, tematica1: 'Aventures', tematica2: 'Història', comarca: 'Tarragonès', web: '', temps: '60 min' },
+      { id: 'er-122', nom: 'La Cripta Romana', empresa: 'TarraCo Escape', localitzacio: 'Carrer de Santa Anna, 4, 43003 Tarragona', lat: 41.1189, lng: 1.2542, tematica1: 'Terror', tematica2: 'Història', comarca: 'Tarragonès', web: '', temps: '60 min' },
+      // === REUS (BAIX CAMP) ===
+      { id: 'er-123', nom: 'El Misteri de Gaudí', empresa: 'Reus Escape', localitzacio: 'Carrer de Sant Joan, 12, 43201 Reus', lat: 41.1537, lng: 1.1044, tematica1: 'Misteri', tematica2: 'Aventures', comarca: 'Baix Camp', web: '', temps: '60 min' },
+      // === LLEIDA ===
+      { id: 'er-124', nom: 'La Seu Vella Maleïda', empresa: 'Lleida Escape Room', localitzacio: 'Carrer dels Cavallers, 10, 25002 Lleida', lat: 41.6181, lng: 0.6279, tematica1: 'Misteri', tematica2: 'Història', comarca: 'Segrià', web: '', temps: '60 min' },
+      { id: 'er-125', nom: 'El Tresor del Cid', empresa: 'Lleida Escape Room', localitzacio: 'Carrer dels Cavallers, 10, 25002 Lleida', lat: 41.6181, lng: 0.6279, tematica1: 'Aventures', tematica2: 'Història', comarca: 'Segrià', web: '', temps: '60 min' },
+      // === OLOT (GARROTXA) ===
+      { id: 'er-126', nom: 'El Volcà de la Garrotxa', empresa: 'Olot Adventure Escape', localitzacio: 'Carrer de Sant Ferriol, 6, 17800 Olot', lat: 42.1813, lng: 2.4905, tematica1: 'Aventures', tematica2: '', comarca: 'Garrotxa', web: '', temps: '60 min' },
+    ];
+
+    for (const r of newRooms) {
+      await setDoc(doc(db, ROOMS_COL, r.id), {
+        nom: r.nom, empresa: r.empresa, localitzacio: r.localitzacio,
+        lat: r.lat, lng: r.lng, tematica1: r.tematica1, tematica2: r.tematica2,
+        comarca: r.comarca, web: r.web, temps: r.temps,
+        data: '', puntuacio: null, dificultats: [], ratings: [],
+        participants: '', imatgeUrl: '', preu: '', comentaris: '',
+      });
+    }
+    alert(`✅ Afegits ${newRooms.length} nous escape rooms!`);
+  };
+
   const fixComarques = async () => {
     const corrections: Record<string, string> = {
       'er-003': 'Vallès Oriental',   // Granollers
@@ -498,6 +558,7 @@ export default function App() {
           onImport={handleImport}
           onMigrateComarques={migrateComarques}
           onFixComarques={fixComarques}
+          onSeedNewRooms={seedNewRooms}
         />
         <StatsBar
           total={rooms.length}

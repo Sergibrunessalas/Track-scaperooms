@@ -13,9 +13,10 @@ interface HeaderProps {
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onMigrateComarques: () => Promise<void>;
   onFixComarques: () => Promise<void>;
+  onSeedNewRooms: () => Promise<void>;
 }
 
-export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques }: HeaderProps) {
+export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onLogout, onExport, onImport, onMigrateComarques, onFixComarques, onSeedNewRooms }: HeaderProps) {
   const [migrating, setMigrating] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -129,6 +130,20 @@ export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onL
                   >
                     <Map size={14} />
                     {migrating ? 'Migrant...' : 'Auto-omplir comarques (buides)'}
+                  </button>
+                  <div className="border-t border-gray-700" />
+                  <button
+                    onClick={async () => {
+                      setMenuOpen(false);
+                      setMigrating(true);
+                      await onSeedNewRooms();
+                      setMigrating(false);
+                    }}
+                    disabled={migrating}
+                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-blue-300 hover:bg-gray-700 hover:text-blue-200 transition-colors disabled:opacity-50"
+                  >
+                    <Plus size={14} />
+                    {migrating ? 'Afegint...' : 'Afegir 30 nous escape rooms'}
                   </button>
                 </div>
               )}
