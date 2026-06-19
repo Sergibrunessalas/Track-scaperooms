@@ -524,7 +524,7 @@ export default function App() {
         {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
 
         {/* Vista Web / Galeria */}
-        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} />}
+        {mainView === 'galeria' && canEdit && <GaleriaView rooms={filteredRooms} />}
 
         {/* Mobile tabs */}
         <div className={`${mainView === 'web' || mainView === 'galeria' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
