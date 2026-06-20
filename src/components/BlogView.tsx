@@ -11,6 +11,34 @@ interface BlogPost {
 
 const POSTS: BlogPost[] = [
   {
+    id: 'razones-escape-room',
+    titol: '10 razones por las que los escape rooms son el mejor plan entre amigos',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>Elegir un buen plan para un grupo de amigos no siempre es fácil. Sin embargo, los escape rooms se han convertido en una de las actividades favoritas por muchos motivos.</p>
+
+        <ol>
+          <li>Todo el mundo participa.</li>
+          <li>No importa la edad.</li>
+          <li>Fomentan el trabajo en equipo.</li>
+          <li>Generan recuerdos compartidos.</li>
+          <li>Ponen a prueba la creatividad.</li>
+          <li>Reducen el estrés.</li>
+          <li>Permiten desconectar de las pantallas.</li>
+          <li>Son diferentes cada vez.</li>
+          <li>Existen temáticas para todos los gustos.</li>
+          <li>Siempre hay una historia que contar después.</li>
+        </ol>
+
+        <p>Ya sea resolviendo un asesinato, escapando de una prisión o descubriendo un antiguo secreto, los escape rooms consiguen algo que pocas actividades logran: hacer que las personas colaboren, se rían y vivan una auténtica aventura.</p>
+
+        <p>Por eso en <strong>ScapeZone</strong> creemos que un buen misterio es mucho más que un juego: es una experiencia compartida.</p>
+      </div>
+    ),
+  },
+  {
     id: 'cena-asesinato',
     titol: '¿Qué es una cena con asesinato y por qué está conquistando España?',
     data: '20/06/2026',
