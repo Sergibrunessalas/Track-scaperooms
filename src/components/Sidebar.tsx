@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { EscapeRoom } from '../types';
 import RoomCard from './RoomCard';
+import { FiltersRow, FiltersRowProps } from './StatsBar';
 
-interface SidebarProps {
+interface SidebarProps extends FiltersRowProps {
   rooms: EscapeRoom[];
   filteredCount: number;
   selectedRoomId: string | null;
@@ -20,6 +21,7 @@ export default function Sidebar({
   isAdmin,
   onRoomClick,
   onEditRoom,
+  ...filterProps
 }: SidebarProps) {
   const sortedRooms = useMemo(() => {
     return [...rooms].sort((a, b) => {
@@ -32,14 +34,15 @@ export default function Sidebar({
 
   return (
     <aside className="flex-1 flex flex-col bg-gray-50 border-l border-gray-200 overflow-hidden">
-      {/* Capçalera llista */}
-      <div className="flex-shrink-0 px-4 py-2 bg-white border-b border-gray-100">
-        <h2 className="font-montserrat font-bold text-sm text-gray-900">
+      {/* Capçalera: Llista + Filtres */}
+      <div className="flex-shrink-0 px-3 py-2 bg-white border-b border-gray-100 flex items-center gap-3 flex-wrap">
+        <h2 className="font-montserrat font-bold text-sm text-gray-900 flex-shrink-0">
           Llista
           <span className="ml-2 text-xs font-normal text-gray-500 font-inter">
             {filteredCount} resultat{filteredCount !== 1 ? 's' : ''}
           </span>
         </h2>
+        <FiltersRow {...filterProps} />
       </div>
 
       {/* Llista de rooms */}

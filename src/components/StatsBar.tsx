@@ -149,7 +149,23 @@ export default function StatsBar({
 }
 
 type FilterType = 'nom' | 'comarca' | 'tematica' | 'companyia' | 'preu';
-type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange' | 'canEdit'>;
+export interface FiltersRowProps {
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
+  searchEmpresa: string;
+  onSearchEmpresaChange: (v: string) => void;
+  empreses: string[];
+  comarques: string[];
+  tematiques: string[];
+  filterTematica: string;
+  onFilterTematicaChange: (v: string) => void;
+  filterComarca: string;
+  onFilterComarcaChange: (v: string) => void;
+  filterPreu: FilterPreu;
+  onFilterPreuChange: (v: FilterPreu) => void;
+  hasFilters: boolean;
+  onClearFilters: () => void;
+}
 
 const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
   { type: 'nom', label: 'Nom' },
@@ -167,7 +183,7 @@ const PREU_OPTIONS: { value: FilterPreu; label: string }[] = [
   { value: 'sense', label: 'Sense preu' },
 ];
 
-function FiltersRow({
+export function FiltersRow({
   searchQuery, onSearchChange,
   searchEmpresa, onSearchEmpresaChange, empreses,
   comarques, tematiques,

@@ -472,34 +472,14 @@ export default function App() {
           canEdit={canEdit}
           isAdmin={isAdmin}
           user={user}
+          total={rooms.length}
+          mainView={mainView}
+          onMainViewChange={setMainView}
           onAddRoom={() => setFormState('new')}
           onLogin={handleLogin}
           onLogout={handleLogout}
           onExport={handleExport}
           onImport={handleImport}
-        />
-        <StatsBar
-          total={rooms.length}
-          valorats={rooms.filter((r) => r.puntuacio !== null).length}
-          pendents={rooms.filter((r) => r.puntuacio === null).length}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          searchEmpresa={searchEmpresa}
-          onSearchEmpresaChange={setSearchEmpresa}
-          empreses={empreses}
-          comarques={comarquesDisponibles}
-          tematiques={tematiquesDisponibles}
-          filterTematica={filterTematica}
-          onFilterTematicaChange={setFilterTematica}
-          filterComarca={filterComarca}
-          onFilterComarcaChange={setFilterComarca}
-          filterPreu={filterPreu}
-          onFilterPreuChange={setFilterPreu}
-          mainView={mainView}
-          onMainViewChange={(v) => { if ((v === 'web' || v === 'galeria') && !canEdit) return; setMainView(v); }}
-          canEdit={canEdit}
-          hasFilters={hasFilters}
-          onClearFilters={clearFilters}
         />
 
         {/* Vista Estadístiques */}
@@ -573,6 +553,21 @@ export default function App() {
               isAdmin={isAdmin}
               onRoomClick={handleRoomCardClick}
               onEditRoom={(room) => { setFormState(room); }}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              searchEmpresa={searchEmpresa}
+              onSearchEmpresaChange={setSearchEmpresa}
+              empreses={empreses}
+              comarques={comarquesDisponibles}
+              tematiques={tematiquesDisponibles}
+              filterTematica={filterTematica}
+              onFilterTematicaChange={setFilterTematica}
+              filterComarca={filterComarca}
+              onFilterComarcaChange={setFilterComarca}
+              filterPreu={filterPreu}
+              onFilterPreuChange={setFilterPreu}
+              hasFilters={hasFilters}
+              onClearFilters={clearFilters}
             />
           </div>
         </div>
