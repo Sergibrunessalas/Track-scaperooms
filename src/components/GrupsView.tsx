@@ -85,8 +85,11 @@ export default function GrupsView({ rooms, currentUserEmail, onBack, onViewStats
     resetForm();
   }
 
+  const SUPER_ADMIN = 'sbrunessalas@gmail.com';
+
   async function del(g: Grup) {
-    if (g.titular !== currentUserEmail) return;
+    const canDelete = g.titular === currentUserEmail || currentUserEmail === SUPER_ADMIN;
+    if (!canDelete) return;
     if (!confirm(`Segur que vols eliminar el grup "${g.nom}"?`)) return;
     await deleteDoc(doc(db, 'grups', g.id));
     if (editingId === g.id) resetForm();
@@ -166,7 +169,7 @@ export default function GrupsView({ rooms, currentUserEmail, onBack, onViewStats
                         <Pencil size={13} />
                       </button>
                     )}
-                    {isTitular && (
+                    {(isTitular || currentUserEmail === 'sbrunessalas@gmail.com') && (
                       <button
                         onClick={() => del(g)}
                         title="Eliminar grup"
