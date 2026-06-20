@@ -102,6 +102,17 @@ export function starsFromScore(score: number | null): string {
   return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
 }
 
+export interface GrupMembre {
+  nom: string;
+  correu: string;
+}
+
+export interface Grup {
+  id: string;
+  nom: string;
+  membres: GrupMembre[];
+}
+
 export function generateId(existing: string[]): string {
   const nums = existing.map(id => parseInt(id.replace('er-', '')) || 0);
   const max = nums.length ? Math.max(...nums) : 0;

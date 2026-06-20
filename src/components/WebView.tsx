@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
 import { Download } from 'lucide-react';
-import { EscapeRoom, starsFromScore } from '../types';
+import { EscapeRoom, Grup, starsFromScore } from '../types';
+import GrupsView from './GrupsView';
 
 const ACCENT = '#e8490a';
 const GOLD   = '#eab308';
@@ -97,27 +98,76 @@ function exportTop10(rooms: EscapeRoom[]) {
   a.click();
 }
 
+type WVPage = 'overview' | 'grups' | 'grup-stats';
+
 interface Props { rooms: EscapeRoom[]; }
 
 export default function WebView({ rooms }: Props) {
-  const rated = useMemo(() => rooms.filter(r => r.puntuacio !== null), [rooms]);
+  const [page, setPage] = useState<WVPage>('overview');
+  const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
 
+  /* ── Grups sub-view ── */
+  if (page === 'grups') {
+    return (
+      <div className="flex-1 overflow-y-auto sidebar-scroll" style={{ background: 'linear-gradient(to bottom, #18181b, #09090b)' }}>
+        <div className="max-w-5xl mx-auto p-6">
+          <GrupsView
+            rooms={rooms}
+            onBack={() => setPage('overview')}
+            onViewStats={(g) => { setSelectedGrup(g); setPage('grup-stats'); }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Grup stats ── */
+  if (page === 'grup-stats' && selectedGrup) {
+    const members = selectedGrup.membres
+      .flatMap(m => [m.nom.trim(), m.correu.trim()])
+      .filter(Boolean)
+      .map(s => s.toLowerCase());
+    const grupRooms = members.length
+      ? rooms.filter(r => members.some(t => (r.participants ?? '').toLowerCase().includes(t)))
+      : rooms;
+    return <StatsContent
+      rooms={grupRooms}
+      breadcrumb={
+        <nav className="flex items-center gap-1.5 text-xs">
+          <button onClick={() => setPage('overview')} className="text-white/50 hover:text-white transition-colors">Estadístiques</button>
+          <span className="text-white/30">›</span>
+          <button onClick={() => setPage('grups')} className="text-white/50 hover:text-white transition-colors">Grups</button>
+          <span className="text-white/30">›</span>
+          <span className="text-white font-medium">{selectedGrup.nom}</span>
+        </nav>
+      }
+    />;
+  }
+
+  return <StatsContent rooms={rooms} onOpenGrups={() => setPage('grups')} />;
+}
+
+interface StatsContentProps {
+  rooms: EscapeRoom[];
+  onOpenGrups?: () => void;
+  breadcrumb?: React.ReactNode;
+}
+
+function StatsContent({ rooms, onOpenGrups, breadcrumb }: StatsContentProps) {
+  const rated = rooms.filter(r => r.puntuacio !== null);
   const avgScore = rated.length
     ? rated.reduce((s, r) => s + r.puntuacio!, 0) / rated.length
     : null;
-
   const bestRoom  = rated.reduce<EscapeRoom | null>((b, r) => !b || r.puntuacio! > b.puntuacio! ? r : b, null);
   const worstRoom = rated.reduce<EscapeRoom | null>((w, r) => !w || r.puntuacio! < w.puntuacio! ? r : w, null);
-
-  const perYear = useMemo(() => {
+  const perYear = (() => {
     const map: Record<string, number> = {};
     rooms.forEach(r => {
       const year = r.data?.match(/\d{4}/)?.[0];
       if (year) map[year] = (map[year] || 0) + 1;
     });
     return Object.entries(map).sort().map(([year, count]) => ({ year, count }));
-  }, [rooms]);
-
+  })();
   const bestYear = perYear.length ? perYear.reduce((b, y) => y.count > b.count ? y : b) : null;
   const bgImage = bestRoom?.imatgeUrl ?? '';
 
@@ -136,26 +186,40 @@ export default function WebView({ rooms }: Props) {
           backgroundColor: '#111',
         }}
       >
-        {/* Overlay fosc suau */}
         <div style={{ minHeight: '100%', background: 'rgba(0,0,0,0.35)' }}>
           <div className="max-w-5xl mx-auto p-6 space-y-6">
 
-            {/* Botó exportar */}
-            <div className="flex justify-end pt-1">
-              <button
-                onClick={() => exportTop10(rooms)}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all"
-                style={{ background: 'rgba(234,179,8,0.2)', border: '1px solid rgba(234,179,8,0.4)' }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.35)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.2)')}
-              >
-                <Download size={14} />
-                Exportar Top 10
-              </button>
+            {breadcrumb}
+
+            {/* Accions */}
+            <div className="flex items-center justify-between pt-1">
+              {onOpenGrups && (
+                <button
+                  onClick={onOpenGrups}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all"
+                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+                >
+                  👥 Grups
+                </button>
+              )}
+              <div className="ml-auto">
+                <button
+                  onClick={() => exportTop10(rooms)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all"
+                  style={{ background: 'rgba(234,179,8,0.2)', border: '1px solid rgba(234,179,8,0.4)' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.35)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(234,179,8,0.2)')}
+                >
+                  <Download size={14} />
+                  Exportar Top 10
+                </button>
+              </div>
             </div>
 
             {/* KPI cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <KpiCard icon="🗺" label="Total rooms" value={rooms.length} />
               <KpiCard icon="⭐" label="Valorats" value={rated.length} />
               <KpiCard icon="📊" label="Nota mitjana" value={avgScore ? avgScore.toFixed(2) : '—'} accent />
@@ -165,29 +229,29 @@ export default function WebView({ rooms }: Props) {
             {/* Rooms per any */}
             {perYear.length > 0 && (
               <GlassCard title="Rooms per any">
-                <div className="chart-no-cursor" style={{ userSelect: 'none' }}>
-                <ResponsiveContainer width="100%" height={190}>
-                  <BarChart data={perYear} barCategoryGap="35%" style={{ cursor: 'default' }}>
-                    <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                    <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
-                    <Tooltip
-                      formatter={(v) => [v, 'Rooms']}
-                      contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 13, color: '#fff' }}
-                      labelStyle={{ color: '#fff', fontWeight: 700, fontSize: 13 }}
-                      itemStyle={{ color: '#fff', fontSize: 13 }}
-                      cursor={false}
-                    />
-                    <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-                      {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                <div style={{ userSelect: 'none' }}>
+                  <ResponsiveContainer width="100%" height={190}>
+                    <BarChart data={perYear} barCategoryGap="35%" style={{ cursor: 'default' }}>
+                      <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} allowDecimals={false} />
+                      <Tooltip
+                        formatter={(v) => [v, 'Rooms']}
+                        contentStyle={{ borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(30,30,30,0.95)', fontSize: 13, color: '#fff' }}
+                        labelStyle={{ color: '#fff', fontWeight: 700, fontSize: 13 }}
+                        itemStyle={{ color: '#fff', fontSize: 13 }}
+                        cursor={false}
+                      />
+                      <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                        {perYear.map((_, i) => <Cell key={i} fill={ACCENT} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </GlassCard>
             )}
 
             {/* Rècords */}
-            <GlassCard title="🏆 Rècords del grup">
+            <GlassCard title="🏆 Rècords">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {bestRoom && (
                   <RecordItem icon="🥇" label="Millor room" name={bestRoom.nom}
