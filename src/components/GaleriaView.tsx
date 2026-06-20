@@ -3,9 +3,10 @@ import { EscapeRoom, starsFromScore } from '../types';
 
 interface Props {
   rooms: EscapeRoom[];
+  showImages: boolean;
 }
 
-export default function GaleriaView({ rooms }: Props) {
+export default function GaleriaView({ rooms, showImages }: Props) {
   const sorted = [...rooms].sort((a, b) => {
     if (a.puntuacio !== null && b.puntuacio !== null) return b.puntuacio - a.puntuacio;
     if (a.puntuacio !== null) return -1;
@@ -23,7 +24,7 @@ export default function GaleriaView({ rooms }: Props) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {sorted.map((room) => (
-            <RoomCard key={room.id} room={room} />
+            <RoomCard key={room.id} room={room} showImages={showImages} />
           ))}
         </div>
       </div>
@@ -31,7 +32,7 @@ export default function GaleriaView({ rooms }: Props) {
   );
 }
 
-function RoomCard({ room }: { room: EscapeRoom }) {
+function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean }) {
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
@@ -39,7 +40,7 @@ function RoomCard({ room }: { room: EscapeRoom }) {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow duration-200">
       {/* Foto */}
-      {room.imatgeUrl ? (
+      {showImages && room.imatgeUrl ? (
         <div className="w-full h-40 overflow-hidden flex-shrink-0">
           <img
             src={room.imatgeUrl}

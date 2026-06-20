@@ -32,7 +32,7 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
   }, [menuOpen]);
 
   const handleViewChange = (v: MainView) => {
-    if ((v === 'web' || v === 'galeria') && !canEdit) return;
+    if (v === 'web' && !canEdit) return;
     onMainViewChange(v);
   };
 
@@ -75,16 +75,14 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
             📊 <span className="hidden sm:inline">Estadístiques</span>
           </button>
         )}
-        {canEdit && (
-          <button
-            onClick={() => handleViewChange('galeria')}
-            className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
-              mainView === 'galeria' ? 'bg-white text-gray-900' : 'text-white/70 hover:text-white'
-            }`}
-          >
-            🌐 <span className="hidden sm:inline">Web</span>
-          </button>
-        )}
+        <button
+          onClick={() => handleViewChange('galeria')}
+          className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
+            mainView === 'galeria' ? 'bg-white text-gray-900' : 'text-white/70 hover:text-white'
+          }`}
+        >
+          🌐 <span className="hidden sm:inline">Web</span>
+        </button>
         <button
           onClick={() => handleViewChange('blog')}
           className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${

@@ -41,7 +41,7 @@ export default function App() {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setAuthReady(true);
-      if (!u) setMainView('mapa');
+      if (!u) setMainView((prev) => prev === 'web' ? 'mapa' : prev);
     });
   }, []);
 
@@ -486,7 +486,7 @@ export default function App() {
         {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
 
         {/* Vista Web / Galeria */}
-        {mainView === 'galeria' && canEdit && <GaleriaView rooms={filteredRooms} />}
+        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} />}
 
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}
