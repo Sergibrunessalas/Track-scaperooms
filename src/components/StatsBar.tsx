@@ -3,6 +3,8 @@ import { Search, X, Tag, Building2, ChevronDown, MapPin } from 'lucide-react';
 
 export type MainView = 'mapa' | 'web' | 'galeria' | 'blog';
 
+export type FilterPreu = '' | '0-20' | '20-30' | '30-40' | '40+' | 'sense';
+
 interface StatsBarProps {
   total: number;
   valorats: number;
@@ -21,6 +23,8 @@ interface StatsBarProps {
   onFilterTematicaChange: (v: string) => void;
   filterComarca: string;
   onFilterComarcaChange: (v: string) => void;
+  filterPreu: FilterPreu;
+  onFilterPreuChange: (v: FilterPreu) => void;
   hasFilters: boolean;
   onClearFilters: () => void;
 }
@@ -33,6 +37,7 @@ export default function StatsBar({
   comarques, tematiques,
   filterTematica, onFilterTematicaChange,
   filterComarca, onFilterComarcaChange,
+  filterPreu, onFilterPreuChange,
   hasFilters, onClearFilters,
 }: StatsBarProps) {
   return (
@@ -121,6 +126,7 @@ export default function StatsBar({
             comarques={comarques} tematiques={tematiques}
             filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
             filterComarca={filterComarca} onFilterComarcaChange={onFilterComarcaChange}
+            filterPreu={filterPreu} onFilterPreuChange={onFilterPreuChange}
             hasFilters={hasFilters} onClearFilters={onClearFilters}
           />
         </div>
@@ -134,6 +140,7 @@ export default function StatsBar({
           comarques={comarques} tematiques={tematiques}
           filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
           filterComarca={filterComarca} onFilterComarcaChange={onFilterComarcaChange}
+          filterPreu={filterPreu} onFilterPreuChange={onFilterPreuChange}
           hasFilters={hasFilters} onClearFilters={onClearFilters}
         />
       </div>
@@ -141,7 +148,7 @@ export default function StatsBar({
   );
 }
 
-type FilterType = 'nom' | 'comarca' | 'tematica' | 'companyia';
+type FilterType = 'nom' | 'comarca' | 'tematica' | 'companyia' | 'preu';
 type FiltersRowProps = Omit<StatsBarProps, 'total' | 'valorats' | 'pendents' | 'mainView' | 'onMainViewChange' | 'canEdit'>;
 
 const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
@@ -149,6 +156,15 @@ const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
   { type: 'comarca', label: 'Comarca' },
   { type: 'tematica', label: 'Temàtica' },
   { type: 'companyia', label: 'Companyia' },
+  { type: 'preu', label: 'Preu' },
+];
+
+const PREU_OPTIONS: { value: FilterPreu; label: string }[] = [
+  { value: '0-20', label: 'Fins a 20€' },
+  { value: '20-30', label: '20 – 30€' },
+  { value: '30-40', label: '30 – 40€' },
+  { value: '40+', label: '+40€' },
+  { value: 'sense', label: 'Sense preu' },
 ];
 
 function FiltersRow({
@@ -157,6 +173,7 @@ function FiltersRow({
   comarques, tematiques,
   filterTematica, onFilterTematicaChange,
   filterComarca, onFilterComarcaChange,
+  filterPreu, onFilterPreuChange,
   hasFilters, onClearFilters,
 }: FiltersRowProps) {
   const [chooserOpen, setChooserOpen] = useState(false);
@@ -165,6 +182,7 @@ function FiltersRow({
     if (searchEmpresa) return 'companyia';
     if (filterTematica) return 'tematica';
     if (filterComarca) return 'comarca';
+    if (filterPreu) return 'preu';
     return null;
   });
 
@@ -179,6 +197,7 @@ function FiltersRow({
     else if (activeFilter === 'companyia') onSearchEmpresaChange('');
     else if (activeFilter === 'tematica') onFilterTematicaChange('');
     else if (activeFilter === 'comarca') onFilterComarcaChange('');
+    else if (activeFilter === 'preu') onFilterPreuChange('');
     setActiveFilter(null);
   };
 
@@ -256,6 +275,24 @@ function FiltersRow({
 
           {activeFilter === 'comarca' && (
             <ComarcaCombobox value={filterComarca} onChange={onFilterComarcaChange} comarques={comarques} />
+          )}
+
+          {activeFilter === 'preu' && (
+            <div className="flex items-center gap-1">
+              {PREU_OPTIONS.map(({ value, label }) => (
+                <button
+                  key={value}
+                  onClick={() => onFilterPreuChange(filterPreu === value ? '' : value)}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg border transition-colors whitespace-nowrap ${
+                    filterPreu === value
+                      ? 'bg-accent text-white border-accent'
+                      : 'bg-white text-gray-600 border-gray-200 hover:border-accent hover:text-accent'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           )}
 
           <button

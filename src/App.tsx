@@ -19,7 +19,7 @@ const ALLOWED_EMAILS = [
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com'];
 import Header from './components/Header';
-import StatsBar, { MainView } from './components/StatsBar';
+import StatsBar, { MainView, FilterPreu } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
@@ -53,6 +53,7 @@ export default function App() {
   const [searchEmpresa, setSearchEmpresa] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
   const [filterComarca, setFilterComarca] = useState('');
+  const [filterPreu, setFilterPreu] = useState<FilterPreu>('');
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [formState, setFormState] = useState<'closed' | 'new' | EscapeRoom>('closed');
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
@@ -152,6 +153,14 @@ export default function App() {
     if (searchEmpresa && !(room.empresa ?? '').toLowerCase().includes(searchEmpresa.toLowerCase())) return false;
     if (filterTematica && room.tematica1 !== filterTematica && room.tematica2 !== filterTematica) return false;
     if (filterComarca && room.comarca !== filterComarca) return false;
+    if (filterPreu) {
+      const num = parseFloat((room.preu ?? '').replace(/[^\d.]/g, ''));
+      if (filterPreu === 'sense') { if (room.preu) return false; }
+      else if (filterPreu === '0-20') { if (!room.preu || isNaN(num) || num >= 20) return false; }
+      else if (filterPreu === '20-30') { if (!room.preu || isNaN(num) || num < 20 || num >= 30) return false; }
+      else if (filterPreu === '30-40') { if (!room.preu || isNaN(num) || num < 30 || num >= 40) return false; }
+      else if (filterPreu === '40+') { if (!room.preu || isNaN(num) || num < 40) return false; }
+    }
     return true;
   });
 
@@ -231,8 +240,8 @@ export default function App() {
     [rooms]
   );
 
-  const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca);
-  const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); };
+  const hasFilters = !!(searchQuery || searchEmpresa || filterTematica || filterComarca || filterPreu);
+  const clearFilters = () => { setSearchQuery(''); setSearchEmpresa(''); setFilterTematica(''); setFilterComarca(''); setFilterPreu(''); };
 
   const migrateComarques = async () => {
     const CITY_COMARCA: [string, string][] = [
@@ -483,6 +492,8 @@ export default function App() {
           onFilterTematicaChange={setFilterTematica}
           filterComarca={filterComarca}
           onFilterComarcaChange={setFilterComarca}
+          filterPreu={filterPreu}
+          onFilterPreuChange={setFilterPreu}
           mainView={mainView}
           onMainViewChange={(v) => { if ((v === 'web' || v === 'galeria') && !canEdit) return; setMainView(v); }}
           canEdit={canEdit}
