@@ -475,46 +475,57 @@ export default function App() {
 
         {/* Les 5 targetes repartides de dalt a baix */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', overflow: 'hidden' }}>
-          {topRooms.map(room => (
-            <a
-              key={room.id}
-              href={room.web || undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRadius: '10px', overflow: 'hidden', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', transition: 'transform 0.18s ease', cursor: room.web ? 'pointer' : 'default', minHeight: 0 }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
-            >
-              {canEdit && room.imatgeUrl && (
-                <img src={room.imatgeUrl} alt={room.nom}
-                  style={{ width: '100%', flex: 1, objectFit: 'cover', display: 'block', minHeight: 0 }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              )}
-              <div style={{
-                flexShrink: canEdit ? 0 : 1,
-                flex: canEdit ? undefined : 1,
-                padding: canEdit ? '5px 8px' : '8px 10px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}>
-                <p style={{ margin: '0 0 2px', fontSize: canEdit ? '10px' : '13px', fontWeight: 700, color: '#ffffff', lineHeight: 1.25, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: canEdit ? 1 : 2, WebkitBoxOrient: 'vertical' as const }}>
-                  {room.nom}
-                </p>
-                {!canEdit && room.empresa && (
-                  <p style={{ margin: '0 0 4px', fontSize: '9px', color: 'rgba(255,255,255,0.5)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                    {room.empresa}
+          {topRooms.map(room => {
+            const tema = (room.tematica1 || room.tematica2 || '').toLowerCase();
+            const themeIcon =
+              tema.includes('terror') || tema.includes('por') ? '👻' :
+              tema.includes('aventur') ? '🗺️' :
+              tema.includes('ciència') || tema.includes('ciencia') || tema.includes('sci') ? '🚀' :
+              tema.includes('misteri') || tema.includes('detectiu') ? '🔍' :
+              tema.includes('fantasia') || tema.includes('màgia') ? '✨' :
+              tema.includes('histori') ? '⚔️' :
+              tema.includes('humor') || tema.includes('comèdia') ? '😄' : '🔐';
+            const themeGradient =
+              tema.includes('terror') || tema.includes('por') ? 'linear-gradient(160deg,#1a0a0a,#3d0d0d)' :
+              tema.includes('aventur') ? 'linear-gradient(160deg,#0d2b1a,#1a4d2e)' :
+              tema.includes('ciència') || tema.includes('sci') ? 'linear-gradient(160deg,#0a0d2b,#1a1e4d)' :
+              tema.includes('histori') ? 'linear-gradient(160deg,#2b1a0a,#4d2e0d)' :
+              tema.includes('fantasia') || tema.includes('màgia') ? 'linear-gradient(160deg,#1a0a2b,#2e0d4d)' :
+              'linear-gradient(160deg,#0f0f1a,#1a1a2e)';
+            return (
+              <a
+                key={room.id}
+                href={room.web || undefined}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRadius: '10px', overflow: 'hidden', background: themeGradient, border: '1px solid rgba(255,255,255,0.15)', textDecoration: 'none', transition: 'transform 0.18s ease', cursor: room.web ? 'pointer' : 'default', minHeight: 0, position: 'relative' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
+              >
+                {/* Icona temàtica de fons */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '42px', opacity: 0.12, pointerEvents: 'none', userSelect: 'none' }}>
+                  {themeIcon}
+                </div>
+                {/* Text */}
+                <div style={{ flex: 1, padding: '8px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative', background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)' }}>
+                  <p style={{ margin: '0 0 1px', fontSize: '13px', fontWeight: 800, color: '#ffffff', lineHeight: 1.2, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
+                    {room.nom}
                   </p>
-                )}
-                <p style={{ margin: 0, fontSize: canEdit ? '11px' : '13px', color: '#fef08a', fontWeight: 800 }}>
-                  {starsFromScore(room.puntuacio)}
-                  <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginLeft: '2px' }}>
-                    {room.puntuacio?.toFixed(1)}
-                  </span>
-                </p>
-              </div>
-            </a>
-          ))}
+                  {room.empresa && (
+                    <p style={{ margin: '0 0 4px', fontSize: '10px', color: 'rgba(255,255,255,0.55)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                      {room.empresa}
+                    </p>
+                  )}
+                  <p style={{ margin: 0, fontSize: '13px', color: '#fef08a', fontWeight: 800 }}>
+                    {starsFromScore(room.puntuacio)}
+                    <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)', fontWeight: 600, marginLeft: '3px' }}>
+                      {room.puntuacio?.toFixed(1)}
+                    </span>
+                  </p>
+                </div>
+              </a>
+            );
+          })}
         </div>
 
       </div>
