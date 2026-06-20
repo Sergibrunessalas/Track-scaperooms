@@ -5,6 +5,7 @@ import { ChevronRight, Trash2, Users, Star, Pencil } from 'lucide-react';
 import type { Grup, GrupRoom } from '../types';
 import type { User } from 'firebase/auth';
 import EditGrupModal from './EditGrupModal';
+import EditGrupRoomModal from './EditGrupRoomModal';
 
 const SUPER_ADMIN = 'sbrunessalas@gmail.com';
 
@@ -27,6 +28,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   const [grupRooms, setGrupRooms] = useState<GrupRoom[]>([]);
   const [askCreateNew, setAskCreateNew] = useState(false);
   const [editingGrup, setEditingGrup] = useState<Grup | null>(null);
+  const [editingRoom, setEditingRoom] = useState<GrupRoom | null>(null);
 
   useEffect(() => {
     if (!currentUserEmail) return;
@@ -73,6 +75,14 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
 
     return (
       <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
+        {editingRoom && selectedGrup && (
+          <EditGrupRoomModal
+            grupId={selectedGrup.id}
+            room={editingRoom}
+            onClose={() => setEditingRoom(null)}
+          />
+        )}
+
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-1.5 text-xs text-gray-400">
@@ -112,34 +122,71 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {grupRooms.map(r => (
-                  <div key={r.roomId} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col gap-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <p className="font-semibold text-sm text-gray-900 leading-snug">{r.nom}</p>
-                        {r.empresa && <p className="text-xs text-gray-400">{r.empresa}</p>}
+                {grupRooms.map(r => {
+                  const temes = [r.tematica1, r.tematica2].filter(Boolean);
+                  return (
+                    <div key={r.roomId} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col gap-2">
+                      {/* Capçalera targeta */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-sm text-gray-900 leading-snug">{r.nom}</p>
+                          {r.empresa && <p className="text-xs text-gray-400">{r.empresa}</p>}
+                        </div>
+                        <div className="flex items-center gap-0.5 flex-shrink-0">
+                          <button
+                            onClick={() => setEditingRoom(r)}
+                            className="p-1 text-gray-300 hover:text-gray-600 transition-colors"
+                            title="Editar les meves dades"
+                          >
+                            <Pencil size={13} />
+                          </button>
+                          <button
+                            onClick={() => removeRoom(r.roomId)}
+                            className="p-1 text-gray-300 hover:text-red-400 transition-colors"
+                            title="Treure del grup"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        onClick={() => removeRoom(r.roomId)}
-                        className="p-1 text-gray-300 hover:text-red-400 transition-colors flex-shrink-0"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+
+                      {/* Info pre-omplerta */}
+                      {(r.comarca || temes.length > 0 || r.preu) && (
+                        <div className="flex flex-wrap gap-1">
+                          {r.comarca && <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">📍 {r.comarca}</span>}
+                          {temes.map(t => <span key={t} className="text-[10px] bg-orange-50 text-orange-500 px-1.5 py-0.5 rounded-full">{t}</span>)}
+                          {r.preu && <span className="text-[10px] bg-green-50 text-green-600 px-1.5 py-0.5 rounded-full">{r.preu}</span>}
+                        </div>
+                      )}
+
+                      {/* Dades personals */}
+                      <div className="border-t border-gray-50 pt-2 space-y-1">
+                        {r.puntuacio !== null ? (
+                          <p className="text-xs font-semibold text-yellow-500">
+                            {'★'.repeat(r.puntuacio)}{'☆'.repeat(5 - r.puntuacio)}
+                            <span className="text-gray-400 font-normal ml-1">({r.puntuacio}/5)</span>
+                          </p>
+                        ) : (
+                          <p className="text-xs text-gray-300 italic">Sense valoració</p>
+                        )}
+                        {r.data && <p className="text-xs text-gray-400">📅 {r.data}</p>}
+                        {r.dificultats?.[0] && <p className="text-xs text-gray-400">🎯 {r.dificultats[0]}</p>}
+                        {r.participants && <p className="text-xs text-gray-400">👥 {r.participants}</p>}
+                        {r.comentaris && (
+                          <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 italic">"{r.comentaris}"</p>
+                        )}
+                        {!r.data && !r.participants && r.puntuacio === null && (
+                          <button
+                            onClick={() => setEditingRoom(r)}
+                            className="text-xs text-orange-400 hover:text-orange-600 font-medium transition-colors"
+                          >
+                            ✏️ Afegir les teves dades
+                          </button>
+                        )}
+                      </div>
                     </div>
-                    {r.puntuacio !== null ? (
-                      <p className="text-xs font-semibold text-accent">
-                        {r.puntuacio.toFixed(1)} <span className="text-yellow-400">{starsFromScore(r.puntuacio)}</span>
-                      </p>
-                    ) : (
-                      <p className="text-xs text-gray-300 italic">Sense valoració</p>
-                    )}
-                    {r.data && <p className="text-xs text-gray-400">📅 {r.data}</p>}
-                    {r.participants && <p className="text-xs text-gray-400">👥 {r.participants}</p>}
-                    {r.comentaris && (
-                      <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{r.comentaris}</p>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
