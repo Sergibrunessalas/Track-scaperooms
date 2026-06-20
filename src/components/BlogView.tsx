@@ -11,6 +11,38 @@ interface BlogPost {
 
 const POSTS: BlogPost[] = [
   {
+    id: 'noche-misterio-casa',
+    titol: 'Cómo organizar una noche de misterio en casa',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>No hace falta salir de casa para vivir una experiencia inolvidable.</p>
+
+        <p>Con algunos amigos, una buena historia y ganas de jugar, cualquier salón puede convertirse en la escena de un crimen.</p>
+
+        <h2>Consejos para organizar una noche de misterio</h2>
+
+        <ul>
+          <li>Invita entre 6 y 10 personas.</li>
+          <li>Envía los personajes con antelación.</li>
+          <li>Decora ligeramente el espacio.</li>
+          <li>Añade música ambiental.</li>
+          <li>Sirve comida sencilla.</li>
+          <li>Reserva al menos dos horas.</li>
+        </ul>
+
+        <p>Lo más importante es que todos los participantes se impliquen en la historia.</p>
+
+        <p>No hace falta ser actor. Basta con dejarse llevar por el personaje, hacer preguntas y disfrutar de la investigación.</p>
+
+        <p>Las mejores noches no son aquellas en las que se descubre rápidamente al culpable, sino aquellas en las que cada jugador consigue sorprender a los demás.</p>
+
+        <p>En <strong>ScapeZone</strong> queremos ayudarte a convertir cualquier reunión en una experiencia única.</p>
+      </div>
+    ),
+  },
+  {
     id: 'razones-escape-room',
     titol: '10 razones por las que los escape rooms son el mejor plan entre amigos',
     data: '20/06/2026',
