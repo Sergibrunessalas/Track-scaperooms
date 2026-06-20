@@ -7,7 +7,6 @@ interface HeaderProps {
   canEdit: boolean;
   isAdmin: boolean;
   user: User | null;
-  total: number;
   mainView: MainView;
   onMainViewChange: (v: MainView) => void;
   onAddRoom: () => void;
@@ -17,7 +16,7 @@ interface HeaderProps {
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Header({ canEdit, isAdmin, user, total, mainView, onMainViewChange, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
+export default function Header({ canEdit, isAdmin, user, mainView, onMainViewChange, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -39,8 +38,13 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
   return (
     <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-4 py-2 flex items-center relative shadow-lg">
 
-      {/* Logo + total */}
-      <div className="flex items-center gap-3 flex-shrink-0">
+      {/* Logo imatge + nom */}
+      <div className="flex items-center gap-2.5 flex-shrink-0">
+        <img
+          src="/logo.png"
+          alt="ScapeZone"
+          className="h-9 md:h-11 w-auto object-contain flex-shrink-0"
+        />
         <div>
           <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-none">
             Scape<span className="text-accent">Zone</span>
@@ -48,10 +52,6 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
           <p className="font-montserrat text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase text-gray-400 leading-tight mt-0.5">
             Escape Room Tracker
           </p>
-        </div>
-        <div className="hidden sm:flex items-center gap-1.5 border-l border-white/20 pl-3">
-          <span className="text-lg md:text-xl font-black font-montserrat text-white leading-none">{total}</span>
-          <span className="text-[10px] text-gray-400 leading-tight">Escape<br/>Rooms</span>
         </div>
       </div>
 

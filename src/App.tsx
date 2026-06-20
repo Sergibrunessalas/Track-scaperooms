@@ -480,7 +480,6 @@ export default function App() {
           canEdit={canEdit}
           isAdmin={isAdmin}
           user={user}
-          total={rooms.length}
           mainView={mainView}
           onMainViewChange={setMainView}
           onAddRoom={() => setFormState('new')}
