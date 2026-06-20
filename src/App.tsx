@@ -25,6 +25,7 @@ import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
 import WebView from './components/WebView';
 import GaleriaView from './components/GaleriaView';
+import BlogView from './components/BlogView';
 import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
@@ -508,15 +509,7 @@ export default function App() {
         {mainView === 'galeria' && canEdit && <GaleriaView rooms={filteredRooms} />}
 
         {/* Vista Blog */}
-        {mainView === 'blog' && (
-          <div className="flex-1 overflow-y-auto bg-gray-50 flex items-center justify-center">
-            <div className="text-center">
-              <p className="text-5xl mb-4">🔧</p>
-              <h2 className="font-montserrat text-2xl font-black text-gray-700 mb-2">Blog</h2>
-              <p className="text-gray-400 text-sm">En manteniment...</p>
-            </div>
-          </div>
-        )}
+        {mainView === 'blog' && <BlogView />}
 
         {/* Mobile tabs */}
         <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
