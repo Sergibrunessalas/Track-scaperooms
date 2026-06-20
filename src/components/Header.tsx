@@ -29,27 +29,18 @@ export default function Header({ canEdit, isAdmin, user, onAddRoom, onLogin, onL
 
   return (
     <header className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-accent text-white px-5 py-3 flex items-center relative shadow-lg">
-      {/* Títol a l'esquerra */}
+      {/* Logo ScapeZone */}
       <div className="flex-shrink-0">
-        <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-tight">
-          ESCAPE ROOMS <span className="text-accent">TRACKER</span>
+        <h1 className="font-montserrat text-2xl md:text-3xl font-black tracking-tight leading-none">
+          Scape<span className="text-accent">Zone</span>
         </h1>
-      </div>
-
-      {/* Subtítol centrat absolutament - ocult en mòbil */}
-      <div className="hidden md:block absolute left-1/2 -translate-x-1/2 pointer-events-none">
-        <p className="font-montserrat text-xl md:text-2xl font-black tracking-tight whitespace-nowrap" style={{ color: '#eab308' }}>
-          Totes les nostres aventures en un sol lloc
+        <p className="font-montserrat text-[9px] md:text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-400 leading-tight mt-0.5">
+          Escape Room Tracker
         </p>
       </div>
 
       <div className="flex items-center gap-3 ml-auto">
-        <div className="text-right hidden md:block">
-          <p className="font-semibold text-sm leading-tight">Sergi Brunés Salas</p>
-          <p className="text-gray-400 text-xs">📍 Lliçà de Vall, Catalunya</p>
-        </div>
-
-        <div className="flex items-center gap-2 ml-2">
+        <div className="flex items-center gap-2">
           {/* Botó d'inici de sessió / tancament */}
           {user ? (
             <div className="flex items-center gap-2">

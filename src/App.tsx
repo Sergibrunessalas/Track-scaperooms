@@ -401,7 +401,7 @@ export default function App() {
     <div className="h-full flex flex-row font-inter overflow-hidden">
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px, oculta a pestanya Web) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web') ? 'none' : undefined }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog') ? 'none' : undefined }}>
 
         {/* Capçalera */}
         <div style={{ flexShrink: 0, marginBottom: '8px', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
@@ -496,8 +496,19 @@ export default function App() {
         {/* Vista Web / Galeria */}
         {mainView === 'galeria' && canEdit && <GaleriaView rooms={filteredRooms} />}
 
+        {/* Vista Blog */}
+        {mainView === 'blog' && (
+          <div className="flex-1 overflow-y-auto bg-gray-50 flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-5xl mb-4">🔧</p>
+              <h2 className="font-montserrat text-2xl font-black text-gray-700 mb-2">Blog</h2>
+              <p className="text-gray-400 text-sm">En manteniment...</p>
+            </div>
+          </div>
+        )}
+
         {/* Mobile tabs */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -517,7 +528,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView
