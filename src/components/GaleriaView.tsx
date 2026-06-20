@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
 import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 import { EscapeRoom, starsFromScore } from '../types';
 import type { User } from 'firebase/auth';
@@ -148,20 +148,31 @@ function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; s
       {...linkProps}
       className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col transition-all duration-200 ${room.web ? 'hover:shadow-lg hover:-translate-y-0.5 cursor-pointer' : 'hover:shadow-md'}`}
     >
-      {showImages && room.imatgeUrl ? (
-        <div className="w-full h-40 overflow-hidden flex-shrink-0">
+      <div className="w-full flex-shrink-0 bg-gray-100 relative" style={{ minHeight: '160px' }}>
+        {showImages && room.imatgeUrl ? (
           <img
             src={room.imatgeUrl}
             alt={room.nom}
-            className="w-full h-full object-cover"
+            className="w-full h-auto block"
+            style={{ maxHeight: '280px', objectFit: 'contain' }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
-        </div>
-      ) : (
-        <div className="w-full h-40 flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-          <span className="text-4xl opacity-30">🔐</span>
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-40 flex items-center justify-center">
+            <span className="text-4xl opacity-30">🔐</span>
+          </div>
+        )}
+        {/* Botó afegir al grup — flotant sobre la imatge */}
+        {user && (
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToGrup(room); }}
+            className="absolute bottom-2 right-2 p-2 rounded-full bg-white/90 hover:bg-orange-500 text-orange-500 hover:text-white shadow-md transition-all"
+            title="Afegir al meu grup"
+          >
+            <UserPlus size={15} />
+          </button>
+        )}
+      </div>
 
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-2">
@@ -206,18 +217,6 @@ function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; s
           <p className="text-xs text-gray-300 italic flex-1">Sense descripció encara</p>
         )}
 
-        {user && (
-          <div className="mt-3 flex justify-end">
-            <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToGrup(room); }}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-500 text-xs font-semibold transition-colors"
-              title="Afegir als meus grups"
-            >
-              <Users size={12} />
-              <span>El meu grup</span>
-            </button>
-          </div>
-        )}
 
       </div>
     </Tag>
