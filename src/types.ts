@@ -121,6 +121,31 @@ export interface UserProfile {
   pseudonim: string;
 }
 
+export interface GrupRoom {
+  roomId: string;
+  nom: string;
+  empresa: string;
+  localitzacio: string;
+  lat: number | null;
+  lng: number | null;
+  comarca: string;
+  tematica1: string;
+  tematica2: string;
+  temps: string;
+  preu: string;
+  web: string;
+  imatgeUrl: string;
+  // Camps personals (omplerts per l'usuari)
+  data: string;
+  dificultats: string[];
+  ratings: ParticipantRating[];
+  puntuacio: number | null;
+  participants: string;
+  comentaris: string;
+  afegitPer: string;
+  afegitAt: string;
+}
+
 export function generateId(existing: string[]): string {
   const nums = existing.map(id => parseInt(id.replace('er-', '')) || 0);
   const max = nums.length ? Math.max(...nums) : 0;

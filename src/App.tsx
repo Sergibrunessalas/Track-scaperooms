@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Map, List, ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   collection, doc, setDoc, deleteDoc, updateDoc,
-  onSnapshot, getDocs, writeBatch, getDoc,
+  onSnapshot, getDocs, writeBatch, query, where,
 } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
@@ -19,15 +19,16 @@ const ALLOWED_EMAILS = [
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com'];
 import Header from './components/Header';
-import StatsBar, { MainView, FilterPreu } from './components/StatsBar';
+import StatsBar, { type MainView, FilterPreu } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
 import WebView from './components/WebView';
 import GaleriaView from './components/GaleriaView';
 import BlogView from './components/BlogView';
-import UserSetupModal from './components/UserSetupModal';
-import { EscapeRoom, UserProfile, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
+import OnboardingModal from './components/OnboardingModal';
+import ElsMeusGrupsView from './components/ElsMeusGrupsView';
+import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
 const ROOMS_COL = 'rooms';
@@ -37,34 +38,35 @@ export default function App() {
   const [dbReady, setDbReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [needsSetup, setNeedsSetup] = useState(false);
+  const [hasMyGroups, setHasMyGroups] = useState(false);
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setAuthReady(true);
       if (!u) {
-        setMainView((prev) => prev === 'web' ? 'mapa' : prev);
+        setMainView((prev) => (['web', 'mygroups'] as MainView[]).includes(prev) ? 'galeria' : prev);
         setNeedsSetup(false);
-        setUserProfile(null);
+        setHasMyGroups(false);
         return;
       }
-      if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
-        getDoc(doc(db, 'usuaris', u.uid))
-          .then(snap => {
-            if (!snap.exists()) {
-              setNeedsSetup(true);
-            } else {
-              setNeedsSetup(false);
-              setUserProfile(snap.data() as UserProfile);
-            }
-          })
-          .catch(() => {
-            // Si Firestore denega la lectura (regles no actualitzades) mostrem el modal igualment
+      const email = u.email?.toLowerCase() ?? '';
+      if (!email) return;
+      const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
+      getDocs(q)
+        .then(snap => {
+          const hasGroups = !snap.empty;
+          setHasMyGroups(hasGroups);
+          if (!ALLOWED_EMAILS.includes(u.email ?? '') && !hasGroups) {
             setNeedsSetup(true);
-          });
-      }
+          }
+        })
+        .catch(() => {
+          if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
+            setNeedsSetup(true);
+          }
+        });
     });
   }, []);
 
@@ -441,9 +443,10 @@ export default function App() {
   return (
     <div className="h-full flex flex-row font-inter overflow-hidden">
       {needsSetup && user && (
-        <UserSetupModal
+        <OnboardingModal
           user={user}
-          onDone={(profile) => { setUserProfile(profile); setNeedsSetup(false); }}
+          onDone={() => { setNeedsSetup(false); setHasMyGroups(true); }}
+          onDecline={() => setNeedsSetup(false)}
         />
       )}
 
@@ -520,6 +523,7 @@ export default function App() {
           canEdit={canEdit}
           isAdmin={isAdmin}
           user={user}
+          hasMyGroups={hasMyGroups}
           mainView={mainView}
           onMainViewChange={setMainView}
           onAddRoom={() => setFormState('new')}
@@ -533,13 +537,16 @@ export default function App() {
         {mainView === 'web' && user && <WebView rooms={rooms} userEmail={user?.email ?? null} canEdit={canEdit} />}
 
         {/* Vista Web / Galeria */}
-        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} onSwitchToMapa={() => setMainView('mapa')} />}
+        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} user={user} onSwitchToMapa={() => setMainView('mapa')} />}
+
+        {/* Vista Els meus grups */}
+        {mainView === 'mygroups' && user && <ElsMeusGrupsView currentUserEmail={user.email ?? ''} />}
 
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}
 
         {/* Mobile tabs */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} flex md:hidden flex-shrink-0 bg-white border-b border-gray-200`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -559,7 +566,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView

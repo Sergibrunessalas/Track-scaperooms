@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Users } from 'lucide-react';
 import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 import { EscapeRoom, starsFromScore } from '../types';
+import type { User } from 'firebase/auth';
+import AddToGrupModal from './AddToGrupModal';
 
 interface Props {
   rooms: EscapeRoom[];
   showImages: boolean;
+  user: User | null;
   onSwitchToMapa: () => void;
 }
 
@@ -54,7 +57,9 @@ function MiniMap({ rooms }: { rooms: EscapeRoom[] }) {
   );
 }
 
-export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props) {
+export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }: Props) {
+  const [addRoom, setAddRoom] = useState<EscapeRoom | null>(null);
+
   const sorted = [...rooms].sort((a, b) => {
     if (a.puntuacio !== null && b.puntuacio !== null) return b.puntuacio - a.puntuacio;
     if (a.puntuacio !== null) return -1;
@@ -64,6 +69,9 @@ export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props
 
   return (
     <div className="flex-1 flex overflow-hidden">
+      {addRoom && user && (
+        <AddToGrupModal room={addRoom} user={user} onClose={() => setAddRoom(null)} />
+      )}
 
       {/* ── Cards a l'esquerra ── */}
       <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
@@ -75,7 +83,7 @@ export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sorted.map((room) => (
-              <RoomCard key={room.id} room={room} showImages={showImages} />
+              <RoomCard key={room.id} room={room} showImages={showImages} user={user} onAddToGrup={setAddRoom} />
             ))}
           </div>
         </div>
@@ -125,7 +133,7 @@ export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props
   );
 }
 
-function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean }) {
+function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; showImages: boolean; user: User | null; onAddToGrup: (r: EscapeRoom) => void }) {
   const tems = [room.tematica1, room.tematica2].filter(Boolean);
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
@@ -196,6 +204,19 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
           <p className="text-xs text-gray-600 leading-relaxed flex-1">{room.descripcio}</p>
         ) : (
           <p className="text-xs text-gray-300 italic flex-1">Sense descripció encara</p>
+        )}
+
+        {user && (
+          <div className="mt-3 flex justify-end">
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToGrup(room); }}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-500 text-xs font-semibold transition-colors"
+              title="Afegir als meus grups"
+            >
+              <Users size={12} />
+              <span>El meu grup</span>
+            </button>
+          </div>
         )}
 
       </div>

@@ -1,0 +1,171 @@
+import { useState, useEffect } from 'react';
+import { collection, onSnapshot, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { ChevronRight, Trash2, Users, Star } from 'lucide-react';
+import type { Grup, GrupRoom } from '../types';
+
+interface Props {
+  currentUserEmail: string;
+}
+
+function starsFromScore(score: number | null): string {
+  if (score === null) return '';
+  const r = Math.min(5, Math.max(0, Math.round(score)));
+  return '★'.repeat(r) + '☆'.repeat(5 - r);
+}
+
+export default function ElsMeusGrupsView({ currentUserEmail }: Props) {
+  const [grups, setGrups] = useState<Grup[]>([]);
+  const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
+  const [grupRooms, setGrupRooms] = useState<GrupRoom[]>([]);
+
+  useEffect(() => {
+    if (!currentUserEmail) return;
+    const q = query(
+      collection(db, 'grups'),
+      where('membresCorreus', 'array-contains', currentUserEmail.toLowerCase())
+    );
+    return onSnapshot(q, snap =>
+      setGrups(snap.docs.map(d => ({ id: d.id, ...d.data() } as Grup)))
+    );
+  }, [currentUserEmail]);
+
+  useEffect(() => {
+    if (!selectedGrup) { setGrupRooms([]); return; }
+    return onSnapshot(
+      collection(db, 'grups', selectedGrup.id, 'rooms'),
+      snap => setGrupRooms(snap.docs.map(d => d.data() as GrupRoom))
+    );
+  }, [selectedGrup]);
+
+  async function removeRoom(roomId: string) {
+    if (!selectedGrup) return;
+    if (!confirm('Treure aquesta sala del grup?')) return;
+    await deleteDoc(doc(db, 'grups', selectedGrup.id, 'rooms', roomId));
+  }
+
+  // Vista detall d'un grup
+  if (selectedGrup) {
+    const rated = grupRooms.filter(r => r.puntuacio !== null);
+    const avg = rated.length
+      ? rated.reduce((s, r) => s + r.puntuacio!, 0) / rated.length
+      : null;
+
+    return (
+      <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-1.5 text-xs text-gray-400">
+            <button onClick={() => setSelectedGrup(null)} className="hover:text-accent transition-colors">
+              Els meus grups
+            </button>
+            <span>›</span>
+            <span className="text-gray-700 font-medium">{selectedGrup.nom}</span>
+          </nav>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { label: 'Total sales', value: grupRooms.length, icon: '🗺' },
+              { label: 'Valorades', value: rated.length, icon: '⭐' },
+              { label: 'Nota mitjana', value: avg ? avg.toFixed(1) : '—', icon: '📊' },
+              { label: 'Pendents', value: grupRooms.length - rated.length, icon: '⏳' },
+            ].map(({ label, value, icon }) => (
+              <div key={label} className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <p className="text-2xl mb-1">{icon}</p>
+                <p className="text-2xl font-black text-gray-900 font-montserrat">{value}</p>
+                <p className="text-xs text-gray-400 uppercase tracking-wide mt-1">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Llista de sales */}
+          <div>
+            <h3 className="font-semibold text-gray-900 text-sm mb-3">
+              Sales del grup ({grupRooms.length})
+            </h3>
+            {grupRooms.length === 0 ? (
+              <div className="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-400">
+                <p className="text-3xl mb-2">🔐</p>
+                <p className="text-sm">Encara no heu afegit cap sala.</p>
+                <p className="text-xs mt-1">Ves a la pestanya <strong>Web</strong> i clica la icona ➕ a qualsevol sala.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {grupRooms.map(r => (
+                  <div key={r.roomId} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="font-semibold text-sm text-gray-900 leading-snug">{r.nom}</p>
+                        {r.empresa && <p className="text-xs text-gray-400">{r.empresa}</p>}
+                      </div>
+                      <button
+                        onClick={() => removeRoom(r.roomId)}
+                        className="p-1 text-gray-300 hover:text-red-400 transition-colors flex-shrink-0"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                    {r.puntuacio !== null ? (
+                      <p className="text-xs font-semibold text-accent">
+                        {r.puntuacio.toFixed(1)} <span className="text-yellow-400">{starsFromScore(r.puntuacio)}</span>
+                      </p>
+                    ) : (
+                      <p className="text-xs text-gray-300 italic">Sense valoració</p>
+                    )}
+                    {r.data && <p className="text-xs text-gray-400">📅 {r.data}</p>}
+                    {r.participants && <p className="text-xs text-gray-400">👥 {r.participants}</p>}
+                    {r.comentaris && (
+                      <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{r.comentaris}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Vista llista de grups
+  return (
+    <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
+      <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+        <h2 className="font-montserrat text-xl font-black text-gray-900">Els meus grups</h2>
+
+        {grups.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 p-10 text-center text-gray-400">
+            <Users size={32} className="mx-auto mb-3 opacity-30" />
+            <p className="text-sm font-medium">Encara no formes part de cap grup.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {grups.map(g => (
+              <button
+                key={g.id}
+                onClick={() => setSelectedGrup(g)}
+                className="bg-white rounded-xl border border-gray-100 p-5 text-left hover:border-accent/30 hover:shadow-md transition-all group"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-semibold text-gray-900 text-sm">{g.nom}</span>
+                  <ChevronRight size={14} className="text-gray-300 group-hover:text-accent transition-colors" />
+                </div>
+                <p className="text-xs text-gray-400 flex items-center gap-1.5">
+                  <Users size={11} />
+                  {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
+                </p>
+                <div className="mt-3 pt-3 border-t border-gray-50">
+                  <p className="text-xs font-semibold text-accent flex items-center gap-1">
+                    <Star size={10} />
+                    Veure estadístiques
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
