@@ -43,7 +43,7 @@ export default function Header({ canEdit, isAdmin, user, mainView, onMainViewCha
         <img
           src="/logo.png"
           alt="ScapeZone"
-          className="h-9 md:h-11 w-auto object-contain flex-shrink-0"
+          className="h-11 md:h-14 w-auto object-contain flex-shrink-0"
         />
         <div>
           <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-none">
