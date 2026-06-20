@@ -176,11 +176,11 @@ const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
 ];
 
 const PREU_OPTIONS: { value: FilterPreu; label: string }[] = [
-  { value: '0-20', label: 'Fins a 20€' },
-  { value: '20-30', label: '20 – 30€' },
-  { value: '30-40', label: '30 – 40€' },
+  { value: '0-20', label: '≤20€' },
+  { value: '20-30', label: '20-30€' },
+  { value: '30-40', label: '30-40€' },
   { value: '40+', label: '+40€' },
-  { value: 'sense', label: 'Sense preu' },
+  { value: 'sense', label: 'Sense€' },
 ];
 
 export function FiltersRow({
@@ -255,6 +255,13 @@ export function FiltersRow({
       {/* Input del filtre actiu */}
       {activeFilter && (
         <div className="flex items-center gap-2">
+          <button
+            onClick={clearActive}
+            className="p-1.5 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+            title="Tancar filtre"
+          >
+            <X size={13} />
+          </button>
           <span className="text-xs font-bold text-gray-400 uppercase tracking-wide flex-shrink-0">{activeLabel}:</span>
 
           {activeFilter === 'nom' && (
@@ -311,13 +318,6 @@ export function FiltersRow({
             </div>
           )}
 
-          <button
-            onClick={clearActive}
-            className="p-1.5 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
-            title="Tancar filtre"
-          >
-            <X size={13} />
-          </button>
         </div>
       )}
     </div>
