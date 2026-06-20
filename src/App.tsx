@@ -464,7 +464,7 @@ export default function App() {
       </a>
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px, oculta a pestanya Web) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog') ? 'none' : undefined }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog' || mainView === 'mygroups') ? 'none' : undefined }}>
 
         {/* Capçalera */}
         <div style={{ flexShrink: 0, marginBottom: '8px', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
