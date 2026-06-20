@@ -9,7 +9,7 @@ const EMAIL_TO_NAME: Record<string, string> = {
   'ari.veny.reast@gmail.com': 'Ari',
 };
 
-const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com'];
+const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com'];
 
 interface RoomFormProps {
   room: EscapeRoom | null;
