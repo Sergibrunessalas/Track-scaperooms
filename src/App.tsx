@@ -591,7 +591,7 @@ export default function App() {
               canEdit={canEdit}
               isAdmin={isAdmin}
               onRoomClick={handleRoomCardClick}
-              onEditRoom={(room) => setFormState(room)}
+              onEditRoom={(room) => { setFormState(room); }}
             />
           </div>
         </div>

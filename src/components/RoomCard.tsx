@@ -99,7 +99,7 @@ export default function RoomCard({ room, rank, selected, canEdit, isAdmin, onCli
           className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
             selected
               ? 'text-accent bg-accent/10 opacity-100'
-              : 'text-gray-400 hover:text-accent hover:bg-accent/10 opacity-0 group-hover:opacity-100'
+              : 'text-gray-400 hover:text-accent hover:bg-accent/10 md:opacity-0 md:group-hover:opacity-100'
           }`}
           title="Editar"
         >
@@ -112,7 +112,7 @@ export default function RoomCard({ room, rank, selected, canEdit, isAdmin, onCli
           className={`flex-shrink-0 p-1.5 rounded-lg transition-all duration-150 ${
             selected
               ? 'text-yellow-500 bg-yellow-50 opacity-100'
-              : 'text-gray-300 hover:text-yellow-500 hover:bg-yellow-50 opacity-0 group-hover:opacity-100'
+              : 'text-gray-300 hover:text-yellow-500 hover:bg-yellow-50 md:opacity-0 md:group-hover:opacity-100'
           }`}
           title="Valorar"
         >
