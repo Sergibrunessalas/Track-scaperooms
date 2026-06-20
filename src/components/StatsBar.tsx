@@ -203,7 +203,7 @@ export function FiltersRow({
   });
 
   useEffect(() => {
-    if (!hasFilters) { setActiveFilter(null); setChooserOpen(false); }
+    if (!hasFilters) setChooserOpen(false);
   }, [hasFilters]);
 
   const selectFilter = (type: FilterType) => { setActiveFilter(type); setChooserOpen(false); };
