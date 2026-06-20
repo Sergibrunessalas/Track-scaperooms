@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { ChevronRight, Trash2, Users, Star } from 'lucide-react';
+import { ChevronRight, Trash2, Users, Star, Pencil } from 'lucide-react';
 import type { Grup, GrupRoom } from '../types';
 import type { User } from 'firebase/auth';
+import EditGrupModal from './EditGrupModal';
+
+const SUPER_ADMIN = 'sbrunessalas@gmail.com';
 
 interface Props {
   currentUserEmail: string;
@@ -23,6 +26,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
   const [grupRooms, setGrupRooms] = useState<GrupRoom[]>([]);
   const [askCreateNew, setAskCreateNew] = useState(false);
+  const [editingGrup, setEditingGrup] = useState<Grup | null>(null);
 
   useEffect(() => {
     if (!currentUserEmail) return;
@@ -50,6 +54,8 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   }
 
   async function deleteGrup(g: Grup) {
+    const canDelete = g.titular === currentUserEmail || currentUserEmail === SUPER_ADMIN;
+    if (!canDelete) return;
     if (!confirm(`Segur que vols eliminar el grup "${g.nom}"?`)) return;
     await deleteDoc(doc(db, 'grups', g.id));
     setSelectedGrup(null);
@@ -176,6 +182,10 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   // Vista llista de grups
   return (
     <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
+      {editingGrup && (
+        <EditGrupModal grup={editingGrup} onClose={() => setEditingGrup(null)} />
+      )}
+
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
         <h2 className="font-montserrat text-xl font-black text-gray-900">Els meus grups</h2>
 
@@ -186,43 +196,58 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {grups.map(g => (
-              <div
-                key={g.id}
-                className="bg-white rounded-xl border border-gray-100 p-5 hover:border-accent/30 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-semibold text-gray-900 text-sm">{g.nom}</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setSelectedGrup(g)}
-                      className="p-1.5 text-gray-300 hover:text-accent transition-colors"
-                      title="Veure estadístiques"
-                    >
-                      <ChevronRight size={14} />
-                    </button>
-                    <button
-                      onClick={() => deleteGrup(g)}
-                      className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
-                      title="Eliminar grup"
-                    >
-                      <Trash2 size={13} />
-                    </button>
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 flex items-center gap-1.5">
-                  <Users size={11} />
-                  {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
-                </p>
-                <button
-                  onClick={() => setSelectedGrup(g)}
-                  className="w-full mt-3 pt-3 border-t border-gray-50 text-xs font-semibold text-accent flex items-center gap-1"
+            {grups.map(g => {
+              const canDelete = g.titular === currentUserEmail || currentUserEmail === SUPER_ADMIN;
+              return (
+                <div
+                  key={g.id}
+                  className="bg-white rounded-xl border border-gray-100 p-5 hover:border-accent/30 hover:shadow-md transition-all"
                 >
-                  <Star size={10} />
-                  Veure estadístiques
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-semibold text-gray-900 text-sm truncate">{g.nom}</span>
+                    <div className="flex items-center gap-0.5 flex-shrink-0">
+                      {/* Editar: tots els membres */}
+                      <button
+                        onClick={() => setEditingGrup(g)}
+                        className="p-1.5 text-gray-300 hover:text-gray-600 transition-colors"
+                        title="Editar grup"
+                      >
+                        <Pencil size={13} />
+                      </button>
+                      {/* Veure estadístiques */}
+                      <button
+                        onClick={() => setSelectedGrup(g)}
+                        className="p-1.5 text-gray-300 hover:text-accent transition-colors"
+                        title="Veure estadístiques"
+                      >
+                        <ChevronRight size={14} />
+                      </button>
+                      {/* Eliminar: només titular + Sergi */}
+                      {canDelete && (
+                        <button
+                          onClick={() => deleteGrup(g)}
+                          className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
+                          title="Eliminar grup"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 flex items-center gap-1.5">
+                    <Users size={11} />
+                    {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
+                  </p>
+                  <button
+                    onClick={() => setSelectedGrup(g)}
+                    className="w-full mt-3 pt-3 border-t border-gray-50 text-xs font-semibold text-accent flex items-center gap-1"
+                  >
+                    <Star size={10} />
+                    Veure estadístiques
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
