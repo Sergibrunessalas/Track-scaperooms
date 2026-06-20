@@ -519,7 +519,7 @@ export default function App() {
         />
 
         {/* Vista Estadístiques */}
-        {mainView === 'web' && canEdit && <WebView rooms={rooms} userEmail={user?.email ?? null} />}
+        {mainView === 'web' && user && <WebView rooms={rooms} userEmail={user?.email ?? null} canEdit={canEdit} />}
 
         {/* Vista Web / Galeria */}
         {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} onSwitchToMapa={() => setMainView('mapa')} />}

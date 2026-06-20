@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, ChevronRight, Users, X, Crown } from 'lucide-react';
-import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { EscapeRoom, Grup, GrupMembre } from '../types';
 
@@ -22,16 +22,17 @@ export default function GrupsView({ rooms, currentUserEmail, onBack, onViewStats
   const [form, setForm] = useState(emptyForm());
 
   useEffect(() => {
-    return onSnapshot(collection(db, 'grups'), snap =>
+    if (!currentUserEmail) return;
+    const q = query(
+      collection(db, 'grups'),
+      where('membresCorreus', 'array-contains', currentUserEmail.toLowerCase())
+    );
+    return onSnapshot(q, snap =>
       setGrups(snap.docs.map(d => ({ id: d.id, ...d.data() } as Grup)))
     );
-  }, []);
+  }, [currentUserEmail]);
 
-  // Grups on l'usuari és membre
-  const myGrups = grups.filter(g =>
-    g.titular === currentUserEmail ||
-    (g.membresCorreus ?? []).includes(currentUserEmail)
-  );
+  const myGrups = grups;
 
   function roomsForGrup(g: Grup): number {
     const terms = g.membres

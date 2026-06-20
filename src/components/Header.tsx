@@ -31,7 +31,7 @@ export default function Header({ canEdit, isAdmin, user, mainView, onMainViewCha
   }, [menuOpen]);
 
   const handleViewChange = (v: MainView) => {
-    if (v === 'web' && !canEdit) return;
+    if (v === 'web' && !user) return;
     onMainViewChange(v);
   };
 
@@ -73,7 +73,7 @@ export default function Header({ canEdit, isAdmin, user, mainView, onMainViewCha
         >
           🗺 <span className="hidden sm:inline">Mapa</span>
         </button>
-        {canEdit && (
+        {user && (
           <button
             onClick={() => handleViewChange('web')}
             className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${

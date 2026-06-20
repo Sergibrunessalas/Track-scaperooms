@@ -100,10 +100,10 @@ function exportTop10(rooms: EscapeRoom[]) {
 
 type WVPage = 'overview' | 'grups' | 'grup-stats';
 
-interface Props { rooms: EscapeRoom[]; userEmail: string | null; }
+interface Props { rooms: EscapeRoom[]; userEmail: string | null; canEdit: boolean; }
 
-export default function WebView({ rooms, userEmail }: Props) {
-  const [page, setPage] = useState<WVPage>('overview');
+export default function WebView({ rooms, userEmail, canEdit }: Props) {
+  const [page, setPage] = useState<WVPage>(() => canEdit ? 'overview' : 'grups');
   const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
 
   /* ── Grups sub-view ── */
