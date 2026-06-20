@@ -157,8 +157,8 @@ export default function App() {
     if (filterPreu) {
       const num = parseFloat((room.preu ?? '').replace(/[^\d.]/g, ''));
       if (filterPreu === 'sense') { if (room.preu) return false; }
-      else if (filterPreu === '0-20') { if (!room.preu || isNaN(num) || num >= 20) return false; }
-      else if (filterPreu === '20-30') { if (!room.preu || isNaN(num) || num < 20 || num >= 30) return false; }
+      else if (filterPreu === '0-20') { if (!room.preu || isNaN(num) || num > 20) return false; }
+      else if (filterPreu === '20-30') { if (!room.preu || isNaN(num) || num <= 20 || num >= 30) return false; }
       else if (filterPreu === '30-40') { if (!room.preu || isNaN(num) || num < 30 || num > 40) return false; }
       else if (filterPreu === '40+') { if (!room.preu || isNaN(num) || num <= 40) return false; }
     }
