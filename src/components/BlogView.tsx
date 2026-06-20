@@ -11,6 +11,66 @@ interface BlogPost {
 
 const POSTS: BlogPost[] = [
   {
+    id: 'tipos-jugadores',
+    titol: 'Los 7 tipos de jugadores que encontrarás en cualquier escape room',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>Si has jugado varios escape rooms, probablemente ya te habrás dado cuenta de algo: los enigmas cambian, las historias cambian y las salas cambian, pero los tipos de jugadores suelen repetirse.</p>
+        <p>Y, seamos sinceros, todos hemos sido alguno de ellos.</p>
+
+        <h2>1. El líder nato</h2>
+        <p>Nada más entrar ya ha elegido un equipo, ha repartido tareas y ha decidido por dónde empezar.</p>
+        <p>Frases habituales:</p>
+        <ul>
+          <li>«Vosotros buscad allí.»</li>
+          <li>«Dejadme pensar un momento.»</li>
+          <li>«Tenemos que organizarnos.»</li>
+        </ul>
+        <p>Su mayor virtud es mantener al grupo enfocado. Su mayor peligro es intentar resolverlo todo él solo.</p>
+
+        <h2>2. El detective obsesivo</h2>
+        <p>Observa absolutamente todo. Lee cada papel tres veces. Sospecha de cada detalle.</p>
+        <p>A veces encuentra la pista clave. Otras veces lleva al grupo a investigar una mancha de humedad durante veinte minutos.</p>
+        <p>Sin embargo, gracias a él muchos equipos descubren detalles que otros pasarían por alto.</p>
+
+        <h2>3. El abrecandados</h2>
+        <p>Tiene un don especial. No importa dónde esté el candado: siempre aparece él.</p>
+        <p>En algunos grupos existe incluso una pequeña competición por ver quién abre más.</p>
+        <p>Su frase favorita: <strong>«¡Lo tengo!»</strong></p>
+        <p>Y aunque a veces no recuerde cómo llegó a la solución, suele convertirse en el héroe del equipo.</p>
+
+        <h2>4. El despistado entrañable</h2>
+        <p>No sabe muy bien qué está pasando. Ha olvidado varias pistas. Hace preguntas que ya se han respondido.</p>
+        <p>Pero, sorprendentemente, en ocasiones resuelve el enigma más difícil con una idea completamente inesperada.</p>
+        <p>Todo grupo necesita un despistado. Aporta humor, rompe la tensión y recuerda que estamos jugando.</p>
+
+        <h2>5. El actor</h2>
+        <p>Especialmente presente en experiencias inmersivas y cenas con asesinato. Habla como su personaje. Interpreta. Miente. Improvisa.</p>
+        <p>Puede convertir una buena experiencia en una noche inolvidable. Cuando aparece uno de estos jugadores, el resto suele acabar contagiándose.</p>
+
+        <h2>6. El silencioso</h2>
+        <p>Observa. Escucha. Habla poco. Pero cuando interviene, normalmente tiene razón.</p>
+        <p>Muchas veces es quien conecta varias pistas que el resto había pasado por alto. No todos los jugadores necesitan ser los más visibles para ser imprescindibles.</p>
+
+        <h2>7. El sospechoso permanente</h2>
+        <p>En una cena con asesinato siempre existe alguien que acusa a todo el mundo.</p>
+        <ul>
+          <li>«Seguro que has sido tú.»</li>
+          <li>«Eso suena sospechoso.»</li>
+          <li>«No me creo nada.»</li>
+        </ul>
+        <p>Aunque se equivoque constantemente, mantiene viva la investigación y hace que todos se impliquen.</p>
+
+        <h2>¿Cuál eres tú?</h2>
+        <p>La realidad es que la mayoría de nosotros somos una mezcla de varios tipos.</p>
+        <p>Y precisamente ahí reside la magia de estas experiencias: personas muy diferentes colaborando para resolver un mismo misterio.</p>
+        <p>En <strong>ScapeZone</strong> creemos que no existe el jugador perfecto. Existe el equipo perfecto. Y ese suele estar formado por un poco de todos.</p>
+      </div>
+    ),
+  },
+  {
     id: 'noche-misterio-casa',
     titol: 'Cómo organizar una noche de misterio en casa',
     data: '20/06/2026',
