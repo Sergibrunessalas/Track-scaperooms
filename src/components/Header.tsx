@@ -44,7 +44,6 @@ export default function Header({ canEdit, isAdmin, user, mainView, onMainViewCha
           src="/logo.png"
           alt="ScapeZone"
           className="h-11 md:h-14 w-auto object-contain flex-shrink-0"
-          style={{ mixBlendMode: 'screen' }}
         />
         <div>
           <h1 className="font-montserrat text-xl md:text-2xl font-black tracking-tight leading-none">
