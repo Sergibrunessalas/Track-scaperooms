@@ -234,10 +234,26 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 flex items-center gap-1.5">
-                    <Users size={11} />
-                    {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
-                  </p>
+                  <div className="relative group/members">
+                    <p className="text-xs text-gray-400 flex items-center gap-1.5 cursor-default w-fit">
+                      <Users size={11} />
+                      {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
+                    </p>
+                    {/* Tooltip membres */}
+                    {g.membres && g.membres.length > 0 && (
+                      <div className="absolute left-0 top-full mt-1.5 z-20 bg-white border border-gray-200 rounded-xl shadow-lg p-3 min-w-[180px] hidden group-hover/members:block">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Membres del grup</p>
+                        <ul className="space-y-1.5">
+                          {g.membres.map((m, i) => (
+                            <li key={i} className="flex flex-col">
+                              {m.nom && <span className="text-xs font-semibold text-gray-800">{m.nom}</span>}
+                              {m.correu && <span className="text-[10px] text-gray-400">{m.correu}</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                   <button
                     onClick={() => setSelectedGrup(g)}
                     className="w-full mt-3 pt-3 border-t border-gray-50 text-xs font-semibold text-accent flex items-center gap-1"
