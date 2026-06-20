@@ -1,12 +1,14 @@
 import { ExternalLink } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
+import MapView from './MapView';
 
 interface Props {
   rooms: EscapeRoom[];
   showImages: boolean;
+  onSwitchToMapa: () => void;
 }
 
-export default function GaleriaView({ rooms, showImages }: Props) {
+export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props) {
   const sorted = [...rooms].sort((a, b) => {
     if (a.puntuacio !== null && b.puntuacio !== null) return b.puntuacio - a.puntuacio;
     if (a.puntuacio !== null) return -1;
@@ -15,19 +17,58 @@ export default function GaleriaView({ rooms, showImages }: Props) {
   });
 
   return (
-    <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-xl font-black text-gray-800 mb-1 tracking-tight">
-          Tots els Escape Rooms
-        </h2>
-        <p className="text-sm text-gray-400 mb-6">{rooms.length} sales · ordenades per puntuació</p>
+    <div className="flex-1 flex overflow-hidden">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {sorted.map((room) => (
-            <RoomCard key={room.id} room={room} showImages={showImages} />
-          ))}
+      {/* ── Cards a l'esquerra ── */}
+      <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
+        <div className="p-5">
+          <h2 className="text-xl font-black text-gray-800 mb-1 tracking-tight font-montserrat">
+            Tots els Escape Rooms
+          </h2>
+          <p className="text-sm text-gray-400 mb-5">{rooms.length} sales · ordenades per puntuació</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {sorted.map((room) => (
+              <RoomCard key={room.id} room={room} showImages={showImages} />
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* ── Mini mapa a la dreta (desktop) ── */}
+      <div className="hidden lg:flex w-64 xl:w-72 flex-shrink-0 flex-col border-l border-gray-200 bg-white">
+        <div className="px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Mapa</p>
+          <button
+            onClick={onSwitchToMapa}
+            className="text-xs text-accent font-semibold hover:underline"
+          >
+            Veure complet →
+          </button>
+        </div>
+        <div
+          className="flex-1 relative cursor-pointer group"
+          onClick={onSwitchToMapa}
+          title="Veure el mapa complet"
+        >
+          <div className="absolute inset-0 pointer-events-none">
+            <MapView
+              rooms={rooms}
+              selectedRoomId={null}
+              canEdit={false}
+              hasFilters={false}
+              onSelectRoom={() => {}}
+            />
+          </div>
+          {/* Overlay hover */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/15 transition-colors duration-200">
+            <span className="bg-white text-xs font-bold text-gray-700 px-3 py-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              🗺 Obrir mapa
+            </span>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

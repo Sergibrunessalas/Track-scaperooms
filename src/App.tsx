@@ -59,7 +59,7 @@ export default function App() {
   const [formState, setFormState] = useState<'closed' | 'new' | EscapeRoom>('closed');
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mainView, setMainView] = useState<MainView>('mapa');
+  const [mainView, setMainView] = useState<MainView>('galeria');
 
   // Quan el sidebar canvia de mida, cal que Leaflet recalculi les dimensions del mapa
   useEffect(() => {
@@ -486,7 +486,7 @@ export default function App() {
         {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
 
         {/* Vista Web / Galeria */}
-        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} />}
+        {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} onSwitchToMapa={() => setMainView('mapa')} />}
 
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}

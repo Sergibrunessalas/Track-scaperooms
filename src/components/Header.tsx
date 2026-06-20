@@ -55,8 +55,16 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
         </div>
       </div>
 
-      {/* Pestanyes centrades */}
+      {/* Pestanyes centrades: Web · Mapa · Estadístiques · Blog */}
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/10 rounded-xl p-0.5">
+        <button
+          onClick={() => handleViewChange('galeria')}
+          className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
+            mainView === 'galeria' ? 'bg-white text-gray-900' : 'text-white/70 hover:text-white'
+          }`}
+        >
+          🌐 <span className="hidden sm:inline">Web</span>
+        </button>
         <button
           onClick={() => handleViewChange('mapa')}
           className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
@@ -75,14 +83,6 @@ export default function Header({ canEdit, isAdmin, user, total, mainView, onMain
             📊 <span className="hidden sm:inline">Estadístiques</span>
           </button>
         )}
-        <button
-          onClick={() => handleViewChange('galeria')}
-          className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
-            mainView === 'galeria' ? 'bg-white text-gray-900' : 'text-white/70 hover:text-white'
-          }`}
-        >
-          🌐 <span className="hidden sm:inline">Web</span>
-        </button>
         <button
           onClick={() => handleViewChange('blog')}
           className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
