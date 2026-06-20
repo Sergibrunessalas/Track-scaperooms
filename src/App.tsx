@@ -39,6 +39,7 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
   const [needsSetup, setNeedsSetup] = useState(false);
+  const [skipConfirmOnboarding, setSkipConfirmOnboarding] = useState(false);
   const [hasMyGroups, setHasMyGroups] = useState(false);
 
   useEffect(() => {
@@ -445,8 +446,9 @@ export default function App() {
       {needsSetup && user && (
         <OnboardingModal
           user={user}
-          onDone={() => { setNeedsSetup(false); setHasMyGroups(true); }}
-          onDecline={() => setNeedsSetup(false)}
+          skipConfirm={skipConfirmOnboarding}
+          onDone={() => { setNeedsSetup(false); setSkipConfirmOnboarding(false); setHasMyGroups(true); }}
+          onDecline={() => { setNeedsSetup(false); setSkipConfirmOnboarding(false); }}
         />
       )}
 
@@ -540,7 +542,14 @@ export default function App() {
         {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} user={user} onSwitchToMapa={() => setMainView('mapa')} />}
 
         {/* Vista Els meus grups */}
-        {mainView === 'mygroups' && user && <ElsMeusGrupsView currentUserEmail={user.email ?? ''} />}
+        {mainView === 'mygroups' && user && (
+          <ElsMeusGrupsView
+            currentUserEmail={user.email ?? ''}
+            user={user}
+            onNoMoreGroups={() => { setHasMyGroups(false); setMainView('galeria'); }}
+            onWantsNewGroup={() => { setSkipConfirmOnboarding(true); setNeedsSetup(true); }}
+          />
+        )}
 
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}

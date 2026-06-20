@@ -3,9 +3,13 @@ import { collection, onSnapshot, query, where, deleteDoc, doc } from 'firebase/f
 import { db } from '../firebase';
 import { ChevronRight, Trash2, Users, Star } from 'lucide-react';
 import type { Grup, GrupRoom } from '../types';
+import type { User } from 'firebase/auth';
 
 interface Props {
   currentUserEmail: string;
+  user: User;
+  onNoMoreGroups: () => void;
+  onWantsNewGroup: () => void;
 }
 
 function starsFromScore(score: number | null): string {
@@ -14,10 +18,11 @@ function starsFromScore(score: number | null): string {
   return '★'.repeat(r) + '☆'.repeat(5 - r);
 }
 
-export default function ElsMeusGrupsView({ currentUserEmail }: Props) {
+export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onWantsNewGroup }: Props) {
   const [grups, setGrups] = useState<Grup[]>([]);
   const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
   const [grupRooms, setGrupRooms] = useState<GrupRoom[]>([]);
+  const [askCreateNew, setAskCreateNew] = useState(false);
 
   useEffect(() => {
     if (!currentUserEmail) return;
@@ -42,6 +47,15 @@ export default function ElsMeusGrupsView({ currentUserEmail }: Props) {
     if (!selectedGrup) return;
     if (!confirm('Treure aquesta sala del grup?')) return;
     await deleteDoc(doc(db, 'grups', selectedGrup.id, 'rooms', roomId));
+  }
+
+  async function deleteGrup(g: Grup) {
+    if (!confirm(`Segur que vols eliminar el grup "${g.nom}"?`)) return;
+    await deleteDoc(doc(db, 'grups', g.id));
+    setSelectedGrup(null);
+    // Si ja no queden grups, preguntem si vol crear-ne un altre
+    const remaining = grups.filter(gr => gr.id !== g.id);
+    if (remaining.length === 0) setAskCreateNew(true);
   }
 
   // Vista detall d'un grup
@@ -128,6 +142,37 @@ export default function ElsMeusGrupsView({ currentUserEmail }: Props) {
     );
   }
 
+  // Diàleg "Vols crear un altre grup?"
+  if (askCreateNew) {
+    return (
+      <div className="flex-1 flex items-center justify-center bg-gray-50 p-6">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center flex flex-col gap-5">
+          <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
+            <Users size={28} className="text-orange-500" />
+          </div>
+          <div>
+            <h3 className="font-montserrat font-black text-gray-900 text-lg mb-1">Grup eliminat</h3>
+            <p className="text-sm text-gray-500">Vols crear un altre grup?</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => { setAskCreateNew(false); onWantsNewGroup(); }}
+              className="w-full py-2.5 bg-orange-500 text-white rounded-xl text-sm font-semibold hover:bg-orange-600 transition-colors"
+            >
+              Sí, crear un nou grup
+            </button>
+            <button
+              onClick={() => { setAskCreateNew(false); onNoMoreGroups(); }}
+              className="w-full py-2.5 text-gray-500 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors"
+            >
+              No, continuar navegant
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Vista llista de grups
   return (
     <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
@@ -142,26 +187,41 @@ export default function ElsMeusGrupsView({ currentUserEmail }: Props) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {grups.map(g => (
-              <button
+              <div
                 key={g.id}
-                onClick={() => setSelectedGrup(g)}
-                className="bg-white rounded-xl border border-gray-100 p-5 text-left hover:border-accent/30 hover:shadow-md transition-all group"
+                className="bg-white rounded-xl border border-gray-100 p-5 hover:border-accent/30 hover:shadow-md transition-all group"
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-semibold text-gray-900 text-sm">{g.nom}</span>
-                  <ChevronRight size={14} className="text-gray-300 group-hover:text-accent transition-colors" />
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setSelectedGrup(g)}
+                      className="p-1.5 text-gray-300 hover:text-accent transition-colors"
+                      title="Veure estadístiques"
+                    >
+                      <ChevronRight size={14} />
+                    </button>
+                    <button
+                      onClick={() => deleteGrup(g)}
+                      className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
+                      title="Eliminar grup"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
                 </div>
                 <p className="text-xs text-gray-400 flex items-center gap-1.5">
                   <Users size={11} />
                   {(g.membresCorreus ?? []).length} membre{(g.membresCorreus ?? []).length !== 1 ? 's' : ''}
                 </p>
-                <div className="mt-3 pt-3 border-t border-gray-50">
-                  <p className="text-xs font-semibold text-accent flex items-center gap-1">
-                    <Star size={10} />
-                    Veure estadístiques
-                  </p>
-                </div>
-              </button>
+                <button
+                  onClick={() => setSelectedGrup(g)}
+                  className="w-full mt-3 pt-3 border-t border-gray-50 text-xs font-semibold text-accent flex items-center gap-1"
+                >
+                  <Star size={10} />
+                  Veure estadístiques
+                </button>
+              </div>
             ))}
           </div>
         )}

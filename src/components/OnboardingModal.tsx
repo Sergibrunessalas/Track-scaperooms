@@ -8,12 +8,13 @@ interface Props {
   user: User;
   onDone: () => void;
   onDecline: () => void;
+  skipConfirm?: boolean;
 }
 
 type Step = 'confirm' | 'form';
 
-export default function OnboardingModal({ user, onDone, onDecline }: Props) {
-  const [step, setStep] = useState<Step>('confirm');
+export default function OnboardingModal({ user, onDone, onDecline, skipConfirm }: Props) {
+  const [step, setStep] = useState<Step>(skipConfirm ? 'form' : 'confirm');
   const [nomGrup, setNomGrup] = useState('');
   const [membres, setMembres] = useState([
     { nom: '', correu: user.email ?? '' },
