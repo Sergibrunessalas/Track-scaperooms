@@ -84,7 +84,7 @@ export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, 
             📊 <span className="hidden sm:inline">Estadístiques</span>
           </button>
         )}
-        {user && (!canEdit || hasMyGroups) && (
+        {user && hasMyGroups && (
           <button
             onClick={() => handleViewChange('mygroups')}
             className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
