@@ -130,8 +130,16 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
   const stars = starsFromScore(room.puntuacio);
   const rated = room.puntuacio !== null;
 
+  const Tag = room.web ? 'a' : 'div';
+  const linkProps = room.web
+    ? { href: room.web, target: '_blank', rel: 'noopener noreferrer' }
+    : {};
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow duration-200">
+    <Tag
+      {...linkProps}
+      className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col transition-all duration-200 ${room.web ? 'hover:shadow-lg hover:-translate-y-0.5 cursor-pointer' : 'hover:shadow-md'}`}
+    >
       {showImages && room.imatgeUrl ? (
         <div className="w-full h-40 overflow-hidden flex-shrink-0">
           <img
@@ -185,23 +193,18 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
         )}
 
         {room.descripcio ? (
-          <p className="text-xs text-gray-600 leading-relaxed flex-1 mb-3">{room.descripcio}</p>
+          <p className="text-xs text-gray-600 leading-relaxed flex-1">{room.descripcio}</p>
         ) : (
-          <p className="text-xs text-gray-300 italic flex-1 mb-3">Sense descripció encara</p>
+          <p className="text-xs text-gray-300 italic flex-1">Sense descripció encara</p>
         )}
 
         {room.web && (
-          <a
-            href={room.web}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-semibold text-accent hover:text-accent-dark transition-colors mt-auto"
-          >
-            <ExternalLink size={11} />
+          <p className="text-xs text-accent font-semibold mt-3 flex items-center gap-1">
+            <ExternalLink size={10} />
             Visitar web
-          </a>
+          </p>
         )}
       </div>
-    </div>
+    </Tag>
   );
 }
