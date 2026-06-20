@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, ChevronRight, Users, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, ChevronRight, Users, X, Crown } from 'lucide-react';
 import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { EscapeRoom, Grup, GrupMembre } from '../types';
@@ -11,11 +11,12 @@ const emptyForm = (): { nom: string; membres: GrupMembre[] } => ({
 
 interface Props {
   rooms: EscapeRoom[];
+  currentUserEmail: string;
   onBack: () => void;
   onViewStats: (g: Grup) => void;
 }
 
-export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
+export default function GrupsView({ rooms, currentUserEmail, onBack, onViewStats }: Props) {
   const [grups, setGrups] = useState<Grup[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
@@ -25,6 +26,12 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
       setGrups(snap.docs.map(d => ({ id: d.id, ...d.data() } as Grup)))
     );
   }, []);
+
+  // Grups on l'usuari és membre
+  const myGrups = grups.filter(g =>
+    g.titular === currentUserEmail ||
+    (g.membresCorreus ?? []).includes(currentUserEmail)
+  );
 
   function roomsForGrup(g: Grup): number {
     const terms = g.membres
@@ -36,6 +43,14 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
       const p = (r.participants ?? '').toLowerCase();
       return terms.some(t => p.includes(t));
     }).length;
+  }
+
+  function buildMembresCorreus(membres: GrupMembre[], titular: string): string[] {
+    const fromMembres = membres
+      .map(m => m.correu.trim().toLowerCase())
+      .filter(Boolean);
+    const set = new Set([titular.toLowerCase(), ...fromMembres]);
+    return Array.from(set);
   }
 
   function startEdit(g: Grup) {
@@ -52,23 +67,28 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
   }
 
   async function save() {
-    const data = {
-      nom: form.nom.trim(),
-      membres: form.membres.filter(m => m.nom.trim() || m.correu.trim()),
-    };
-    if (!data.nom) return;
+    const nom = form.nom.trim();
+    if (!nom) return;
+    const membres = form.membres.filter(m => m.nom.trim() || m.correu.trim());
+
     if (editingId) {
-      await updateDoc(doc(db, 'grups', editingId), data);
+      const grup = myGrups.find(g => g.id === editingId);
+      if (!grup) return;
+      const membresCorreus = buildMembresCorreus(membres, grup.titular);
+      await updateDoc(doc(db, 'grups', editingId), { nom, membres, membresCorreus });
     } else {
-      await addDoc(collection(db, 'grups'), data);
+      const titular = currentUserEmail;
+      const membresCorreus = buildMembresCorreus(membres, titular);
+      await addDoc(collection(db, 'grups'), { nom, titular, membres, membresCorreus });
     }
     resetForm();
   }
 
-  async function del(id: string) {
-    if (!confirm('Segur que vols eliminar aquest grup?')) return;
-    await deleteDoc(doc(db, 'grups', id));
-    if (editingId === id) resetForm();
+  async function del(g: Grup) {
+    if (g.titular !== currentUserEmail) return;
+    if (!confirm(`Segur que vols eliminar el grup "${g.nom}"?`)) return;
+    await deleteDoc(doc(db, 'grups', g.id));
+    if (editingId === g.id) resetForm();
   }
 
   function setMembre(i: number, field: keyof GrupMembre, val: string) {
@@ -87,14 +107,14 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
     setForm(f => ({ ...f, membres: f.membres.filter((_, idx) => idx !== i) }));
   }
 
+  const editingGrup = editingId ? myGrups.find(g => g.id === editingId) : null;
+  const canEditForm = !editingId || (editingGrup?.membresCorreus ?? []).includes(currentUserEmail);
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs">
-        <button
-          onClick={onBack}
-          className="text-white/50 hover:text-white transition-colors"
-        >
+        <button onClick={onBack} className="text-white/50 hover:text-white transition-colors">
           Estadístiques
         </button>
         <span className="text-white/30">›</span>
@@ -114,37 +134,52 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
       </div>
 
       {/* Grid de targetes */}
-      {grups.length === 0 ? (
+      {myGrups.length === 0 ? (
         <p className="text-sm text-white/40 italic">Cap grup creat encara.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {grups.map(g => {
+          {myGrups.map(g => {
             const rc = roomsForGrup(g);
+            const isTitular = g.titular === currentUserEmail;
+            const memberCount = (g.membresCorreus ?? []).length;
             return (
               <div key={g.id} className="bg-white rounded-xl p-4 flex flex-col gap-3">
                 <div className="flex items-start justify-between gap-2">
-                  <span className="font-semibold text-gray-900 text-sm leading-snug">{g.nom}</span>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    {isTitular && (
+                      <span title="Titular">
+                        <Crown size={12} className="text-yellow-500 flex-shrink-0" />
+                      </span>
+                    )}
+                    <span className="font-semibold text-gray-900 text-sm leading-snug truncate">
+                      {g.nom}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-0.5 flex-shrink-0">
-                    <button
-                      onClick={() => startEdit(g)}
-                      title="Editar"
-                      className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      <Pencil size={13} />
-                    </button>
-                    <button
-                      onClick={() => del(g.id)}
-                      title="Eliminar"
-                      className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-                    >
-                      <Trash2 size={13} />
-                    </button>
+                    {canEditForm && (
+                      <button
+                        onClick={() => startEdit(g)}
+                        title="Editar"
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                      >
+                        <Pencil size={13} />
+                      </button>
+                    )}
+                    {isTitular && (
+                      <button
+                        onClick={() => del(g)}
+                        title="Eliminar grup"
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    )}
                   </div>
                 </div>
 
                 <p className="text-xs text-gray-400 flex items-center gap-1.5">
                   <Users size={11} />
-                  {g.membres.length} membre{g.membres.length !== 1 ? 's' : ''}
+                  {memberCount} membre{memberCount !== 1 ? 's' : ''}
                   {' · '}
                   {rc} sala{rc !== 1 ? 's' : ''}
                 </p>
@@ -168,7 +203,6 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
           {editingId ? 'Editar grup' : 'Crear grup nou'}
         </h3>
 
-        {/* Nom */}
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Nom del grup</label>
           <input
@@ -180,7 +214,6 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
           />
         </div>
 
-        {/* Membres */}
         <div className="space-y-2">
           <label className="block text-xs font-medium text-gray-500">Membres</label>
           {form.membres.map((m, i) => (
@@ -216,7 +249,10 @@ export default function GrupsView({ rooms, onBack, onViewStats }: Props) {
           </button>
         </div>
 
-        {/* Botons */}
+        <p className="text-xs text-gray-400">
+          Tu ({currentUserEmail}) s'afegirà automàticament com a membre.
+        </p>
+
         <div className="border-t border-gray-200 pt-4 flex gap-2">
           <button
             onClick={save}

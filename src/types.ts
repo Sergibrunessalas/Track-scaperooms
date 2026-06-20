@@ -110,7 +110,15 @@ export interface GrupMembre {
 export interface Grup {
   id: string;
   nom: string;
+  titular: string;
   membres: GrupMembre[];
+  membresCorreus: string[];
+}
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  pseudonim: string;
 }
 
 export function generateId(existing: string[]): string {

@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Map, List, ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   collection, doc, setDoc, deleteDoc, updateDoc,
-  onSnapshot, getDocs, writeBatch,
+  onSnapshot, getDocs, writeBatch, getDoc,
 } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
@@ -26,7 +26,8 @@ import RoomForm from './components/RoomForm';
 import WebView from './components/WebView';
 import GaleriaView from './components/GaleriaView';
 import BlogView from './components/BlogView';
-import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
+import UserSetupModal from './components/UserSetupModal';
+import { EscapeRoom, UserProfile, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
 const ROOMS_COL = 'rooms';
@@ -36,12 +37,29 @@ export default function App() {
   const [dbReady, setDbReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [needsSetup, setNeedsSetup] = useState(false);
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setAuthReady(true);
-      if (!u) setMainView((prev) => prev === 'web' ? 'mapa' : prev);
+      if (!u) {
+        setMainView((prev) => prev === 'web' ? 'mapa' : prev);
+        setNeedsSetup(false);
+        setUserProfile(null);
+        return;
+      }
+      if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
+        getDoc(doc(db, 'usuaris', u.uid)).then(snap => {
+          if (!snap.exists()) {
+            setNeedsSetup(true);
+          } else {
+            setNeedsSetup(false);
+            setUserProfile(snap.data() as UserProfile);
+          }
+        });
+      }
     });
   }, []);
 
@@ -417,6 +435,12 @@ export default function App() {
 
   return (
     <div className="h-full flex flex-row font-inter overflow-hidden">
+      {needsSetup && user && (
+        <UserSetupModal
+          user={user}
+          onDone={(profile) => { setUserProfile(profile); setNeedsSetup(false); }}
+        />
+      )}
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px, oculta a pestanya Web) ── */}
       <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog') ? 'none' : undefined }}>
@@ -490,7 +514,7 @@ export default function App() {
         />
 
         {/* Vista Estadístiques */}
-        {mainView === 'web' && canEdit && <WebView rooms={rooms} />}
+        {mainView === 'web' && canEdit && <WebView rooms={rooms} userEmail={user?.email ?? null} />}
 
         {/* Vista Web / Galeria */}
         {mainView === 'galeria' && <GaleriaView rooms={filteredRooms} showImages={canEdit} onSwitchToMapa={() => setMainView('mapa')} />}
