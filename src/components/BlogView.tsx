@@ -14,7 +14,7 @@ const POSTS: BlogPost[] = [
     id: 'cena-asesinato',
     titol: '¿Qué es una cena con asesinato y por qué está conquistando España?',
     data: '20/06/2026',
-    imatge: 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=600&q=80',
+    imatge: 'https://images.unsplash.com/photo-1580983553320-c9a00f87fe00?w=600&q=80',
     contingut: (
       <div className="prose-content">
         <p>Durante años, los escape rooms han sido una de las actividades de ocio más populares. Sin embargo, una nueva experiencia está ganando cada vez más seguidores: las <strong>cenas con asesinato</strong>.</p>
