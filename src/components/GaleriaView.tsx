@@ -1,11 +1,57 @@
+import { useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 import { EscapeRoom, starsFromScore } from '../types';
-import MapView from './MapView';
 
 interface Props {
   rooms: EscapeRoom[];
   showImages: boolean;
   onSwitchToMapa: () => void;
+}
+
+// Força Leaflet a recalcular mides un cop muntat el mapa
+function AutoInvalidate() {
+  const map = useMap();
+  useEffect(() => {
+    const t = setTimeout(() => map.invalidateSize(), 150);
+    return () => clearTimeout(t);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
+}
+
+function MiniMap({ rooms }: { rooms: EscapeRoom[] }) {
+  return (
+    <MapContainer
+      center={[41.45, 2.12]}
+      zoom={7}
+      style={{ height: '100%', width: '100%' }}
+      zoomControl={false}
+      dragging={false}
+      scrollWheelZoom={false}
+      doubleClickZoom={false}
+      touchZoom={false}
+      keyboard={false}
+      attributionControl={false}
+    >
+      <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <AutoInvalidate />
+      {rooms
+        .filter((r) => r.lat && r.lng)
+        .map((room) => (
+          <CircleMarker
+            key={room.id}
+            center={[room.lat!, room.lng!]}
+            radius={4}
+            pathOptions={{
+              fillColor: room.puntuacio !== null ? '#eab308' : '#dc2626',
+              color: 'white',
+              weight: 1.5,
+              fillOpacity: 0.9,
+            }}
+          />
+        ))}
+    </MapContainer>
+  );
 }
 
 export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props) {
@@ -35,9 +81,13 @@ export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props
         </div>
       </div>
 
-      {/* ── Mini mapa a la dreta (desktop) ── */}
-      <div className="hidden lg:flex w-64 xl:w-72 flex-shrink-0 flex-col border-l border-gray-200 bg-white">
-        <div className="px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
+      {/* ── Mini mapa a la dreta (desktop ≥ lg) ── */}
+      <div
+        className="hidden lg:flex flex-col border-l border-gray-200 bg-white"
+        style={{ width: '280px', flexShrink: 0 }}
+      >
+        {/* Capçalera */}
+        <div className="flex-shrink-0 px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
           <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Mapa</p>
           <button
             onClick={onSwitchToMapa}
@@ -46,24 +96,26 @@ export default function GaleriaView({ rooms, showImages, onSwitchToMapa }: Props
             Veure complet →
           </button>
         </div>
+
+        {/* Contenidor del mapa — mides explícites perquè Leaflet s'inicialitzi bé */}
         <div
           className="flex-1 relative cursor-pointer group"
+          style={{ minHeight: 0 }}
           onClick={onSwitchToMapa}
-          title="Veure el mapa complet"
+          title="Obrir mapa complet"
         >
-          <div className="absolute inset-0 pointer-events-none">
-            <MapView
-              rooms={rooms}
-              selectedRoomId={null}
-              canEdit={false}
-              hasFilters={false}
-              onSelectRoom={() => {}}
-            />
+          {/* MiniMap ocupa tot l'espai del contenidor relatiu */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <MiniMap rooms={rooms} />
           </div>
-          {/* Overlay hover */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/15 transition-colors duration-200">
+
+          {/* Overlay hover (per sobre del mapa, no intercepta events de Leaflet) */}
+          <div
+            style={{ position: 'absolute', inset: 0, zIndex: 1 }}
+            className="flex items-end justify-center pb-4 bg-transparent group-hover:bg-black/10 transition-colors duration-200"
+          >
             <span className="bg-white text-xs font-bold text-gray-700 px-3 py-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              🗺 Obrir mapa
+              🗺 Obrir mapa complet
             </span>
           </div>
         </div>
@@ -80,7 +132,6 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow duration-200">
-      {/* Foto */}
       {showImages && room.imatgeUrl ? (
         <div className="w-full h-40 overflow-hidden flex-shrink-0">
           <img
@@ -96,9 +147,7 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
         </div>
       )}
 
-      {/* Contingut */}
       <div className="p-4 flex flex-col flex-1">
-        {/* Puntuació */}
         <div className="flex items-center justify-between mb-2">
           {rated ? (
             <div className="flex items-center gap-1.5">
@@ -115,20 +164,16 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
           )}
         </div>
 
-        {/* Nom */}
         <h3 className="font-bold text-sm text-gray-900 leading-snug mb-0.5">{room.nom}</h3>
 
-        {/* Empresa */}
         {room.empresa && (
           <p className="text-xs text-gray-500 mb-1">{room.empresa}</p>
         )}
 
-        {/* Comarca */}
         {room.comarca && (
           <p className="text-xs text-gray-400 mb-2">📍 {room.comarca}</p>
         )}
 
-        {/* Temàtiques */}
         {tems.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {tems.map((t) => (
@@ -139,14 +184,12 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
           </div>
         )}
 
-        {/* Descripció */}
         {room.descripcio ? (
           <p className="text-xs text-gray-600 leading-relaxed flex-1 mb-3">{room.descripcio}</p>
         ) : (
           <p className="text-xs text-gray-300 italic flex-1 mb-3">Sense descripció encara</p>
         )}
 
-        {/* Link web */}
         {room.web && (
           <a
             href={room.web}

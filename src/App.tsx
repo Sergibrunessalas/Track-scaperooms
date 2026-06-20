@@ -67,6 +67,14 @@ export default function App() {
     return () => clearTimeout(t);
   }, [sidebarCollapsed]);
 
+  // Quan es torna a la pestanya Mapa des d'una altra vista, Leaflet necessita recalcular
+  useEffect(() => {
+    if (mainView === 'mapa') {
+      const t = setTimeout(() => mapRef.current?.invalidateSize(), 150);
+      return () => clearTimeout(t);
+    }
+  }, [mainView]);
+
   const mapRef = useRef<MapViewHandle>(null);
 
   useEffect(() => {
