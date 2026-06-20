@@ -51,14 +51,19 @@ export default function App() {
         return;
       }
       if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
-        getDoc(doc(db, 'usuaris', u.uid)).then(snap => {
-          if (!snap.exists()) {
+        getDoc(doc(db, 'usuaris', u.uid))
+          .then(snap => {
+            if (!snap.exists()) {
+              setNeedsSetup(true);
+            } else {
+              setNeedsSetup(false);
+              setUserProfile(snap.data() as UserProfile);
+            }
+          })
+          .catch(() => {
+            // Si Firestore denega la lectura (regles no actualitzades) mostrem el modal igualment
             setNeedsSetup(true);
-          } else {
-            setNeedsSetup(false);
-            setUserProfile(snap.data() as UserProfile);
-          }
-        });
+          });
       }
     });
   }, []);
