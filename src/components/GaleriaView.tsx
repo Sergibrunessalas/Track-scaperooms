@@ -198,12 +198,6 @@ function RoomCard({ room, showImages }: { room: EscapeRoom; showImages: boolean 
           <p className="text-xs text-gray-300 italic flex-1">Sense descripció encara</p>
         )}
 
-        {room.web && (
-          <p className="text-xs text-accent font-semibold mt-3 flex items-center gap-1">
-            <ExternalLink size={10} />
-            Visitar web
-          </p>
-        )}
       </div>
     </Tag>
   );
