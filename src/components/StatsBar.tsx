@@ -165,6 +165,7 @@ export interface FiltersRowProps {
   onFilterPreuChange: (v: FilterPreu) => void;
   hasFilters: boolean;
   onClearFilters: () => void;
+  dark?: boolean;
 }
 
 const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
@@ -191,6 +192,7 @@ export function FiltersRow({
   filterComarca, onFilterComarcaChange,
   filterPreu, onFilterPreuChange,
   hasFilters, onClearFilters,
+  dark = false,
 }: FiltersRowProps) {
   const [chooserOpen, setChooserOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(() => {
@@ -226,7 +228,11 @@ export function FiltersRow({
       {!chooserOpen && !activeFilter && (
         <button
           onClick={() => setChooserOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 hover:bg-white hover:border-accent text-gray-500 hover:text-accent transition-colors"
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-sm border rounded-lg transition-colors ${
+            dark
+              ? 'border-gray-600 bg-gray-800 text-gray-300 hover:border-accent hover:text-accent'
+              : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-accent text-gray-500 hover:text-accent'
+          }`}
         >
           <Search size={13} />
           <span>Filtres</span>
@@ -236,17 +242,21 @@ export function FiltersRow({
 
       {/* Selector de 4 filtres */}
       {chooserOpen && !activeFilter && (
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           {FILTER_OPTIONS.map(({ type, label }) => (
             <button
               key={type}
               onClick={() => selectFilter(type)}
-              className="px-3 py-1.5 text-xs font-semibold border border-gray-200 rounded-lg bg-white hover:border-accent hover:text-accent hover:bg-orange-50 text-gray-600 transition-colors"
+              className={`px-3 py-1.5 text-xs font-semibold border rounded-lg transition-colors ${
+                dark
+                  ? 'border-gray-600 bg-gray-700 text-gray-200 hover:border-accent hover:text-accent'
+                  : 'border-gray-200 bg-white hover:border-accent hover:text-accent hover:bg-orange-50 text-gray-600'
+              }`}
             >
               {label}
             </button>
           ))}
-          <button onClick={() => setChooserOpen(false)} className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={() => setChooserOpen(false)} className={`p-1.5 transition-colors ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'}`}>
             <X size={13} />
           </button>
         </div>

@@ -34,8 +34,8 @@ export default function Sidebar({
 
   return (
     <aside className="flex-1 flex flex-col bg-gray-50 border-l border-gray-200 overflow-hidden">
-      {/* Capçalera: Llista + Filtres */}
-      <div className="flex-shrink-0 px-3 py-2 bg-white border-b border-gray-100 flex items-center gap-3 flex-wrap">
+      {/* Capçalera: Llista + Filtres — oculta en mòbil perquè ja és a la barra fosca */}
+      <div className="hidden md:flex flex-shrink-0 px-3 py-2 bg-white border-b border-gray-100 items-center gap-3 flex-wrap">
         <h2 className="font-montserrat font-bold text-sm text-gray-900 flex-shrink-0">
           Llista
           <span className="ml-2 text-xs font-normal text-gray-500 font-inter">
