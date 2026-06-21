@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { UserPlus } from 'lucide-react';
-import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 import { EscapeRoom, starsFromScore } from '../types';
 import type { User } from 'firebase/auth';
 import AddToGrupModal from './AddToGrupModal';
@@ -10,51 +9,6 @@ interface Props {
   showImages: boolean;
   user: User | null;
   onSwitchToMapa: () => void;
-}
-
-// Força Leaflet a recalcular mides un cop muntat el mapa
-function AutoInvalidate() {
-  const map = useMap();
-  useEffect(() => {
-    const t = setTimeout(() => map.invalidateSize(), 150);
-    return () => clearTimeout(t);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  return null;
-}
-
-function MiniMap({ rooms }: { rooms: EscapeRoom[] }) {
-  return (
-    <MapContainer
-      center={[41.45, 2.12]}
-      zoom={7}
-      style={{ height: '100%', width: '100%' }}
-      zoomControl={false}
-      dragging={false}
-      scrollWheelZoom={false}
-      doubleClickZoom={false}
-      touchZoom={false}
-      keyboard={false}
-      attributionControl={false}
-    >
-      <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <AutoInvalidate />
-      {rooms
-        .filter((r) => r.lat && r.lng)
-        .map((room) => (
-          <CircleMarker
-            key={room.id}
-            center={[room.lat!, room.lng!]}
-            radius={4}
-            pathOptions={{
-              fillColor: room.puntuacio !== null ? '#eab308' : '#dc2626',
-              color: 'white',
-              weight: 1.5,
-              fillOpacity: 0.9,
-            }}
-          />
-        ))}
-    </MapContainer>
-  );
 }
 
 export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }: Props) {
@@ -89,45 +43,6 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
         </div>
       </div>
 
-      {/* ── Mini mapa a la dreta (desktop ≥ lg) ── */}
-      <div
-        className="hidden lg:flex flex-col border-l border-gray-200 bg-white"
-        style={{ width: '280px', flexShrink: 0 }}
-      >
-        {/* Capçalera */}
-        <div className="flex-shrink-0 px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Mapa</p>
-          <button
-            onClick={onSwitchToMapa}
-            className="text-xs text-accent font-semibold hover:underline"
-          >
-            Veure complet →
-          </button>
-        </div>
-
-        {/* Contenidor del mapa — mides explícites perquè Leaflet s'inicialitzi bé */}
-        <div
-          className="flex-1 relative cursor-pointer group"
-          style={{ minHeight: 0 }}
-          onClick={onSwitchToMapa}
-          title="Obrir mapa complet"
-        >
-          {/* MiniMap ocupa tot l'espai del contenidor relatiu */}
-          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-            <MiniMap rooms={rooms} />
-          </div>
-
-          {/* Overlay hover (per sobre del mapa, no intercepta events de Leaflet) */}
-          <div
-            style={{ position: 'absolute', inset: 0, zIndex: 1 }}
-            className="flex items-end justify-center pb-4 bg-transparent group-hover:bg-black/10 transition-colors duration-200"
-          >
-            <span className="bg-white text-xs font-bold text-gray-700 px-3 py-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              🗺 Obrir mapa complet
-            </span>
-          </div>
-        </div>
-      </div>
 
     </div>
   );
