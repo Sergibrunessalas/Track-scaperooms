@@ -42,7 +42,7 @@ export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, 
       {/* Logo imatge + nom */}
       <div className="flex items-center gap-2.5 flex-shrink-0">
         <img
-          src="/logo.png"
+          src="/logo.png?v=3"
           alt="ScapeZone"
           className="h-11 md:h-14 w-auto object-contain flex-shrink-0"
         />
