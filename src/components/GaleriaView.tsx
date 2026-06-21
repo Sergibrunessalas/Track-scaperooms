@@ -27,7 +27,7 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
         <AddToGrupModal room={addRoom} user={user} onClose={() => setAddRoom(null)} />
       )}
 
-      {/* ── Cards a l'esquerra ── */}
+      {/* ── Cards (màx 3 per fila) ── */}
       <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
         <div className="p-5">
           <h2 className="text-xl font-black text-gray-800 mb-1 tracking-tight font-montserrat">
@@ -35,7 +35,7 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
           </h2>
           <p className="text-sm text-gray-400 mb-5">{rooms.length} sales · ordenades per puntuació</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {sorted.map((room) => (
               <RoomCard key={room.id} room={room} showImages={showImages} user={user} onAddToGrup={setAddRoom} />
             ))}
@@ -43,6 +43,11 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
         </div>
       </div>
 
+      {/* ── Columna dreta (reservada) ── */}
+      <div
+        className="hidden lg:block border-l border-gray-200 bg-white flex-shrink-0"
+        style={{ width: '280px' }}
+      />
 
     </div>
   );
