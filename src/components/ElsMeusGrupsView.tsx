@@ -225,7 +225,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   return (
     <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
       {editingGrup && (
-        <EditGrupModal grup={editingGrup} onClose={() => setEditingGrup(null)} />
+        <EditGrupModal grup={editingGrup} currentUserEmail={currentUserEmail} onClose={() => setEditingGrup(null)} />
       )}
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">

@@ -6,10 +6,11 @@ import type { Grup, GrupMembre } from '../types';
 
 interface Props {
   grup: Grup;
+  currentUserEmail: string;
   onClose: () => void;
 }
 
-export default function EditGrupModal({ grup, onClose }: Props) {
+export default function EditGrupModal({ grup, currentUserEmail, onClose }: Props) {
   const [nom, setNom] = useState(grup.nom);
   const [membres, setMembres] = useState<GrupMembre[]>(
     grup.membres.length ? grup.membres.map(m => ({ ...m })) : [{ nom: '', correu: '' }]
@@ -86,30 +87,40 @@ export default function EditGrupModal({ grup, onClose }: Props) {
               Membres
             </label>
             <div className="space-y-2">
-              {membres.map((m, i) => (
-                <div key={i} className="flex gap-2 items-center">
-                  <input
-                    type="text"
-                    value={m.nom}
-                    onChange={e => setMembre(i, 'nom', e.target.value)}
-                    placeholder="Nom"
-                    className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
-                  />
-                  <input
-                    type="email"
-                    value={m.correu}
-                    onChange={e => setMembre(i, 'correu', e.target.value)}
-                    placeholder="Correu"
-                    className="flex-[1.4] px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
-                  />
-                  <button
-                    onClick={() => removeMembre(i)}
-                    className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
+              {membres.map((m, i) => {
+                const isTitular = m.correu.trim().toLowerCase() === grup.titular.toLowerCase();
+                const canRemove = !isTitular || currentUserEmail.toLowerCase() === grup.titular.toLowerCase();
+                return (
+                  <div key={i} className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      value={m.nom}
+                      onChange={e => setMembre(i, 'nom', e.target.value)}
+                      placeholder="Nom"
+                      className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                    />
+                    <input
+                      type="email"
+                      value={m.correu}
+                      onChange={e => setMembre(i, 'correu', e.target.value)}
+                      placeholder="Correu"
+                      className="flex-[1.4] px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                    />
+                    {canRemove ? (
+                      <button
+                        onClick={() => removeMembre(i)}
+                        className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
+                      >
+                        <X size={14} />
+                      </button>
+                    ) : (
+                      <div className="p-1.5 w-7" title="Només el creador del grup es pot eliminar a si mateix">
+                        🔒
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             <button
               onClick={addMembre}
