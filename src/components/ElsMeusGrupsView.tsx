@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, deleteDoc, doc, getCountFromServer } from 'firebase/firestore';
 import { db } from '../firebase';
-import { ChevronRight, Trash2, Users, Star, Pencil, Plus } from 'lucide-react';
+import { ChevronRight, Trash2, Users, Star, Pencil, Plus, DoorOpen, Calendar } from 'lucide-react';
 import type { Grup, GrupRoom } from '../types';
 import type { User } from 'firebase/auth';
 import EditGrupModal from './EditGrupModal';
@@ -24,6 +24,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
   const [askCreateNew, setAskCreateNew] = useState(false);
   const [editingGrup, setEditingGrup] = useState<Grup | null>(null);
   const [editingRoom, setEditingRoom] = useState<GrupRoom | null>(null);
+  const [roomCounts, setRoomCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (!currentUserEmail) return;
@@ -31,9 +32,16 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
       collection(db, 'grups'),
       where('membresCorreus', 'array-contains', currentUserEmail.toLowerCase())
     );
-    return onSnapshot(q, snap =>
-      setGrups(snap.docs.map(d => ({ id: d.id, ...d.data() } as Grup)))
-    );
+    return onSnapshot(q, async snap => {
+      const loaded = snap.docs.map(d => ({ id: d.id, ...d.data() } as Grup));
+      setGrups(loaded);
+      const counts: Record<string, number> = {};
+      await Promise.all(loaded.map(async g => {
+        const snap = await getCountFromServer(collection(db, 'grups', g.id, 'rooms'));
+        counts[g.id] = snap.data().count;
+      }));
+      setRoomCounts(counts);
+    });
   }, [currentUserEmail]);
 
   useEffect(() => {
@@ -285,6 +293,20 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
                       )}
                     </div>
                   </div>
+                  {/* Nº sales i data de creació */}
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <DoorOpen size={11} />
+                      {roomCounts[g.id] ?? '—'} sala{roomCounts[g.id] !== 1 ? 's' : ''}
+                    </span>
+                    {g.createdAt && (
+                      <span className="text-xs text-gray-400 flex items-center gap-1">
+                        <Calendar size={11} />
+                        {new Date(g.createdAt).toLocaleDateString('ca-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    )}
+                  </div>
+
                   <div className="relative group/members">
                     <p className="text-xs text-gray-400 flex items-center gap-1.5 cursor-default w-fit">
                       <Users size={11} />

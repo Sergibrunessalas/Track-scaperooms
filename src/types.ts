@@ -113,6 +113,7 @@ export interface Grup {
   titular: string;
   membres: GrupMembre[];
   membresCorreus: string[];
+  createdAt?: string;
 }
 
 export interface UserProfile {
