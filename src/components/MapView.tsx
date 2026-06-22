@@ -40,6 +40,10 @@ function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function safeUrl(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : '';
+}
+
 function dificultatLabel(n: number): string {
   if (n <= 1.5) return 'Fàcil';
   if (n <= 2.5) return 'Fàcil-Mitjà';
@@ -80,8 +84,8 @@ function buildPopupHtml(room: EscapeRoom, canEdit: boolean): string {
       ${room.comentaris
         ? `<p style="margin:6px 0 0;font-size:11px;font-style:italic;color:#9ca3af;border-top:1px solid #f3f4f6;padding-top:5px">"${esc(room.comentaris)}"</p>`
         : ''}
-      ${room.web
-        ? `<a href="${esc(room.web)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:#e8490a;color:white;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none">🌐 Visitar web</a>`
+      ${safeUrl(room.web)
+        ? `<a href="${esc(safeUrl(room.web))}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:#e8490a;color:white;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none">🌐 Visitar web</a>`
         : ''}
     </div>
   `;

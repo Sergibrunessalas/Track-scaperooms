@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Map, List, ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   collection, doc, setDoc, deleteDoc, updateDoc,
-  onSnapshot, getDocs, writeBatch, query, where,
+  onSnapshot, getDocs, writeBatch, query, where, getDoc,
 } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
@@ -27,6 +27,7 @@ import WebView from './components/WebView';
 import GaleriaView from './components/GaleriaView';
 import BlogView from './components/BlogView';
 import OnboardingModal from './components/OnboardingModal';
+import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 import ElsMeusGrupsView from './components/ElsMeusGrupsView';
 import UneixteView from './components/UneixteView';
 import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
@@ -42,17 +43,27 @@ export default function App() {
   const [needsSetup, setNeedsSetup] = useState(false);
   const [skipConfirmOnboarding, setSkipConfirmOnboarding] = useState(false);
   const [hasMyGroups, setHasMyGroups] = useState(false);
+  const [privacyPending, setPrivacyPending] = useState(false);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => {
+    return onAuthStateChanged(auth, async (u) => {
       setUser(u);
       setAuthReady(true);
       if (!u) {
         setMainView((prev) => (['web', 'mygroups'] as MainView[]).includes(prev) ? 'galeria' : prev);
         setNeedsSetup(false);
         setHasMyGroups(false);
+        setPrivacyPending(false);
         return;
       }
+
+      // Comprova si l'usuari ha acceptat la política de privacitat
+      const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch(() => null);
+      if (!privacyDoc?.exists()) {
+        setPrivacyPending(true);
+        return;
+      }
+
       const email = u.email?.toLowerCase() ?? '';
       if (!email) return;
       const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
@@ -77,6 +88,37 @@ export default function App() {
 
   const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
   const handleLogout = () => signOut(auth).catch(console.error);
+
+  const handlePrivacyAccept = async () => {
+    if (!user) return;
+    await setDoc(doc(db, 'privacy_acceptances', user.uid), {
+      email: user.email,
+      acceptedAt: new Date().toISOString(),
+    }).catch(console.error);
+    setPrivacyPending(false);
+    // Continua amb la comprovació de grups
+    const email = user.email?.toLowerCase() ?? '';
+    if (!email) return;
+    const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
+    getDocs(q)
+      .then(snap => {
+        const hasGroups = !snap.empty;
+        setHasMyGroups(hasGroups);
+        if (!ALLOWED_EMAILS.includes(user.email ?? '') && !hasGroups) {
+          setNeedsSetup(true);
+        }
+      })
+      .catch(() => {
+        if (!ALLOWED_EMAILS.includes(user.email ?? '')) {
+          setNeedsSetup(true);
+        }
+      });
+  };
+
+  const handlePrivacyDecline = () => {
+    setPrivacyPending(false);
+    signOut(auth).catch(console.error);
+  };
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
   const [filterTematica, setFilterTematica] = useState('');
@@ -444,7 +486,14 @@ export default function App() {
 
   return (
     <div className="h-full flex flex-row font-inter overflow-hidden">
-      {needsSetup && user && (
+      {privacyPending && user && (
+        <PrivacyPolicyModal
+          onAccept={handlePrivacyAccept}
+          onDecline={handlePrivacyDecline}
+        />
+      )}
+
+      {!privacyPending && needsSetup && user && (
         <OnboardingModal
           user={user}
           skipConfirm={skipConfirmOnboarding}

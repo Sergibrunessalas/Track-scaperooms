@@ -1,9 +1,16 @@
 import { useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+
+const EMAILJS_SERVICE  = 'scapezone';
+const EMAILJS_TEMPLATE = 'template_xmx5xzg';
+const EMAILJS_KEY      = 'ZwdPQou70VBa7c5Bh';
 
 export default function UneixteView() {
   const formRef = useRef<HTMLDivElement>(null);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
   const [form, setForm] = useState({
     nom: '', cognoms: '', empresa: '', email: '', telefon: '', missatge: '',
   });
@@ -16,10 +23,25 @@ export default function UneixteView() {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: integrar EmailJS quan es tingui el correu de destí
-    setSent(true);
+    setSending(true);
+    setError('');
+    try {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+        nom:     form.nom,
+        cognoms: form.cognoms,
+        empresa: form.empresa,
+        email:   form.email,
+        telefon: form.telefon,
+        missatge: form.missatge,
+      }, EMAILJS_KEY);
+      setSent(true);
+    } catch {
+      setError("No s'ha pogut enviar el missatge. Torna-ho a intentar.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -144,14 +166,15 @@ export default function UneixteView() {
             {/* Botó enviar */}
             <button
               type="submit"
-              className="w-full py-3.5 bg-accent hover:bg-accent-dark text-white font-bold rounded-xl text-base transition-colors shadow-md"
+              disabled={sending}
+              className="w-full py-3.5 bg-accent hover:bg-accent-dark text-white font-bold rounded-xl text-base transition-colors shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Enviar
+              {sending ? 'Enviant...' : 'Enviar'}
             </button>
 
-            <p className="text-center text-xs text-gray-300">
-              L'enviament automàtic s'activarà properament.
-            </p>
+            {error && (
+              <p className="text-center text-sm text-red-500">{error}</p>
+            )}
           </form>
         )}
       </section>
