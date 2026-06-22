@@ -77,6 +77,13 @@ function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; s
             style={{ maxHeight: '280px', objectFit: 'contain' }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
+        ) : room.imatgePublicaUrl ? (
+          <img
+            src={room.imatgePublicaUrl}
+            alt={room.nom}
+            className="w-full h-40 object-cover block"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+          />
         ) : (
           <div className="w-full h-40 flex items-center justify-center">
             <span className="text-4xl opacity-30">🔐</span>

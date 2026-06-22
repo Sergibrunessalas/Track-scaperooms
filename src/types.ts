@@ -18,6 +18,7 @@ export interface EscapeRoom {
   comentaris: string;
   participants: string;
   imatgeUrl: string;
+  imatgePublicaUrl: string;
   preu: string;
   web: string;
   tematica1: string;
@@ -86,6 +87,7 @@ export function normalizeRoom(data: Record<string, unknown>): EscapeRoom {
     comentaris: (data.comentaris as string) ?? '',
     participants: (data.participants as string) ?? '',
     imatgeUrl: (data.imatgeUrl as string) ?? '',
+    imatgePublicaUrl: (data.imatgePublicaUrl as string) ?? '',
     preu: (data.preu as string) ?? '',
     web: (data.web as string) ?? '',
     tematica1: (data.tematica1 as string) ?? '',

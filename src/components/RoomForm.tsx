@@ -33,6 +33,7 @@ const BLANK: Omit<EscapeRoom, 'id'> = {
   comentaris: '',
   participants: '',
   imatgeUrl: '',
+  imatgePublicaUrl: '',
   preu: '',
   web: '',
   tematica1: '',
@@ -476,13 +477,27 @@ export default function RoomForm({ room, existingIds, userEmail, onSave, onDelet
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
-                <span className="flex items-center gap-1"><Image size={12} /> Foto (URL d'Imgur)</span>
+                <span className="flex items-center gap-1"><Image size={12} /> Foto privada (URL d'Imgur)</span>
               </label>
               <input type="url" value={form.imatgeUrl} disabled={!isAdmin} onChange={(e) => set('imatgeUrl', e.target.value)}
                 placeholder="https://i.imgur.com/xxxxx.jpg"
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
               {form.imatgeUrl && (
                 <img src={form.imatgeUrl} alt="Previsualització"
+                  className="mt-2 w-full h-32 object-cover rounded-lg border border-gray-200"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">
+                <span className="flex items-center gap-1"><Image size={12} /> Foto pública (visible per a tothom)</span>
+              </label>
+              <input type="url" value={form.imatgePublicaUrl} disabled={!isAdmin} onChange={(e) => set('imatgePublicaUrl', e.target.value)}
+                placeholder="https://exemple.com/foto-escape-room.jpg"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-accent focus:outline-none disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed" />
+              {form.imatgePublicaUrl && (
+                <img src={form.imatgePublicaUrl} alt="Previsualització pública"
                   className="mt-2 w-full h-32 object-cover rounded-lg border border-gray-200"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               )}
