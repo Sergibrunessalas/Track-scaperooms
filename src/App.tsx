@@ -28,6 +28,7 @@ import GaleriaView from './components/GaleriaView';
 import BlogView from './components/BlogView';
 import OnboardingModal from './components/OnboardingModal';
 import ElsMeusGrupsView from './components/ElsMeusGrupsView';
+import UneixteView from './components/UneixteView';
 import { EscapeRoom, calcPuntuacio, normalizeRoom, starsFromScore } from './types';
 import initialData from './data/escape-rooms.json';
 
@@ -464,7 +465,7 @@ export default function App() {
       </a>
 
       {/* ── Barra esquerra d'anuncis (només desktop ≥1024px, oculta a pestanya Web) ── */}
-      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog' || mainView === 'mygroups') ? 'none' : undefined }}>
+      <div className="ad-bar hidden lg:flex w-40 flex-shrink-0 flex-col overflow-hidden" style={{ padding: '10px 10px', display: (mainView === 'galeria' || mainView === 'web' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte') ? 'none' : undefined }}>
 
         {/* Capçalera */}
         <div style={{ flexShrink: 0, marginBottom: '8px', background: 'rgba(0,0,0,0.38)', border: '1px solid rgba(255,255,255,0.28)', borderRadius: '8px', padding: '5px 0', textAlign: 'center' }}>
@@ -591,8 +592,11 @@ export default function App() {
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}
 
+        {/* Vista Uneix-te a ScapeZone */}
+        {mainView === 'uneixte' && <UneixteView />}
+
         {/* Mobile tabs — Mapa | Llista */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700 flex`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700 flex`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -615,7 +619,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView

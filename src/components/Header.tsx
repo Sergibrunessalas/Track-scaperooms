@@ -117,6 +117,14 @@ export default function Header({
         >
           ✏️ <span className="hidden sm:inline">Blog</span>
         </button>
+        <button
+          onClick={() => handleViewChange('uneixte')}
+          className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${
+            mainView === 'uneixte' ? 'bg-white text-gray-900' : 'text-white/70 hover:text-white'
+          }`}
+        >
+          🚀 <span className="hidden sm:inline">Uneix-te</span>
+        </button>
       </div>
 
       {/* Botons dreta */}
