@@ -512,7 +512,9 @@ export default function App() {
                   borderRadius: '10px',
                   overflow: 'hidden',
                   backgroundColor: fallbackColor,
-                  backgroundImage: `url(https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=200&q=75)`,
+                  backgroundImage: room.imatgePublicaUrl
+                    ? `url(${room.imatgePublicaUrl})`
+                    : `url(https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=200&q=75)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   border: '1px solid rgba(255,255,255,0.15)',
