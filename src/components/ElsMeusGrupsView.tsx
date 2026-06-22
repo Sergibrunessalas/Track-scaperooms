@@ -100,9 +100,9 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
               { label: 'Total sales', value: grupRooms.length, icon: '🗺' },
-              { label: 'Valorades', value: rated.length, icon: '⭐' },
-              { label: 'Nota mitjana', value: avg ? avg.toFixed(1) : '—', icon: '📊' },
+              { label: 'Realitzades', value: rated.length, icon: '⭐' },
               { label: 'Pendents', value: grupRooms.length - rated.length, icon: '⏳' },
+              { label: 'Nota mitjana', value: avg ? avg.toFixed(1) : '—', icon: '📊' },
             ].map(({ label, value, icon }) => (
               <div key={label} className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <p className="text-2xl mb-1">{icon}</p>
