@@ -154,7 +154,7 @@ interface StatsContentProps {
   breadcrumb?: React.ReactNode;
 }
 
-function StatsContent({ rooms, onOpenGrups, breadcrumb }: StatsContentProps) {
+export function StatsContent({ rooms, onOpenGrups, breadcrumb }: StatsContentProps) {
   const rated = rooms.filter(r => r.puntuacio !== null);
   const avgScore = rated.length
     ? rated.reduce((s, r) => s + r.puntuacio!, 0) / rated.length

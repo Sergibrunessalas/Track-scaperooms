@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where, deleteDoc, doc, getCountFromServer } from 'firebase/firestore';
 import { db } from '../firebase';
 import { ChevronRight, Trash2, Users, Star, Pencil, Plus, DoorOpen, Calendar } from 'lucide-react';
-import type { Grup, GrupRoom } from '../types';
+import type { Grup, GrupRoom, EscapeRoom } from '../types';
 import type { User } from 'firebase/auth';
 import EditGrupModal from './EditGrupModal';
 import EditGrupRoomModal from './EditGrupRoomModal';
+import { StatsContent } from './WebView';
 
 const SUPER_ADMIN = 'sbrunessalas@gmail.com';
 
@@ -14,10 +15,12 @@ interface Props {
   user: User;
   onNoMoreGroups: () => void;
   onWantsNewGroup: () => void;
+  canEdit?: boolean;
+  rooms?: EscapeRoom[];
 }
 
 
-export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onWantsNewGroup }: Props) {
+export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onWantsNewGroup, canEdit = false, rooms = [] }: Props) {
   const [grups, setGrups] = useState<Grup[]>([]);
   const [selectedGrup, setSelectedGrup] = useState<Grup | null>(null);
   const [grupRooms, setGrupRooms] = useState<GrupRoom[]>([]);
@@ -234,6 +237,13 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
     <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
       {editingGrup && (
         <EditGrupModal grup={editingGrup} currentUserEmail={currentUserEmail} onClose={() => setEditingGrup(null)} />
+      )}
+
+      {/* Estadístiques generals — només per als usuaris amb permís */}
+      {canEdit && rooms.length > 0 && (
+        <div className="border-b border-gray-200">
+          <StatsContent rooms={rooms} />
+        </div>
       )}
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
