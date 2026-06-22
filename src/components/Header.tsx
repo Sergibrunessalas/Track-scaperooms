@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut } from 'lucide-react';
+import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut, SlidersHorizontal } from 'lucide-react';
 import type { User } from 'firebase/auth';
-import type { MainView } from './StatsBar';
+import type { MainView, FiltersRowProps } from './StatsBar';
+import { FiltersRow } from './StatsBar';
 
-interface HeaderProps {
+interface HeaderProps extends FiltersRowProps {
   canEdit: boolean;
   isAdmin: boolean;
   user: User | null;
@@ -17,19 +18,33 @@ interface HeaderProps {
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, onMainViewChange, onAddRoom, onLogin, onLogout, onExport, onImport }: HeaderProps) {
+export default function Header({
+  canEdit, isAdmin, user, hasMyGroups, mainView, onMainViewChange,
+  onAddRoom, onLogin, onLogout, onExport, onImport,
+  // filter props
+  searchQuery, onSearchChange,
+  searchEmpresa, onSearchEmpresaChange, empreses,
+  comarques, tematiques,
+  filterTematica, onFilterTematicaChange,
+  filterComarca, onFilterComarcaChange,
+  filterPreu, onFilterPreuChange,
+  hasFilters, onClearFilters,
+}: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  const activeCount = [searchQuery, searchEmpresa, filterTematica, filterComarca, filterPreu].filter(Boolean).length;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) setFiltersOpen(false);
     }
-    if (menuOpen) document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [menuOpen]);
+  }, []);
 
   const handleViewChange = (v: MainView) => {
     if (v === 'web' && !user) return;
@@ -56,7 +71,7 @@ export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, 
         </div>
       </div>
 
-      {/* Pestanyes centrades: Web · Mapa · [Estadístiques] · [Els meus grups] · Blog */}
+      {/* Pestanyes centrades */}
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/10 rounded-xl p-0.5">
         <button
           onClick={() => handleViewChange('galeria')}
@@ -106,6 +121,56 @@ export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, 
 
       {/* Botons dreta */}
       <div className="flex items-center gap-2 ml-auto">
+
+        {/* Botó filtres global */}
+        <div className="relative" ref={filterRef}>
+          <button
+            onClick={() => setFiltersOpen(o => !o)}
+            title="Filtres"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors relative ${
+              filtersOpen || hasFilters
+                ? 'bg-accent text-white'
+                : 'bg-white/10 hover:bg-white/20 text-gray-200 hover:text-white'
+            }`}
+          >
+            <SlidersHorizontal size={14} />
+            <span className="hidden sm:inline">Filtres</span>
+            {activeCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-white text-accent text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                {activeCount}
+              </span>
+            )}
+          </button>
+
+          {/* Panel de filtres desplegable */}
+          {filtersOpen && (
+            <div className="absolute right-0 top-full mt-2 z-50 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl p-4 min-w-max">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Filtres</p>
+                {hasFilters && (
+                  <button
+                    onClick={onClearFilters}
+                    className="text-xs text-accent hover:text-accent-light transition-colors font-medium"
+                  >
+                    Netejar tot
+                  </button>
+                )}
+              </div>
+              <FiltersRow
+                searchQuery={searchQuery} onSearchChange={onSearchChange}
+                searchEmpresa={searchEmpresa} onSearchEmpresaChange={onSearchEmpresaChange}
+                empreses={empreses} comarques={comarques} tematiques={tematiques}
+                filterTematica={filterTematica} onFilterTematicaChange={onFilterTematicaChange}
+                filterComarca={filterComarca} onFilterComarcaChange={onFilterComarcaChange}
+                filterPreu={filterPreu} onFilterPreuChange={onFilterPreuChange}
+                hasFilters={hasFilters} onClearFilters={onClearFilters}
+                dark
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Login / Logout */}
         {user ? (
           <div className="flex items-center gap-2">
             {user.photoURL && (
@@ -130,6 +195,7 @@ export default function Header({ canEdit, isAdmin, user, hasMyGroups, mainView, 
           </button>
         )}
 
+        {/* Menú admin */}
         {isAdmin && (
           <div className="relative" ref={menuRef}>
             <button

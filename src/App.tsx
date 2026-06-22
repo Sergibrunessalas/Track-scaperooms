@@ -19,7 +19,7 @@ const ALLOWED_EMAILS = [
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com'];
 import Header from './components/Header';
-import StatsBar, { type MainView, FilterPreu, FiltersRow } from './components/StatsBar';
+import StatsBar, { type MainView, FilterPreu } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
 import Sidebar from './components/Sidebar';
 import RoomForm from './components/RoomForm';
@@ -561,6 +561,15 @@ export default function App() {
           onLogout={handleLogout}
           onExport={handleExport}
           onImport={handleImport}
+          searchQuery={searchQuery} onSearchChange={setSearchQuery}
+          searchEmpresa={searchEmpresa} onSearchEmpresaChange={setSearchEmpresa}
+          empreses={empreses}
+          comarques={comarquesDisponibles}
+          tematiques={tematiquesDisponibles}
+          filterTematica={filterTematica} onFilterTematicaChange={setFilterTematica}
+          filterComarca={filterComarca} onFilterComarcaChange={setFilterComarca}
+          filterPreu={filterPreu} onFilterPreuChange={setFilterPreu}
+          hasFilters={hasFilters} onClearFilters={clearFilters}
         />
 
         {/* Vista Estadístiques */}
@@ -582,49 +591,27 @@ export default function App() {
         {/* Vista Blog */}
         {mainView === 'blog' && <BlogView />}
 
-        {/* Mobile tabs */}
-        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700`}>
-          {/* Fila superior: Mapa | Llista */}
-          <div className="flex">
-            <button
-              onClick={() => setMobileView('map')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
-                mobileView === 'map' ? 'text-accent border-b-2 border-accent' : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <Map size={15} /> Mapa
-            </button>
-            <button
-              onClick={() => setMobileView('list')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
-                mobileView === 'list' ? 'text-accent border-b-2 border-accent' : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <List size={15} /> Llista
-              {mobileView === 'list' && (
-                <span className="text-xs font-normal text-gray-400">
-                  · {filteredRooms.length} resultats
-                </span>
-              )}
-            </button>
-          </div>
-          {/* Fila inferior: Filtres (només quan estem a la Llista) */}
-          {mobileView === 'list' && (
-            <div className="px-3 pb-2 flex items-center gap-2 flex-wrap">
-              <FiltersRow
-                searchQuery={searchQuery} onSearchChange={setSearchQuery}
-                searchEmpresa={searchEmpresa} onSearchEmpresaChange={setSearchEmpresa}
-                empreses={empreses}
-                comarques={comarquesDisponibles}
-                tematiques={tematiquesDisponibles}
-                filterTematica={filterTematica} onFilterTematicaChange={setFilterTematica}
-                filterComarca={filterComarca} onFilterComarcaChange={setFilterComarca}
-                filterPreu={filterPreu} onFilterPreuChange={setFilterPreu}
-                hasFilters={hasFilters} onClearFilters={clearFilters}
-                dark
-              />
-            </div>
-          )}
+        {/* Mobile tabs — Mapa | Llista */}
+        <div className={`${mainView === 'web' || mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700 flex`}>
+          <button
+            onClick={() => setMobileView('map')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
+              mobileView === 'map' ? 'text-accent border-b-2 border-accent' : 'text-gray-400 hover:text-gray-200'
+            }`}
+          >
+            <Map size={15} /> Mapa
+          </button>
+          <button
+            onClick={() => setMobileView('list')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
+              mobileView === 'list' ? 'text-accent border-b-2 border-accent' : 'text-gray-400 hover:text-gray-200'
+            }`}
+          >
+            <List size={15} /> Llista
+            {mobileView === 'list' && (
+              <span className="text-xs font-normal text-gray-400">· {filteredRooms.length}</span>
+            )}
+          </button>
         </div>
 
         {/* Map + Sidebar + Toggle */}
