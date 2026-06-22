@@ -89,34 +89,37 @@ export default function EditGrupModal({ grup, currentUserEmail, onClose }: Props
             <div className="space-y-2">
               {membres.map((m, i) => {
                 const isTitular = m.correu.trim().toLowerCase() === grup.titular.toLowerCase();
-                const canRemove = !isTitular || currentUserEmail.toLowerCase() === grup.titular.toLowerCase();
+                const isMe = currentUserEmail.toLowerCase() === grup.titular.toLowerCase();
+                const locked = isTitular && !isMe;
                 return (
-                  <div key={i} className="flex gap-2 items-center">
+                  <div key={i} className={`flex gap-2 items-center ${locked ? 'opacity-60' : ''}`}>
                     <input
                       type="text"
                       value={m.nom}
-                      onChange={e => setMembre(i, 'nom', e.target.value)}
+                      onChange={e => !locked && setMembre(i, 'nom', e.target.value)}
+                      readOnly={locked}
                       placeholder="Nom"
-                      className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                      className={`flex-1 px-3 py-2 rounded-lg border text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none ${locked ? 'bg-gray-50 border-gray-100 cursor-not-allowed' : 'border-gray-200 focus:ring-2 focus:ring-orange-300'}`}
                     />
                     <input
                       type="email"
                       value={m.correu}
-                      onChange={e => setMembre(i, 'correu', e.target.value)}
+                      onChange={e => !locked && setMembre(i, 'correu', e.target.value)}
+                      readOnly={locked}
                       placeholder="Correu"
-                      className="flex-[1.4] px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                      className={`flex-[1.4] px-3 py-2 rounded-lg border text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none ${locked ? 'bg-gray-50 border-gray-100 cursor-not-allowed' : 'border-gray-200 focus:ring-2 focus:ring-orange-300'}`}
                     />
-                    {canRemove ? (
+                    {locked ? (
+                      <div className="p-1.5 w-7 text-center" title="Només el creador pot editar o eliminar la seva fila">
+                        🔒
+                      </div>
+                    ) : (
                       <button
                         onClick={() => removeMembre(i)}
                         className="p-1.5 text-gray-300 hover:text-red-400 transition-colors"
                       >
                         <X size={14} />
                       </button>
-                    ) : (
-                      <div className="p-1.5 w-7" title="Només el creador del grup es pot eliminar a si mateix">
-                        🔒
-                      </div>
                     )}
                   </div>
                 );
