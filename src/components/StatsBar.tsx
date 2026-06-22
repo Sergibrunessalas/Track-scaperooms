@@ -167,6 +167,7 @@ export interface FiltersRowProps {
   onClearFilters: () => void;
   dark?: boolean;
   defaultOpen?: boolean;
+  onDismiss?: () => void;
 }
 
 const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
@@ -195,6 +196,7 @@ export function FiltersRow({
   hasFilters, onClearFilters,
   dark = false,
   defaultOpen = false,
+  onDismiss,
 }: FiltersRowProps) {
   const [chooserOpen, setChooserOpen] = useState(defaultOpen);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(() => {
@@ -258,7 +260,7 @@ export function FiltersRow({
               {label}
             </button>
           ))}
-          <button onClick={() => setChooserOpen(false)} className={`p-1.5 transition-colors ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'}`}>
+          <button onClick={() => defaultOpen && onDismiss ? onDismiss() : setChooserOpen(false)} className={`p-1.5 transition-colors ${dark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'}`}>
             <X size={13} />
           </button>
         </div>

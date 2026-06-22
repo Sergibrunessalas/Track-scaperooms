@@ -166,6 +166,7 @@ export default function Header({
                 hasFilters={hasFilters} onClearFilters={onClearFilters}
                 dark
                 defaultOpen
+                onDismiss={() => setFiltersOpen(false)}
               />
             </div>
           )}
