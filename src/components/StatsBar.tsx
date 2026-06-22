@@ -166,6 +166,7 @@ export interface FiltersRowProps {
   hasFilters: boolean;
   onClearFilters: () => void;
   dark?: boolean;
+  defaultOpen?: boolean;
 }
 
 const FILTER_OPTIONS: { type: FilterType; label: string }[] = [
@@ -193,8 +194,9 @@ export function FiltersRow({
   filterPreu, onFilterPreuChange,
   hasFilters, onClearFilters,
   dark = false,
+  defaultOpen = false,
 }: FiltersRowProps) {
-  const [chooserOpen, setChooserOpen] = useState(false);
+  const [chooserOpen, setChooserOpen] = useState(defaultOpen);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(() => {
     if (searchQuery) return 'nom';
     if (searchEmpresa) return 'companyia';

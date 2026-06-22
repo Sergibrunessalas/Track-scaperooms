@@ -165,6 +165,7 @@ export default function Header({
                 filterPreu={filterPreu} onFilterPreuChange={onFilterPreuChange}
                 hasFilters={hasFilters} onClearFilters={onClearFilters}
                 dark
+                defaultOpen
               />
             </div>
           )}
