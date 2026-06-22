@@ -35,7 +35,7 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
           </h2>
           <p className="text-sm text-gray-400 mb-5">{rooms.length} sales · ordenades per puntuació</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {sorted.map((room) => (
               <RoomCard key={room.id} room={room} showImages={showImages} user={user} onAddToGrup={setAddRoom} />
             ))}
@@ -68,24 +68,23 @@ function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; s
       {...linkProps}
       className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col transition-all duration-200 ${room.web ? 'hover:shadow-lg hover:-translate-y-0.5 cursor-pointer' : 'hover:shadow-md'}`}
     >
-      <div className="w-full flex-shrink-0 bg-gray-100 relative" style={{ minHeight: '160px' }}>
+      <div className="w-full flex-shrink-0 bg-gray-100 relative" style={{ minHeight: '200px' }}>
         {showImages && room.imatgeUrl ? (
           <img
             src={room.imatgeUrl}
             alt={room.nom}
-            className="w-full h-auto block"
-            style={{ maxHeight: '280px', objectFit: 'contain' }}
+            className="w-full h-52 object-cover block"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         ) : room.imatgePublicaUrl ? (
           <img
             src={room.imatgePublicaUrl}
             alt={room.nom}
-            className="w-full h-40 object-cover block"
+            className="w-full h-52 object-cover block"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         ) : (
-          <div className="w-full h-40 flex items-center justify-center">
+          <div className="w-full h-52 flex items-center justify-center">
             <span className="text-4xl opacity-30">🔐</span>
           </div>
         )}
