@@ -207,8 +207,8 @@ export function FiltersRow({
   });
 
   useEffect(() => {
-    if (!hasFilters) setChooserOpen(false);
-  }, [hasFilters]);
+    if (!hasFilters) setChooserOpen(defaultOpen);
+  }, [hasFilters, defaultOpen]);
 
   const selectFilter = (type: FilterType) => { setActiveFilter(type); setChooserOpen(false); };
 
