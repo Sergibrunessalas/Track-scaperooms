@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { ChevronRight, Trash2, Users, Star, Pencil } from 'lucide-react';
+import { ChevronRight, Trash2, Users, Star, Pencil, Plus } from 'lucide-react';
 import type { Grup, GrupRoom } from '../types';
 import type { User } from 'firebase/auth';
 import EditGrupModal from './EditGrupModal';
@@ -16,11 +16,6 @@ interface Props {
   onWantsNewGroup: () => void;
 }
 
-function starsFromScore(score: number | null): string {
-  if (score === null) return '';
-  const r = Math.min(5, Math.max(0, Math.round(score)));
-  return '★'.repeat(r) + '☆'.repeat(5 - r);
-}
 
 export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onWantsNewGroup }: Props) {
   const [grups, setGrups] = useState<Grup[]>([]);
@@ -234,7 +229,16 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
       )}
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
-        <h2 className="font-montserrat text-xl font-black text-gray-900">Els meus grups</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-montserrat text-xl font-black text-gray-900">Els meus grups</h2>
+          <button
+            onClick={onWantsNewGroup}
+            className="flex items-center gap-1.5 px-4 py-2 bg-accent text-white text-sm font-semibold rounded-xl hover:bg-accent-dark transition-colors"
+          >
+            <Plus size={15} />
+            Nou grup
+          </button>
+        </div>
 
         {grups.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-100 p-10 text-center text-gray-400">
