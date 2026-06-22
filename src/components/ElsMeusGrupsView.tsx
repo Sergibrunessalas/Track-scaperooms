@@ -79,6 +79,10 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
       ? rated.reduce((s, r) => s + r.puntuacio!, 0) / rated.length
       : null;
 
+    // Rooms globals filtrades per les que estan dins d'aquest grup
+    const grupRoomIds = new Set(grupRooms.map(r => r.roomId));
+    const grupEscapeRooms = rooms.filter(r => grupRoomIds.has(r.id));
+
     return (
       <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
         {editingRoom && selectedGrup && (
@@ -99,7 +103,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
             <span className="text-gray-700 font-medium">{selectedGrup.nom}</span>
           </nav>
 
-          {/* Stats */}
+          {/* Stats simples (tothom) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
               { label: 'Total sales', value: grupRooms.length, icon: '🗺' },
@@ -114,6 +118,13 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
               </div>
             ))}
           </div>
+
+          {/* Estadístiques detallades — només canEdit i si hi ha rooms */}
+          {canEdit && grupEscapeRooms.length > 0 && (
+            <div className="rounded-2xl overflow-hidden border border-gray-200">
+              <StatsContent rooms={grupEscapeRooms} />
+            </div>
+          )}
 
           {/* Llista de sales */}
           <div>
@@ -237,13 +248,6 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
     <div className="flex-1 overflow-y-auto sidebar-scroll bg-gray-50">
       {editingGrup && (
         <EditGrupModal grup={editingGrup} currentUserEmail={currentUserEmail} onClose={() => setEditingGrup(null)} />
-      )}
-
-      {/* Estadístiques generals — només per als usuaris amb permís */}
-      {canEdit && rooms.length > 0 && (
-        <div className="border-b border-gray-200">
-          <StatsContent rooms={rooms} />
-        </div>
       )}
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
