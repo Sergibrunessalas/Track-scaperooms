@@ -515,7 +515,8 @@ export default function App() {
                   backgroundImage: room.imatgePublicaUrl
                     ? `url(${room.imatgePublicaUrl})`
                     : `url(https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=200&q=75)`,
-                  backgroundSize: 'cover',
+                  backgroundSize: room.imatgePublicaUrl ? 'contain' : 'cover',
+                  backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                   border: '1px solid rgba(255,255,255,0.15)',
                   textDecoration: 'none',
