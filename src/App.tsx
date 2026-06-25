@@ -45,7 +45,7 @@ export default function App() {
   const [hasMyGroups, setHasMyGroups] = useState(false);
   const [privacyPending, setPrivacyPending] = useState(false);
 
-  const PRIVACY_KEY = 'scapezone-privacy-v1';
+  const privacyKey = (uid: string) => `scapezone-privacy-${uid}`;
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
@@ -59,8 +59,8 @@ export default function App() {
         return;
       }
 
-      // Comprova privacitat via localStorage (síncron, sense problemes de timing)
-      const hasAccepted = !!localStorage.getItem(PRIVACY_KEY);
+      // Comprova privacitat per a aquest usuari específic (síncron)
+      const hasAccepted = !!localStorage.getItem(privacyKey(u.uid));
       if (!hasAccepted) {
         setPrivacyPending(true);
         return;
@@ -92,36 +92,24 @@ export default function App() {
       });
   }, []);
 
-  const handleLogin = () => {
-    const hasAccepted = !!localStorage.getItem(PRIVACY_KEY);
-    if (!hasAccepted) {
-      setPrivacyPending(true);
-    } else {
-      signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
-    }
-  };
+  const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
 
   const handleLogout = () => signOut(auth).catch(console.error);
 
   const handlePrivacyAccept = () => {
-    localStorage.setItem(PRIVACY_KEY, new Date().toISOString());
+    if (!user) return;
+    localStorage.setItem(privacyKey(user.uid), new Date().toISOString());
+    setDoc(doc(db, 'privacy_acceptances', user.uid), {
+      email: user.email,
+      acceptedAt: new Date().toISOString(),
+    }).catch(console.error);
     setPrivacyPending(false);
-    if (!user) {
-      // Cas pre-login: ara sí que fem el login de Google
-      signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
-    } else {
-      // Cas sessió existent: guardar a Firebase i continuar
-      setDoc(doc(db, 'privacy_acceptances', user.uid), {
-        email: user.email,
-        acceptedAt: new Date().toISOString(),
-      }).catch(console.error);
-      runGroupsCheck(user);
-    }
+    runGroupsCheck(user);
   };
 
   const handlePrivacyDecline = () => {
     setPrivacyPending(false);
-    if (user) signOut(auth).catch(console.error);
+    signOut(auth).catch(console.error);
   };
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
