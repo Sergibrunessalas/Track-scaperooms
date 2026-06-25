@@ -51,6 +51,7 @@ export default function App() {
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (u) => {
+      console.log('[Privacy] onAuthStateChanged:', u?.email ?? 'null');
       setUser(u);
       setAuthReady(true);
       if (!u) {
@@ -62,9 +63,14 @@ export default function App() {
       }
 
       // Comprova si l'usuari ha acceptat la política de privacitat
-      const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch(() => null);
+      const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch((err) => {
+        console.error('[Privacy] Error llegint doc:', err);
+        return null;
+      });
       const hasAccepted = privacyDoc?.exists() && !!privacyDoc.data()?.acceptedAt;
+      console.log('[Privacy] exists:', privacyDoc?.exists(), '| hasAccepted:', hasAccepted);
       if (!hasAccepted) {
+        console.log('[Privacy] Mostrant modal...');
         setPrivacyPending(true);
         return;
       }
