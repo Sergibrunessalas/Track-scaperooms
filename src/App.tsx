@@ -44,6 +44,7 @@ export default function App() {
   const [skipConfirmOnboarding, setSkipConfirmOnboarding] = useState(false);
   const [hasMyGroups, setHasMyGroups] = useState(false);
   const [privacyPending, setPrivacyPending] = useState(false);
+  const justLoggedInRef = useRef(false);
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (u) => {
@@ -57,10 +58,19 @@ export default function App() {
         return;
       }
 
+      const isNewLogin = justLoggedInRef.current;
+      justLoggedInRef.current = false;
+
       // Comprova si l'usuari ha acceptat la política de privacitat
       const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch(() => null);
       if (!privacyDoc?.exists()) {
-        setPrivacyPending(true);
+        if (isNewLogin) {
+          // L'usuari acaba de fer login → mostrar modal
+          setPrivacyPending(true);
+        } else {
+          // Sessió existent sense acceptació → tancar sessió silenciosament
+          signOut(auth);
+        }
         return;
       }
 
@@ -86,7 +96,13 @@ export default function App() {
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
   const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
 
-  const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
+  const handleLogin = () => {
+    justLoggedInRef.current = true;
+    signInWithPopup(auth, new GoogleAuthProvider()).catch(err => {
+      justLoggedInRef.current = false;
+      console.error(err);
+    });
+  };
   const handleLogout = () => signOut(auth).catch(console.error);
 
   const handlePrivacyAccept = async () => {
