@@ -4,7 +4,7 @@ import {
   collection, doc, setDoc, deleteDoc, updateDoc,
   onSnapshot, getDocs, writeBatch, query, where, getDoc,
 } from 'firebase/firestore';
-import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
 
 // Emails autoritzats per editar (afegeix els del grup aquí)
@@ -44,6 +44,10 @@ export default function App() {
   const [skipConfirmOnboarding, setSkipConfirmOnboarding] = useState(false);
   const [hasMyGroups, setHasMyGroups] = useState(false);
   const [privacyPending, setPrivacyPending] = useState(false);
+
+  useEffect(() => {
+    getRedirectResult(auth).catch(console.error);
+  }, []);
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (u) => {
@@ -87,7 +91,7 @@ export default function App() {
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
   const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
 
-  const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
+  const handleLogin = () => signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
   const handleLogout = () => signOut(auth).catch(console.error);
 
   const handlePrivacyAccept = async () => {
