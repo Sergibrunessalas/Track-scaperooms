@@ -287,7 +287,7 @@ export function FiltersRow({
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 autoFocus
-                className="w-full pl-8 pr-2 py-1.5 text-sm border border-accent bg-orange-50 rounded-lg focus:outline-none"
+                className="w-full pl-8 pr-2 py-1.5 text-sm border border-accent bg-orange-50 text-gray-900 rounded-lg focus:outline-none"
               />
             </div>
           )}
