@@ -63,7 +63,8 @@ export default function App() {
 
       // Comprova si l'usuari ha acceptat la política de privacitat
       const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch(() => null);
-      if (!privacyDoc?.exists()) {
+      const hasAccepted = privacyDoc?.exists() && !!privacyDoc.data()?.acceptedAt;
+      if (!hasAccepted) {
         if (isNewLogin) {
           // L'usuari acaba de fer login → mostrar modal
           setPrivacyPending(true);
