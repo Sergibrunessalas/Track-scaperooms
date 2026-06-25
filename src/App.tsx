@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Map, List, ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   collection, doc, setDoc, deleteDoc, updateDoc,
-  onSnapshot, getDocs, writeBatch, query, where, getDoc,
+  onSnapshot, getDocs, writeBatch, query, where,
 } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
@@ -45,13 +45,14 @@ export default function App() {
   const [hasMyGroups, setHasMyGroups] = useState(false);
   const [privacyPending, setPrivacyPending] = useState(false);
 
+  const PRIVACY_KEY = 'scapezone-privacy-v1';
+
   useEffect(() => {
     getRedirectResult(auth).catch(console.error);
   }, []);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, async (u) => {
-      console.log('[Privacy] onAuthStateChanged:', u?.email ?? 'null');
+    return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setAuthReady(true);
       if (!u) {
@@ -62,73 +63,69 @@ export default function App() {
         return;
       }
 
-      // Comprova si l'usuari ha acceptat la política de privacitat
-      const privacyDoc = await getDoc(doc(db, 'privacy_acceptances', u.uid)).catch((err) => {
-        console.error('[Privacy] Error llegint doc:', err);
-        return null;
-      });
-      const hasAccepted = privacyDoc?.exists() && !!privacyDoc.data()?.acceptedAt;
-      console.log('[Privacy] exists:', privacyDoc?.exists(), '| hasAccepted:', hasAccepted);
+      // Comprova privacitat via localStorage (síncron, sense problemes de timing)
+      const hasAccepted = !!localStorage.getItem(PRIVACY_KEY);
       if (!hasAccepted) {
-        console.log('[Privacy] Mostrant modal...');
         setPrivacyPending(true);
         return;
       }
 
-      const email = u.email?.toLowerCase() ?? '';
-      if (!email) return;
-      const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
-      getDocs(q)
-        .then(snap => {
-          const hasGroups = !snap.empty;
-          setHasMyGroups(hasGroups);
-          if (!ALLOWED_EMAILS.includes(u.email ?? '') && !hasGroups) {
-            setNeedsSetup(true);
-          }
-        })
-        .catch(() => {
-          if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
-            setNeedsSetup(true);
-          }
-        });
+      runGroupsCheck(u);
     });
   }, []);
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
   const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
 
-  const handleLogin = () => signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
-  const handleLogout = () => signOut(auth).catch(console.error);
-
-  const handlePrivacyAccept = async () => {
-    if (!user) return;
-    await setDoc(doc(db, 'privacy_acceptances', user.uid), {
-      email: user.email,
-      acceptedAt: new Date().toISOString(),
-    }).catch(console.error);
-    setPrivacyPending(false);
-    // Continua amb la comprovació de grups
-    const email = user.email?.toLowerCase() ?? '';
+  const runGroupsCheck = useCallback((u: User) => {
+    const email = u.email?.toLowerCase() ?? '';
     if (!email) return;
     const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
     getDocs(q)
       .then(snap => {
         const hasGroups = !snap.empty;
         setHasMyGroups(hasGroups);
-        if (!ALLOWED_EMAILS.includes(user.email ?? '') && !hasGroups) {
+        if (!ALLOWED_EMAILS.includes(u.email ?? '') && !hasGroups) {
           setNeedsSetup(true);
         }
       })
       .catch(() => {
-        if (!ALLOWED_EMAILS.includes(user.email ?? '')) {
+        if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
           setNeedsSetup(true);
         }
       });
+  }, []);
+
+  const handleLogin = () => {
+    const hasAccepted = !!localStorage.getItem(PRIVACY_KEY);
+    if (!hasAccepted) {
+      setPrivacyPending(true);
+    } else {
+      signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
+    }
+  };
+
+  const handleLogout = () => signOut(auth).catch(console.error);
+
+  const handlePrivacyAccept = () => {
+    localStorage.setItem(PRIVACY_KEY, new Date().toISOString());
+    setPrivacyPending(false);
+    if (!user) {
+      // Cas pre-login: ara sí que fem el login de Google
+      signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
+    } else {
+      // Cas sessió existent: guardar a Firebase i continuar
+      setDoc(doc(db, 'privacy_acceptances', user.uid), {
+        email: user.email,
+        acceptedAt: new Date().toISOString(),
+      }).catch(console.error);
+      runGroupsCheck(user);
+    }
   };
 
   const handlePrivacyDecline = () => {
     setPrivacyPending(false);
-    signOut(auth).catch(console.error);
+    if (user) signOut(auth).catch(console.error);
   };
   const [searchQuery, setSearchQuery] = useState('');
   const [searchEmpresa, setSearchEmpresa] = useState('');
@@ -497,7 +494,7 @@ export default function App() {
 
   return (
     <div className="h-full flex flex-row font-inter overflow-hidden">
-      {privacyPending && user && (
+      {privacyPending && (
         <PrivacyPolicyModal
           onAccept={handlePrivacyAccept}
           onDecline={handlePrivacyDecline}
