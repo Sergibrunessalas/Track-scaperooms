@@ -4,7 +4,7 @@ import {
   collection, doc, setDoc, deleteDoc, updateDoc,
   onSnapshot, getDocs, writeBatch, query, where,
 } from 'firebase/firestore';
-import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from './firebase';
 
 // Emails autoritzats per editar (afegeix els del grup aquí)
@@ -46,10 +46,6 @@ export default function App() {
   const [privacyPending, setPrivacyPending] = useState(false);
 
   const PRIVACY_KEY = 'scapezone-privacy-v1';
-
-  useEffect(() => {
-    getRedirectResult(auth).catch(console.error);
-  }, []);
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
@@ -101,7 +97,7 @@ export default function App() {
     if (!hasAccepted) {
       setPrivacyPending(true);
     } else {
-      signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
+      signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
     }
   };
 
@@ -112,7 +108,7 @@ export default function App() {
     setPrivacyPending(false);
     if (!user) {
       // Cas pre-login: ara sí que fem el login de Google
-      signInWithRedirect(auth, new GoogleAuthProvider()).catch(console.error);
+      signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
     } else {
       // Cas sessió existent: guardar a Firebase i continuar
       setDoc(doc(db, 'privacy_acceptances', user.uid), {
