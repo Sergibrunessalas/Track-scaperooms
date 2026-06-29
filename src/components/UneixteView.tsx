@@ -68,13 +68,13 @@ export default function UneixteView() {
           </button>
         </div>
 
-        {/* Imatge dreta */}
+        {/* Logo dreta */}
         <div className="flex-1 flex justify-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-sm w-full">
+          <div className="relative rounded-2xl shadow-2xl max-w-sm w-full aspect-square bg-gray-900 flex items-center justify-center">
             <img
-              src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80"
-              alt="Usuari a la plataforma ScapeZone"
-              className="w-full h-auto object-cover"
+              src="/logo2.png"
+              alt="Logo ScapeZone"
+              className="w-3/4 h-3/4 object-contain"
             />
           </div>
         </div>
