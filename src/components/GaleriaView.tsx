@@ -73,14 +73,14 @@ function RoomCard({ room, showImages, user, onAddToGrup }: { room: EscapeRoom; s
           <img
             src={room.imatgeUrl}
             alt={room.nom}
-            className="w-full h-52 object-cover block"
+            className="w-full h-52 object-contain block"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         ) : room.imatgePublicaUrl ? (
           <img
             src={room.imatgePublicaUrl}
             alt={room.nom}
-            className="w-full h-52 object-cover block"
+            className="w-full h-52 object-contain block"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         ) : (
