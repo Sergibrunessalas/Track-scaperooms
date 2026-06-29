@@ -18,6 +18,7 @@ const ALLOWED_EMAILS = [
 ];
 
 const ADMIN_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com'];
+const GASTOS_EMAILS = ['sbrunessalas@gmail.com', 'xamolo@hotmail.com', 'cristina.naqui@gmail.com', 'ari.veny.reast@gmail.com'];
 import Header from './components/Header';
 import StatsBar, { type MainView, FilterPreu } from './components/StatsBar';
 import MapView, { MapViewHandle } from './components/MapView';
@@ -26,6 +27,7 @@ import RoomForm from './components/RoomForm';
 import WebView from './components/WebView';
 import GaleriaView from './components/GaleriaView';
 import BlogView from './components/BlogView';
+import GastosView from './components/GastosView';
 import OnboardingModal from './components/OnboardingModal';
 import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 import ElsMeusGrupsView from './components/ElsMeusGrupsView';
@@ -72,6 +74,7 @@ export default function App() {
 
   const canEdit = authReady && user !== null && ALLOWED_EMAILS.includes(user.email ?? '');
   const isAdmin = authReady && user !== null && ADMIN_EMAILS.includes(user.email ?? '');
+  const isGastos = authReady && user !== null && GASTOS_EMAILS.includes(user.email ?? '');
 
   const runGroupsCheck = useCallback((u: User) => {
     const email = u.email?.toLowerCase() ?? '';
@@ -589,6 +592,7 @@ export default function App() {
         <Header
           canEdit={canEdit}
           isAdmin={isAdmin}
+          isGastos={isGastos}
           user={user}
           hasMyGroups={hasMyGroups}
           mainView={mainView}
@@ -631,8 +635,11 @@ export default function App() {
         {/* Vista Uneix-te a ScapeZone */}
         {mainView === 'uneixte' && <UneixteView />}
 
+        {/* Vista Gastos — només per als 4 usuaris autoritzats */}
+        {mainView === 'gastos' && isGastos && <GastosView user={user} />}
+
         {/* Mobile tabs — Mapa | Llista */}
-        <div className={`${mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700 flex`}>
+        <div className={`${mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' || mainView === 'gastos' ? 'hidden' : ''} md:hidden flex-shrink-0 bg-gray-900 border-b border-gray-700 flex`}>
           <button
             onClick={() => setMobileView('map')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-colors ${
@@ -655,7 +662,7 @@ export default function App() {
         </div>
 
         {/* Map + Sidebar + Toggle */}
-        <div className={`${mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
+        <div className={`${mainView === 'galeria' || mainView === 'blog' || mainView === 'mygroups' || mainView === 'uneixte' || mainView === 'gastos' ? 'hidden' : ''} flex-1 flex flex-col md:flex-row overflow-hidden`}>
           {/* Map */}
           <div className={`flex-1 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
             <MapView

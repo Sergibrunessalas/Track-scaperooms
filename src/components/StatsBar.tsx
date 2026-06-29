@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, X, Tag, Building2, ChevronDown, MapPin } from 'lucide-react';
 
-export type MainView = 'mapa' | 'web' | 'galeria' | 'blog' | 'mygroups' | 'uneixte';
+export type MainView = 'mapa' | 'web' | 'galeria' | 'blog' | 'mygroups' | 'uneixte' | 'gastos';
 
 export type FilterPreu = '' | '0-20' | '20-30' | '30-40' | '40+' | 'sense';
 

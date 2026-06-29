@@ -7,6 +7,7 @@ import { FiltersRow } from './StatsBar';
 interface HeaderProps extends FiltersRowProps {
   canEdit: boolean;
   isAdmin: boolean;
+  isGastos: boolean;
   user: User | null;
   hasMyGroups: boolean;
   mainView: MainView;
@@ -19,7 +20,7 @@ interface HeaderProps extends FiltersRowProps {
 }
 
 export default function Header({
-  canEdit, isAdmin, user, hasMyGroups, mainView, onMainViewChange,
+  canEdit, isAdmin, isGastos, user, hasMyGroups, mainView, onMainViewChange,
   onAddRoom, onLogin, onLogout, onExport, onImport,
   // filter props
   searchQuery, onSearchChange,
@@ -119,6 +120,21 @@ export default function Header({
 
       {/* Botons dreta */}
       <div className="flex items-center gap-2 ml-auto">
+
+        {/* Botó Gastos — només visible pels 4 usuaris autoritzats */}
+        {isGastos && (
+          <button
+            onClick={() => onMainViewChange(mainView === 'gastos' ? 'galeria' : 'gastos')}
+            title="Gastos del grup"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              mainView === 'gastos'
+                ? 'bg-accent text-white'
+                : 'bg-white/10 hover:bg-white/20 text-gray-200 hover:text-white'
+            }`}
+          >
+            💰 <span className="hidden sm:inline">Gastos</span>
+          </button>
+        )}
 
         {/* Botó filtres global */}
         <div className="relative" ref={filterRef}>
