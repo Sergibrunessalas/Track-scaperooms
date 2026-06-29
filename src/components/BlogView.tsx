@@ -1,309 +1,187 @@
-import { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, Pencil, Trash2 } from 'lucide-react';
-import {
-  collection, doc, addDoc, updateDoc, deleteDoc,
-  onSnapshot, query, orderBy, Timestamp,
-} from 'firebase/firestore';
-import { db } from '../firebase';
-import type { User } from 'firebase/auth';
+import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 interface BlogPost {
   id: string;
   titol: string;
-  resum: string;
-  contingut: string;
-  imatgeUrl: string;
-  publicatAt: Timestamp | null;
-  autor: string;
+  data: string;
+  imatge: string;
+  contingut: React.ReactNode;
 }
 
-interface FormData {
-  titol: string;
-  resum: string;
-  contingut: string;
-  imatgeUrl: string;
-}
+const POSTS: BlogPost[] = [
+  {
+    id: 'tipos-jugadores',
+    titol: 'Los 7 tipos de jugadores que encontrarás en cualquier escape room',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>Si has jugado varios escape rooms, probablemente ya te habrás dado cuenta de algo: los enigmas cambian, las historias cambian y las salas cambian, pero los tipos de jugadores suelen repetirse.</p>
+        <p>Y, seamos sinceros, todos hemos sido alguno de ellos.</p>
 
-interface Props {
-  isAdmin: boolean;
-  user: User | null;
-}
-
-function formatDate(ts: Timestamp | null): string {
-  if (!ts) return '';
-  return ts.toDate().toLocaleDateString('ca-ES', { day: '2-digit', month: 'long', year: 'numeric' });
-}
-
-function renderContent(text: string): React.ReactNode[] {
-  const lines = text.split('\n');
-  const elements: React.ReactNode[] = [];
-  let listItems: string[] = [];
-  let key = 0;
-
-  const flushList = () => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul key={key++} className="list-disc pl-5 space-y-1 my-2">
-          {listItems.map((item, i) => <li key={i}>{item}</li>)}
+        <h2>1. El líder nato</h2>
+        <p>Nada más entrar ya ha elegido un equipo, ha repartido tareas y ha decidido por dónde empezar.</p>
+        <p>Frases habituales:</p>
+        <ul>
+          <li>«Vosotros buscad allí.»</li>
+          <li>«Dejadme pensar un momento.»</li>
+          <li>«Tenemos que organizarnos.»</li>
         </ul>
-      );
-      listItems = [];
-    }
-  };
+        <p>Su mayor virtud es mantener al grupo enfocado. Su mayor peligro es intentar resolverlo todo él solo.</p>
 
-  for (const line of lines) {
-    if (line.startsWith('## ')) {
-      flushList();
-      elements.push(
-        <h2 key={key++} className="text-base font-bold text-gray-900 mt-5 mb-2">
-          {line.slice(3)}
-        </h2>
-      );
-    } else if (line.startsWith('- ')) {
-      listItems.push(line.slice(2));
-    } else if (line.trim() === '') {
-      flushList();
-    } else {
-      flushList();
-      elements.push(<p key={key++}>{line}</p>);
-    }
-  }
-  flushList();
-  return elements;
-}
+        <h2>2. El detective obsesivo</h2>
+        <p>Observa absolutamente todo. Lee cada papel tres veces. Sospecha de cada detalle.</p>
+        <p>A veces encuentra la pista clave. Otras veces lleva al grupo a investigar una mancha de humedad durante veinte minutos.</p>
+        <p>Sin embargo, gracias a él muchos equipos descubren detalles que otros pasarían por alto.</p>
 
-function BlogForm({ post, onSave, onClose }: {
-  post: BlogPost | null;
-  onSave: (data: FormData) => Promise<void>;
-  onClose: () => void;
-}) {
-  const [form, setForm] = useState<FormData>({
-    titol: post?.titol ?? '',
-    resum: post?.resum ?? '',
-    contingut: post?.contingut ?? '',
-    imatgeUrl: post?.imatgeUrl ?? '',
-  });
-  const [saving, setSaving] = useState(false);
+        <h2>3. El abrecandados</h2>
+        <p>Tiene un don especial. No importa dónde esté el candado: siempre aparece él.</p>
+        <p>En algunos grupos existe incluso una pequeña competición por ver quién abre más.</p>
+        <p>Su frase favorita: <strong>«¡Lo tengo!»</strong></p>
+        <p>Y aunque a veces no recuerde cómo llegó a la solución, suele convertirse en el héroe del equipo.</p>
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.titol.trim() || !form.contingut.trim()) return;
-    setSaving(true);
-    try {
-      await onSave(form);
-      onClose();
-    } finally {
-      setSaving(false);
-    }
-  };
+        <h2>4. El despistado entrañable</h2>
+        <p>No sabe muy bien qué está pasando. Ha olvidado varias pistas. Hace preguntas que ya se han respondido.</p>
+        <p>Pero, sorprendentemente, en ocasiones resuelve el enigma más difícil con una idea completamente inesperada.</p>
+        <p>Todo grupo necesita un despistado. Aporta humor, rompe la tensión y recuerda que estamos jugando.</p>
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh]">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h2 className="font-bold text-gray-900 text-base">
-            {post ? 'Editar article' : 'Nou article'}
-          </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
-        </div>
+        <h2>5. El actor</h2>
+        <p>Especialmente presente en experiencias inmersivas y cenas con asesinato. Habla como su personaje. Interpreta. Miente. Improvisa.</p>
+        <p>Puede convertir una buena experiencia en una noche inolvidable. Cuando aparece uno de estos jugadores, el resto suele acabar contagiándose.</p>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">Títol *</label>
-            <input
-              type="text"
-              value={form.titol}
-              onChange={e => setForm(f => ({ ...f, titol: e.target.value }))}
-              placeholder="Títol de l'article..."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-400"
-              required
-            />
-          </div>
+        <h2>6. El silencioso</h2>
+        <p>Observa. Escucha. Habla poco. Pero cuando interviene, normalmente tiene razón.</p>
+        <p>Muchas veces es quien conecta varias pistas que el resto había pasado por alto. No todos los jugadores necesitan ser los más visibles para ser imprescindibles.</p>
 
-          <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">
-              Resum curt <span className="font-normal text-gray-400">(apareix a la targeta)</span>
-            </label>
-            <input
-              type="text"
-              value={form.resum}
-              onChange={e => setForm(f => ({ ...f, resum: e.target.value }))}
-              placeholder="Una frase breu que descrigui l'article..."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-400"
-            />
-          </div>
+        <h2>7. El sospechoso permanente</h2>
+        <p>En una cena con asesinato siempre existe alguien que acusa a todo el mundo.</p>
+        <ul>
+          <li>«Seguro que has sido tú.»</li>
+          <li>«Eso suena sospechoso.»</li>
+          <li>«No me creo nada.»</li>
+        </ul>
+        <p>Aunque se equivoque constantemente, mantiene viva la investigación y hace que todos se impliquen.</p>
 
-          <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">
-              URL de la imatge <span className="font-normal text-gray-400">(opcional)</span>
-            </label>
-            <input
-              type="url"
-              value={form.imatgeUrl}
-              onChange={e => setForm(f => ({ ...f, imatgeUrl: e.target.value }))}
-              placeholder="https://..."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-400"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">
-              Contingut *{' '}
-              <span className="font-normal text-gray-400">
-                — Escriu <code className="bg-gray-100 px-1 rounded">## </code> per títols i{' '}
-                <code className="bg-gray-100 px-1 rounded">- </code> per llistes
-              </span>
-            </label>
-            <textarea
-              value={form.contingut}
-              onChange={e => setForm(f => ({ ...f, contingut: e.target.value }))}
-              placeholder={`Escriu aquí el teu article...\n\nPots organitzar-lo amb seccions:\n\n## Primera secció\nEl text de la secció va aquí.\n\n## Llistes\n- Element 1\n- Element 2\n- Element 3`}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-400 font-mono resize-none"
-              rows={14}
-              required
-            />
-          </div>
-        </form>
-
-        <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 py-2.5 rounded-lg border border-gray-200 text-gray-500 text-sm hover:bg-gray-50 transition-colors"
-          >
-            Cancel·lar
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={saving || !form.titol.trim() || !form.contingut.trim()}
-            className="flex-1 py-2.5 rounded-lg bg-orange-500 text-white text-sm font-bold disabled:opacity-40 hover:enabled:bg-orange-600 transition-colors"
-          >
-            {saving ? 'Guardant...' : post ? 'Guardar canvis' : 'Publicar article'}
-          </button>
-        </div>
+        <h2>¿Cuál eres tú?</h2>
+        <p>La realidad es que la mayoría de nosotros somos una mezcla de varios tipos.</p>
+        <p>Y precisamente ahí reside la magia de estas experiencias: personas muy diferentes colaborando para resolver un mismo misterio.</p>
+        <p>En <strong>ScapeZone</strong> creemos que no existe el jugador perfecto. Existe el equipo perfecto. Y ese suele estar formado por un poco de todos.</p>
       </div>
-    </div>
-  );
-}
+    ),
+  },
+  {
+    id: 'noche-misterio-casa',
+    titol: 'Cómo organizar una noche de misterio en casa',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>No hace falta salir de casa para vivir una experiencia inolvidable.</p>
 
-export default function BlogView({ isAdmin, user }: Props) {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+        <p>Con algunos amigos, una buena historia y ganas de jugar, cualquier salón puede convertirse en la escena de un crimen.</p>
+
+        <h2>Consejos para organizar una noche de misterio</h2>
+
+        <ul>
+          <li>Invita entre 6 y 10 personas.</li>
+          <li>Envía los personajes con antelación.</li>
+          <li>Decora ligeramente el espacio.</li>
+          <li>Añade música ambiental.</li>
+          <li>Sirve comida sencilla.</li>
+          <li>Reserva al menos dos horas.</li>
+        </ul>
+
+        <p>Lo más importante es que todos los participantes se impliquen en la historia.</p>
+
+        <p>No hace falta ser actor. Basta con dejarse llevar por el personaje, hacer preguntas y disfrutar de la investigación.</p>
+
+        <p>Las mejores noches no son aquellas en las que se descubre rápidamente al culpable, sino aquellas en las que cada jugador consigue sorprender a los demás.</p>
+
+        <p>En <strong>ScapeZone</strong> queremos ayudarte a convertir cualquier reunión en una experiencia única.</p>
+      </div>
+    ),
+  },
+  {
+    id: 'razones-escape-room',
+    titol: '10 razones por las que los escape rooms son el mejor plan entre amigos',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80',
+    contingut: (
+      <div className="article-body">
+        <p>Elegir un buen plan para un grupo de amigos no siempre es fácil. Sin embargo, los escape rooms se han convertido en una de las actividades favoritas por muchos motivos.</p>
+
+        <ol>
+          <li>Todo el mundo participa.</li>
+          <li>No importa la edad.</li>
+          <li>Fomentan el trabajo en equipo.</li>
+          <li>Generan recuerdos compartidos.</li>
+          <li>Ponen a prueba la creatividad.</li>
+          <li>Reducen el estrés.</li>
+          <li>Permiten desconectar de las pantallas.</li>
+          <li>Son diferentes cada vez.</li>
+          <li>Existen temáticas para todos los gustos.</li>
+          <li>Siempre hay una historia que contar después.</li>
+        </ol>
+
+        <p>Ya sea resolviendo un asesinato, escapando de una prisión o descubriendo un antiguo secreto, los escape rooms consiguen algo que pocas actividades logran: hacer que las personas colaboren, se rían y vivan una auténtica aventura.</p>
+
+        <p>Por eso en <strong>ScapeZone</strong> creemos que un buen misterio es mucho más que un juego: es una experiencia compartida.</p>
+      </div>
+    ),
+  },
+  {
+    id: 'cena-asesinato',
+    titol: '¿Qué es una cena con asesinato y por qué está conquistando España?',
+    data: '20/06/2026',
+    imatge: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80',
+    contingut: (
+      <div className="prose-content">
+        <p>Durante años, los escape rooms han sido una de las actividades de ocio más populares. Sin embargo, una nueva experiencia está ganando cada vez más seguidores: las <strong>cenas con asesinato</strong>.</p>
+
+        <p>Pero ¿qué son exactamente?</p>
+
+        <p>Una cena con asesinato es una experiencia inmersiva en la que los participantes se convierten en personajes de una historia de misterio. Durante la velada, un crimen altera la tranquilidad del grupo y todos los asistentes deben investigar qué ha sucedido.</p>
+
+        <p>Cada jugador recibe información exclusiva, secretos, relaciones con otros personajes e incluso posibles motivos para cometer el crimen.</p>
+
+        <h2>¿Por qué gustan tanto?</h2>
+
+        <ul>
+          <li>No hace falta salir de casa.</li>
+          <li>Son perfectas para grupos de amigos.</li>
+          <li>Fomentan la conversación.</li>
+          <li>Cada partida es diferente.</li>
+          <li>Todos participan.</li>
+        </ul>
+
+        <p>Además, permiten combinar gastronomía, interpretación y resolución de enigmas en una única experiencia.</p>
+
+        <p>En <strong>ScapeZone</strong> creemos que las cenas con asesinato representan el futuro del ocio en grupo: experiencias memorables que convierten una noche cualquiera en una historia que se recuerda durante años.</p>
+      </div>
+    ),
+  },
+];
+
+export default function BlogView() {
   const [selected, setSelected] = useState<BlogPost | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState<BlogPost | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState<BlogPost | null>(null);
 
-  useEffect(() => {
-    const q = query(collection(db, 'blog_posts'), orderBy('publicatAt', 'desc'));
-    const unsub = onSnapshot(q, (snap) => {
-      const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost));
-      setPosts(data);
-      setLoading(false);
-    }, () => setLoading(false));
-    return unsub;
-  }, []);
-
-  const handleCreate = async (data: FormData) => {
-    await addDoc(collection(db, 'blog_posts'), {
-      ...data,
-      publicatAt: Timestamp.now(),
-      autor: user?.displayName ?? user?.email ?? 'ScapeZone',
-    });
-  };
-
-  const handleUpdate = async (data: FormData) => {
-    if (!editing) return;
-    await updateDoc(doc(db, 'blog_posts', editing.id), { ...data });
-    setSelected(prev => prev ? { ...prev, ...data } : null);
-  };
-
-  const handleDelete = async (post: BlogPost) => {
-    await deleteDoc(doc(db, 'blog_posts', post.id));
-    setConfirmDelete(null);
-    if (selected?.id === post.id) setSelected(null);
-  };
-
-  if (loading) {
+  if (selected) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-gray-50">
-        <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex-1 overflow-y-auto bg-gray-50 sidebar-scroll">
-
-      {/* Modal nou/editar article */}
-      {(showForm || editing) && (
-        <BlogForm
-          post={editing}
-          onSave={editing ? handleUpdate : handleCreate}
-          onClose={() => { setShowForm(false); setEditing(null); }}
-        />
-      )}
-
-      {/* Modal confirmar eliminació */}
-      {confirmDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
-            <h3 className="font-bold text-gray-900 mb-2">Eliminar article</h3>
-            <p className="text-sm text-gray-600 mb-5">
-              Segur que vols eliminar «{confirmDelete.titol}»?
-              <br /><span className="text-red-500">Aquesta acció no es pot desfer.</span>
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setConfirmDelete(null)}
-                className="flex-1 py-2 rounded-lg border border-gray-200 text-gray-500 text-sm hover:bg-gray-50"
-              >
-                Cancel·lar
-              </button>
-              <button
-                onClick={() => handleDelete(confirmDelete)}
-                className="flex-1 py-2 rounded-lg bg-red-500 text-white text-sm font-bold hover:bg-red-600"
-              >
-                Sí, eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Vista article individual */}
-      {selected ? (
+      <div className="flex-1 overflow-y-auto bg-gray-50 sidebar-scroll">
         <div className="max-w-2xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between mb-6">
-            <button
-              onClick={() => setSelected(null)}
-              className="flex items-center gap-2 text-sm text-gray-400 hover:text-orange-500 transition-colors"
-            >
-              <ArrowLeft size={15} />
-              Tots els articles
-            </button>
-            {isAdmin && (
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setEditing(selected)}
-                  className="flex items-center gap-1 text-xs text-gray-400 hover:text-orange-500 px-2.5 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <Pencil size={13} /> Editar
-                </button>
-                <button
-                  onClick={() => setConfirmDelete(selected)}
-                  className="flex items-center gap-1 text-xs text-red-400 hover:text-red-600 px-2.5 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
-                >
-                  <Trash2 size={13} /> Eliminar
-                </button>
-              </div>
-            )}
-          </div>
+          <button
+            onClick={() => setSelected(null)}
+            className="flex items-center gap-2 text-sm text-gray-400 hover:text-accent transition-colors mb-6"
+          >
+            <ArrowLeft size={15} />
+            Últimos artículos
+          </button>
 
-          {selected.imatgeUrl && (
-            <div className="w-full h-56 rounded-2xl overflow-hidden mb-6 bg-gray-100">
+          {selected.imatge && (
+            <div className="w-full h-56 rounded-2xl overflow-hidden mb-6">
               <img
-                src={selected.imatgeUrl}
+                src={selected.imatge}
                 alt={selected.titol}
                 className="w-full h-full object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
@@ -311,87 +189,55 @@ export default function BlogView({ isAdmin, user }: Props) {
             </div>
           )}
 
-          <p className="text-xs text-gray-400 mb-2">
-            Publicat el {formatDate(selected.publicatAt)}
-            {selected.autor && <span className="ml-2">· {selected.autor}</span>}
-          </p>
+          <p className="text-xs text-gray-400 mb-2">Publicado {selected.data}</p>
           <h1 className="font-montserrat text-2xl font-black text-gray-900 leading-snug mb-6">
             {selected.titol}
           </h1>
 
-          <div className="text-gray-700 text-sm leading-relaxed space-y-3">
-            {renderContent(selected.contingut)}
+          <div className="article-body text-gray-700 text-sm leading-relaxed space-y-4">
+            {selected.contingut}
           </div>
         </div>
-      ) : (
-        /* Vista llista d'articles */
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="font-montserrat text-lg font-black text-orange-500 tracking-tight">
-                Blog ScapeZone
-              </h2>
-              <p className="text-xs text-gray-400 mt-0.5">{posts.length} {posts.length === 1 ? 'article' : 'articles'} publicats</p>
-            </div>
-            {isAdmin && (
-              <button
-                onClick={() => { setEditing(null); setShowForm(true); }}
-                className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-bold hover:bg-orange-600 transition-colors shadow-sm"
-              >
-                <Plus size={15} /> Nou article
-              </button>
-            )}
-          </div>
+      </div>
+    );
+  }
 
-          {posts.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-5xl mb-4">✍️</p>
-              <p className="text-gray-500 font-semibold mb-1">Encara no hi ha articles</p>
-              <p className="text-gray-400 text-sm mb-6">Comença a compartir experiències, consells i novetats de ScapeZone.</p>
-              {isAdmin && (
-                <button
-                  onClick={() => setShowForm(true)}
-                  className="px-5 py-2.5 bg-orange-500 text-white rounded-lg text-sm font-bold hover:bg-orange-600 transition-colors"
-                >
-                  Crea el primer article
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {posts.map((post) => (
-                <button
-                  key={post.id}
-                  onClick={() => setSelected(post)}
-                  className="text-left bg-white rounded-xl overflow-hidden border border-gray-100 hover:border-orange-300 hover:shadow-md transition-all duration-200 group"
-                >
-                  <div className="w-full h-36 overflow-hidden bg-gray-100">
-                    {post.imatgeUrl ? (
-                      <img
-                        src={post.imatgeUrl}
-                        alt={post.titol}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-3xl opacity-20">🔐</div>
-                    )}
-                  </div>
-                  <div className="p-3">
-                    <p className="text-xs font-bold text-gray-800 leading-snug line-clamp-2 mb-1">
-                      {post.titol}
-                    </p>
-                    {post.resum && (
-                      <p className="text-xs text-gray-500 line-clamp-2 mb-1.5">{post.resum}</p>
-                    )}
-                    <p className="text-xs text-gray-400">{formatDate(post.publicatAt)}</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
+  return (
+    <div className="flex-1 overflow-y-auto bg-gray-50 sidebar-scroll">
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <h2 className="font-montserrat text-lg font-black text-accent mb-6 tracking-tight">
+          Últimos artículos
+        </h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {POSTS.map((post) => (
+            <button
+              key={post.id}
+              onClick={() => setSelected(post)}
+              className="text-left bg-white rounded-xl overflow-hidden border border-gray-100 hover:border-accent/30 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-full h-36 overflow-hidden bg-gray-100">
+                {post.imatge ? (
+                  <img
+                    src={post.imatge}
+                    alt={post.titol}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-3xl opacity-20">🔐</div>
+                )}
+              </div>
+              <div className="p-3">
+                <p className="text-xs font-semibold text-accent leading-snug line-clamp-3 mb-1">
+                  {post.titol}
+                </p>
+                <p className="text-xs text-gray-400">Publicado {post.data}</p>
+              </div>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
