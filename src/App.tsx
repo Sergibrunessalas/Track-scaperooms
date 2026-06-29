@@ -634,7 +634,7 @@ export default function App() {
         )}
 
         {/* Vista Blog */}
-        {mainView === 'blog' && <BlogView />}
+        {mainView === 'blog' && <BlogView isAdmin={isAdmin} user={user} />}
 
         {/* Vista Uneix-te a ScapeZone */}
         {mainView === 'uneixte' && <UneixteView />}
