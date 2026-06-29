@@ -89,7 +89,7 @@ export default function Header({
         >
           🗺 <span className="hidden sm:inline">Mapa</span>
         </button>
-        {user && hasMyGroups && (
+        {user && (
           <button
             onClick={() => handleViewChange('mygroups')}
             className={`px-2.5 md:px-3.5 py-1.5 text-[10px] md:text-xs font-bold rounded-lg transition-all uppercase tracking-wide ${

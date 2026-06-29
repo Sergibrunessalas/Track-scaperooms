@@ -79,17 +79,9 @@ export default function App() {
     const q = query(collection(db, 'grups'), where('membresCorreus', 'array-contains', email));
     getDocs(q)
       .then(snap => {
-        const hasGroups = !snap.empty;
-        setHasMyGroups(hasGroups);
-        if (!ALLOWED_EMAILS.includes(u.email ?? '') && !hasGroups) {
-          setNeedsSetup(true);
-        }
+        setHasMyGroups(!snap.empty);
       })
-      .catch(() => {
-        if (!ALLOWED_EMAILS.includes(u.email ?? '')) {
-          setNeedsSetup(true);
-        }
-      });
+      .catch(() => {});
   }, []);
 
   const handleLogin = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
