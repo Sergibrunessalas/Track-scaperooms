@@ -13,7 +13,7 @@ const POSTS: BlogPost[] = [
   {
     id: 'tipos-jugadores',
     titol: 'Los 7 tipos de jugadores que encontrarás en cualquier escape room',
-    data: '20/06/2026',
+    data: '20/03/2026',
     imatge: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
     contingut: (
       <div className="article-body">
@@ -73,7 +73,7 @@ const POSTS: BlogPost[] = [
   {
     id: 'noche-misterio-casa',
     titol: 'Cómo organizar una noche de misterio en casa',
-    data: '20/06/2026',
+    data: '20/04/2026',
     imatge: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
     contingut: (
       <div className="article-body">
@@ -105,7 +105,7 @@ const POSTS: BlogPost[] = [
   {
     id: 'razones-escape-room',
     titol: '10 razones por las que los escape rooms son el mejor plan entre amigos',
-    data: '20/06/2026',
+    data: '20/05/2026',
     imatge: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80',
     contingut: (
       <div className="article-body">
