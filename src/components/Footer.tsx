@@ -117,12 +117,11 @@ export default function Footer() {
     <footer className="bg-gray-900 border-t border-gray-700 mt-auto flex-shrink-0">
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div>
+      <div className="max-w-6xl mx-auto px-6 py-8 text-center">
           <p className="text-xs font-black tracking-[0.2em] uppercase text-orange-500 mb-3">
             MÉS QUE SCAPEZONE
           </p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-gray-300 mb-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-gray-300 mb-4">
             <a
               href="mailto:info.scpzone@gmail.com"
               className="hover:text-orange-400 transition-colors"
@@ -133,13 +132,13 @@ export default function Footer() {
           </div>
 
           {/* Icones socials */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center gap-3">
             {/* Instagram — actiu */}
             <a
-              href="https://www.instagram.com/Scapezonegamers/"
+              href="https://www.instagram.com/scapezonegamers/"
               target="_blank"
               rel="noopener noreferrer"
-              title="Instagram @Scapezonegamers"
+              title="Instagram @scapezonegamers"
               className="text-gray-400 hover:text-orange-500 transition-colors"
             >
               <InstagramIcon />
@@ -169,7 +168,6 @@ export default function Footer() {
               <FacebookIcon />
             </span>
           </div>
-        </div>
       </div>
 
       {/* Barra inferior */}
