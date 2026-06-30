@@ -135,10 +135,10 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-3">
             {/* Instagram — actiu */}
             <a
-              href="https://www.instagram.com/scapezonegamers/"
+              href="https://www.instagram.com/scapezone.gamers/"
               target="_blank"
               rel="noopener noreferrer"
-              title="Instagram @scapezonegamers"
+              title="Instagram @scapezone.gamers"
               className="text-gray-400 hover:text-orange-500 transition-colors"
             >
               <InstagramIcon />
