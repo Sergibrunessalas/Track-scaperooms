@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut, SlidersHorizontal, Mail } from 'lucide-react';
+import { Plus, Download, Upload, MoreHorizontal, LogIn, LogOut, SlidersHorizontal } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import type { MainView, FiltersRowProps } from './StatsBar';
 import { FiltersRow } from './StatsBar';
@@ -71,32 +71,6 @@ export default function Header({
           </p>
         </div>
 
-        {/* Icones Instagram + Email */}
-        <div className="flex items-center gap-1.5 ml-1">
-          {/* Instagram */}
-          <a
-            href="https://www.instagram.com/Scapezonegamers/"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Instagram @Scapezonegamers"
-            className="p-1.5 rounded-lg text-gray-400 hover:text-accent transition-colors"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </a>
-
-          {/* Email */}
-          <a
-            href="mailto:info.scpzone@gmail.com"
-            title="Contacta amb nosaltres"
-            className="p-1.5 rounded-lg text-gray-400 hover:text-accent transition-colors"
-          >
-            <Mail size={15} />
-          </a>
-        </div>
       </div>
 
       {/* Pestanyes centrades */}

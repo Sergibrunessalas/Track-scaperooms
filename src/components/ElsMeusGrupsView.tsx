@@ -7,6 +7,7 @@ import type { User } from 'firebase/auth';
 import EditGrupModal from './EditGrupModal';
 import EditGrupRoomModal from './EditGrupRoomModal';
 import { StatsContent } from './WebView';
+import Footer from './Footer';
 
 const SUPER_ADMIN = 'sbrunessalas@gmail.com';
 
@@ -354,6 +355,7 @@ export default function ElsMeusGrupsView({ currentUserEmail, onNoMoreGroups, onW
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, X } from 'lucide-react';
+import Footer from './Footer';
 import {
   collection, doc, addDoc, deleteDoc,
   onSnapshot, query, orderBy, Timestamp,
@@ -315,6 +316,7 @@ export default function GastosView({ user }: { user: User | null }) {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

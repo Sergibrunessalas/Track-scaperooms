@@ -3,6 +3,7 @@ import { UserPlus } from 'lucide-react';
 import { EscapeRoom, starsFromScore } from '../types';
 import type { User } from 'firebase/auth';
 import AddToGrupModal from './AddToGrupModal';
+import Footer from './Footer';
 
 interface Props {
   rooms: EscapeRoom[];
@@ -41,6 +42,7 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
             ))}
           </div>
         </div>
+        <Footer />
       </div>
 
       {/* ── Columna dreta (reservada) ── */}
@@ -48,6 +50,7 @@ export default function GaleriaView({ rooms, showImages, user, onSwitchToMapa }:
         className="hidden lg:block border-l border-gray-200 bg-white flex-shrink-0"
         style={{ width: '280px' }}
       />
+
 
     </div>
   );

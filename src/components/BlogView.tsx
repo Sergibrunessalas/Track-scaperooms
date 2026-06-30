@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import Footer from './Footer';
 
 interface BlogPost {
   id: string;
@@ -198,6 +199,7 @@ export default function BlogView() {
             {selected.contingut}
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -238,6 +240,7 @@ export default function BlogView() {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

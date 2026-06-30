@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import Footer from './Footer';
 
 const EMAILJS_SERVICE  = 'scapezone';
 const EMAILJS_TEMPLATE = 'template_xmx5xzg';
@@ -178,6 +179,7 @@ export default function UneixteView() {
           </form>
         )}
       </section>
+      <Footer />
     </div>
   );
 }
